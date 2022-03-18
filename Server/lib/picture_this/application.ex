@@ -13,9 +13,10 @@ defmodule PictureThis.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: PictureThis.PubSub},
       # Start the Endpoint (http/https)
-      PictureThisWeb.Endpoint
+      PictureThisWeb.Endpoint,
       # Start a worker by calling: PictureThis.Worker.start_link(arg)
       # {PictureThis.Worker, arg}
+      PictureThisWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

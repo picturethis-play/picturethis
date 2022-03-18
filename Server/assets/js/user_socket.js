@@ -2,11 +2,11 @@
 // you uncomment its entry in "assets/js/app.js".
 
 // Bring in Phoenix channels client library:
-import { Socket } from "phoenix"
+import { Socket, Presence } from "phoenix"
 
 // And connect to the path in "lib/picture_this_web/endpoint.ex". We pass the
 // token for authentication. Read below how it should be used.
-let socket = new Socket("/socket", { params: { token: window.userToken } })
+let socket = new Socket("/socket", { params: { token: sessionStorage.userToken } })
 
 function cursorTemplate({ x, y, name }) {
   const li = document.createElement('li');
@@ -97,19 +97,22 @@ channel
       const y = e.pageY / window.innerHeight;
       channel.push('move', { x, y });
     })
-    channel.on('move', ({ x, y }) => {
-      const ul = document.createElement('ul');
-      const cursorLi = cursorTemplate({
-        x: x * window.innerWidth,
-        y: y * window.innerHeight,
-        name: '???'
-      })
-      ul.appendChild(cursorLi);
-      document.getElementById('cursor-list').innerHTML = ul.innerHTML;
-    })
   })
   .receive("error", resp => {
     console.log("Unable to join", resp)
   })
-
+const presence = new Presence(channel)
+presence.onSync(() => {
+  const ul = document.createElement('ul');
+  presence.list((name, { metas: [firstDevice] }) => {
+    const { x, y } = firstDevice;
+    const cursorLi = cursorTemplate({
+      name,
+      x: x * window.innerWidth,
+      y: y * window.innerHeight
+    });
+    ul.appendChild(cursorLi)
+  });
+  document.getElementById('cursor-list').innerHTML = ul.innerHTML;
+})
 export default socket;
