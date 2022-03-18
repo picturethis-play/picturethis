@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   let name = ['gaut', 'dan', 'rick'];
   let index = 0;
   function nextPerson() {
