@@ -9,8 +9,8 @@
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
-    canvas.height = 700;
-    canvas.width = 700;
+    canvas.height = 500;
+    canvas.width = 500;
 
     canvas.addEventListener('mousedown', startPosition);
     canvas.addEventListener('mouseup', finishedPosition);
@@ -61,8 +61,7 @@
   }
 </script>
 
-<div class="container">
-  <!-- <p>The mouse position is {m.x} x {m.y}</p> -->
+<div>
   <canvas class="canvas" id="myCanvas" on:mousemove={handleMousemove} />
 
   <div class="footer">
@@ -79,6 +78,7 @@
     height: 500px;
     display: block;
     cursor: crosshair;
+    background-color: white;
   }
   .footer {
     display: flex;
