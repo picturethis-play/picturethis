@@ -13,7 +13,6 @@
     if (autoscroll) scroll.scrollTo(0, scroll.scrollHeight);
   });
 
-
   let userInput = '';
 
   //testing of right guess mechanic
@@ -42,8 +41,6 @@
 
   //mock timestamp
   let timestamp = 3;
-
-
 
   function handleKeydown(event) {
     if (event.key === 'Enter') {
@@ -111,10 +108,10 @@
   .chat {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 500px;
     max-width: 320px;
-    border: 1em solid red;
-    padding: 2em 1em;
+    border: 2px solid black;
+    background-color: white;
   }
 
   .messages {

@@ -46,7 +46,8 @@
 <style>
   .container {
     background-color: #bdc3d5;
-    height: 100%;
+    height: 820px;
+    width: 100%;
   }
   .logo {
     display: flex;
