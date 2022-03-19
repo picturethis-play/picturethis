@@ -9,12 +9,8 @@
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
-    console.log('ctx', ctx);
-    // this is where the problem is coming from
     canvas.height = 700;
-    canvas.width = 1000;
-    // canvas.height = '700px';
-    // canvas.width = '1000px';
+    canvas.width = 700;
 
     canvas.addEventListener('mousedown', startPosition);
     canvas.addEventListener('mouseup', finishedPosition);
@@ -45,8 +41,6 @@
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = penColor;
     ctx.lineCap = 'round';
-    console.log(e.x);
-    console.log(e.y);
     ctx.lineTo(getMouesPosition(e).x, getMouesPosition(e).y);
     ctx.stroke();
     ctx.beginPath();
@@ -67,18 +61,15 @@
   }
 </script>
 
-<!-- <div class="container" > -->
 <p>The mouse position is {m.x} x {m.y}</p>
 <canvas class="canvas" id="myCanvas" on:mousemove={handleMousemove} />
 
 <div class="footer">
   <button on:click={clear}> Clear </button>
   <input type="color" bind:value={penColor} />
-  <!-- <button bind:value=penColor>Blue</button> -->
   <input type="range" min="1" max="10" bind:value={lineWidth} />
 </div>
 
-<!-- </div> -->
 <style>
   .canvas {
     border: 2px solid;
@@ -93,10 +84,6 @@
     align-items: center;
     height: 50px;
   }
-  /* .container {
-    height: 100%;
-    width: 100%;
-  } */
   input[type='color'] {
     height: 36px;
   }
