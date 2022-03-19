@@ -49,8 +49,8 @@
 
   function clear() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.height = 1000;
-    canvas.width = 700;
+    canvas.height = 500;
+    canvas.width = 500;
   }
 
   let m = { x: 0, y: 0 };
@@ -61,20 +61,22 @@
   }
 </script>
 
-<p>The mouse position is {m.x} x {m.y}</p>
-<canvas class="canvas" id="myCanvas" on:mousemove={handleMousemove} />
+<div class="container">
+  <!-- <p>The mouse position is {m.x} x {m.y}</p> -->
+  <canvas class="canvas" id="myCanvas" on:mousemove={handleMousemove} />
 
-<div class="footer">
-  <button on:click={clear}> Clear </button>
-  <input type="color" bind:value={penColor} />
-  <input type="range" min="1" max="10" bind:value={lineWidth} />
+  <div class="footer">
+    <button on:click={clear}> Clear </button>
+    <input type="color" bind:value={penColor} />
+    <input type="range" min="1" max="10" bind:value={lineWidth} />
+  </div>
 </div>
 
 <style>
   .canvas {
     border: 2px solid;
-    width: 1000px;
-    height: 700px;
+    width: 500px;
+    height: 500px;
     display: block;
     cursor: crosshair;
   }
