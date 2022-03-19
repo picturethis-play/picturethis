@@ -1,6 +1,14 @@
 <script lang="ts">
+  import { onMount, setContext } from 'svelte';
   import Canvas from '../components/canvas.svelte';
   import Chat from '../components/Chat.svelte';
+  import socket from '../socket';
+  export const location = null;
+
+  setContext('socket', {
+    getSocket: () => socket()
+  });
+
 </script>
 
 <div class="container">
