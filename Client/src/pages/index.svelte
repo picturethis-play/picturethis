@@ -6,13 +6,14 @@
   export const url = '';
 
   const gameSocket = socket('cursor:lobby');
-
 </script>
 
 <Router {url}>
   <div class="app">
-    <Route path="game"><GamePage gameSocket={gameSocket}/></Route>
-    <Route path="/"><LandingPage /></Route>
+    <Route path="game/:gameId" let:params>
+      <GamePage id={params.id} {gameSocket} />
+    </Route>
+    <Route path="/"><LandingPage {gameSocket} /></Route>
   </div>
 </Router>
 

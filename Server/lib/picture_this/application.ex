@@ -12,6 +12,7 @@ defmodule PictureThis.Application do
       PictureThisWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: PictureThis.PubSub},
+      {DynamicSupervisor, strategy: :one_for_one, name: PictureThis.GameSupervisor},
       # Start the Endpoint (http/https)
       PictureThisWeb.Endpoint,
       # Start a worker by calling: PictureThis.Worker.start_link(arg)

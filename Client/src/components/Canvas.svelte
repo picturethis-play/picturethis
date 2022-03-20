@@ -1,15 +1,15 @@
 <script>
   export let gameSocket;
-  import { onMount } from 'svelte'
+  import { onMount } from 'svelte';
   let penColor;
   let painting;
   let canvas;
   let ctx;
   let lineWidth = 5;
   gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
-    draw(mousePosition, lineWidth, penColor);
+    draw(mousePosition, lineWidth, penColor, false);
   });
-  
+
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
@@ -26,12 +26,13 @@
 
   function startPosition(e) {
     painting = true;
-    handleDraw(e);
+    console.log('startposition');
   }
 
   function finishedPosition() {
     painting = false;
     ctx.beginPath();
+    console.log('finishedposition');
   }
 
   function getMousePosition(e) {
@@ -43,10 +44,11 @@
   function handleDraw(e) {
     if (!painting) return;
     const mousePosition = getMousePosition(e);
-    draw(mousePosition, lineWidth, penColor);
+    console.log('drawing', e);
+    draw(mousePosition, lineWidth, penColor, true);
   }
 
-  function draw(mousePosition, lineWidth, penColor) {
+  function draw(mousePosition, lineWidth, penColor, broadcast) {
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = penColor;
     ctx.lineCap = 'round';
@@ -54,7 +56,7 @@
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(mousePosition.x, mousePosition.y);
-    gameSocket.push('draw', { mousePosition, lineWidth, penColor });
+    if (broadcast) gameSocket.push('draw', { mousePosition, lineWidth, penColor });
   }
 
   function clear() {

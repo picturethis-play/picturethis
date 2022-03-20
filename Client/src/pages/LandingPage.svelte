@@ -1,14 +1,27 @@
 <script>
-  // import Header from '../components/Header.svelte';
   import Button from '../components/Button.svelte';
-  import AvatarSelect from '../components/AvatarSelect.svelte';
-  import { Link } from 'svelte-routing'
   import { fade, fly } from 'svelte/transition';
+  import { navigate } from 'svelte-routing';
+  export let gameSocket;
+  let name = '';
   $: visible = true;
+
+  gameSocket.on('game-created', ({ gameId }) => {
+    navigate(`/game/${gameId}`, { replace: true });
+  });
 
   function visibility() {
     visible = !visible;
-    console.log('hi')
+    console.log('hi');
+  }
+
+  function createGame() {
+    //validate name
+    if (name.length === 0) {
+      alert('please name yourself');
+      return;
+    }
+    gameSocket.push('create-game', { name });
   }
 </script>
 
@@ -33,12 +46,12 @@
     </div>
   </div>
 
-  <div class="avatar">
-    <AvatarSelect />
+  <div class="name-input">
+    <input type="text" placeholder="enter name" bind:value={name} />
   </div>
 
   <div class="buttons">
-    <Link to="game" on:message={visibility}><Button name="Create Room"/></Link>
+    <Button on:message={createGame} name="Create Room" />
     <Button name="Join Room" />
   </div>
 </div>
@@ -57,7 +70,7 @@
     /* color: white; */
     width: 100%;
   }
-  .avatar {
+  .name-input {
     display: flex;
     align-items: center;
     justify-content: center;
