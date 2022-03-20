@@ -21,16 +21,21 @@ defmodule PictureThisWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  @impl true
-  def connect(%{"token" => token}, socket, _connect_info) do
-    case Phoenix.Token.verify(socket, "user socket", token, max_age: 1_209_600) do
-      {:ok, user_id} ->
-        {:ok, assign(socket, :current_user, user_id)}
 
-      {:error, _reason} ->
-        :error
-    end
+  @impl true
+  def connect(_, socket, _connect_info) do
+    {:ok, socket}
   end
+
+  # def connect(%{"token" => token}, socket, _connect_info) when is_binary(token) do
+  #   case Phoenix.Token.verify(socket, "user socket", token, max_age: 1_209_600) do
+  #     {:ok, user_id} ->
+  #       {:ok, assign(socket, :current_user, user_id)}
+
+  #     {:error, _reason} ->
+  #       :error
+  #   end
+  # end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #

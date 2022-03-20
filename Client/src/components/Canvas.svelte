@@ -1,13 +1,12 @@
 <script>
   import { getContext, onMount } from 'svelte';
+  export let gameSocket;
   let penColor;
   let painting;
   let canvas;
   let ctx;
   let lineWidth = 5;
-  const { getSocket } = getContext('socket');
-  const socket = getSocket();
-  socket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
+  gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
     draw(mousePosition, lineWidth, penColor);
   });
 
@@ -55,7 +54,7 @@
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(mousePosition.x, mousePosition.y);
-    socket.push('draw', { mousePosition, lineWidth, penColor });
+    gameSocket.push('draw', { mousePosition, lineWidth, penColor });
   }
 
   function clear() {

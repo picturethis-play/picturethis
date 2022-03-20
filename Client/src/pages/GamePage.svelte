@@ -2,18 +2,18 @@
   import { onMount, setContext } from 'svelte';
   import Canvas from '../components/canvas.svelte';
   import Chat from '../components/Chat.svelte';
-  import socket from '../socket';
   export const location = null;
+  export let gameSocket;
+  // setContext('socket', {
+  //   getSocket: (channelTopic) => socket(channelTopic)
+  // });
 
-  setContext('socket', {
-    getSocket: () => socket()
-  });
-
+  
 </script>
 
 <div class="container">
   <div class="app">
-    <Canvas />
+    <Canvas gameSocket={gameSocket} />
     <Chat />
   </div>
 </div>
