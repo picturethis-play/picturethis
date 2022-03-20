@@ -1,19 +1,22 @@
 <script lang="ts">
-  import { onMount, setContext } from 'svelte';
-  import Canvas from '../components/canvas.svelte';
+  import App from '../App.svelte';
+import Canvas from '../components/canvas.svelte';
   import Chat from '../components/Chat.svelte';
   export const location = null;
   export let gameSocket;
+  // import { onMount, setContext } from 'svelte';
   // setContext('socket', {
   //   getSocket: (channelTopic) => socket(channelTopic)
   // });
 
-  
+  const canvasProps = {
+    gameSocket: gameSocket
+  }
 </script>
 
 <div class="container">
   <div class="app">
-    <Canvas gameSocket={gameSocket} />
+    <Canvas {...canvasProps} />
     <Chat />
   </div>
 </div>
