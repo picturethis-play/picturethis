@@ -1,6 +1,6 @@
 <script>
-  import { getContext, onMount } from 'svelte';
   export let gameSocket;
+  import { onMount } from 'svelte'
   let penColor;
   let painting;
   let canvas;
@@ -9,7 +9,7 @@
   gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
     draw(mousePosition, lineWidth, penColor);
   });
-
+  
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');

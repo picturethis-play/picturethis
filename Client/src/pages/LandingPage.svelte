@@ -1,5 +1,5 @@
 <script>
-  import Header from '../components/Header.svelte';
+  // import Header from '../components/Header.svelte';
   import Button from '../components/Button.svelte';
   import AvatarSelect from '../components/AvatarSelect.svelte';
   import { Link } from 'svelte-routing'
