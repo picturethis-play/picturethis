@@ -2,13 +2,13 @@
   import Header from '../components/Header.svelte';
   import Button from '../components/Button.svelte';
   import AvatarSelect from '../components/AvatarSelect.svelte';
-
+  import { Link } from 'svelte-routing'
   import { fade, fly } from 'svelte/transition';
   $: visible = true;
 
   function visibility() {
     visible = !visible;
-    console.log('hi');
+    console.log('hi')
   }
 </script>
 
@@ -38,7 +38,7 @@
   </div>
 
   <div class="buttons">
-    <Button on:message={visibility} name="Create Room" />
+    <Link to="game" on:message={visibility}><Button name="Create Room"/></Link>
     <Button name="Join Room" />
   </div>
 </div>

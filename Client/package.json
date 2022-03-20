@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear",
+    "start": "sirv public --no-clear -s",
     "format": "prettier",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -28,7 +28,9 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "phoenix": "^1.6.6",
     "sirv-cli": "^2.0.0",
-    "svelte-canvas": "^0.7.1"
+    "svelte-canvas": "^0.7.1",
+    "svelte-routing": "^1.6.0"
   }
 }

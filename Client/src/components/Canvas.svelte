@@ -1,10 +1,14 @@
 <script>
-  import { onMount } from 'svelte';
+  import { getContext, onMount } from 'svelte';
+  export let gameSocket;
   let penColor;
   let painting;
   let canvas;
   let ctx;
   let lineWidth = 5;
+  gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
+    draw(mousePosition, lineWidth, penColor);
+  });
 
   onMount(() => {
     canvas = document.getElementById('myCanvas');
@@ -14,15 +18,15 @@
 
     canvas.addEventListener('mousedown', startPosition);
     canvas.addEventListener('mouseup', finishedPosition);
-    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mousemove', handleDraw);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
-    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchmove', handleDraw);
   });
 
   function startPosition(e) {
     painting = true;
-    draw(e);
+    handleDraw(e);
   }
 
   function finishedPosition() {
@@ -30,21 +34,27 @@
     ctx.beginPath();
   }
 
-  function getMouesPosition(e) {
+  function getMousePosition(e) {
     var mouseX = ((e.offsetX * canvas.width) / canvas.clientWidth) | 0;
     var mouseY = ((e.offsetY * canvas.height) / canvas.clientHeight) | 0;
     return { x: mouseX, y: mouseY };
   }
 
-  function draw(e) {
+  function handleDraw(e) {
     if (!painting) return;
+    const mousePosition = getMousePosition(e);
+    draw(mousePosition, lineWidth, penColor);
+  }
+
+  function draw(mousePosition, lineWidth, penColor) {
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = penColor;
     ctx.lineCap = 'round';
-    ctx.lineTo(getMouesPosition(e).x, getMouesPosition(e).y);
+    ctx.lineTo(mousePosition.x, mousePosition.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(getMouesPosition(e).x, getMouesPosition(e).y);
+    ctx.moveTo(mousePosition.x, mousePosition.y);
+    gameSocket.push('draw', { mousePosition, lineWidth, penColor });
   }
 
   function clear() {
