@@ -9,7 +9,7 @@ defmodule PictureThisWeb.CursorChannel do
   def join("cursor:lobby", _payload, socket) do
     Phoenix.PubSub.subscribe(PictureThis.PubSub, "cursor:lobby")
 
-    {:ok, socket |> assign(:is_drawing?, false) |> assign(:player_id, generate_player_id())}
+    {:ok, socket |> assign(:is_drawing?, false) |> assign(:player_id, generate_player_id())} 
   end
 
   def generate_player_id() do
@@ -56,22 +56,6 @@ defmodule PictureThisWeb.CursorChannel do
         {:noreply, socket}
     end
   end
-
-  # def handle_in("move", %{"x" => x, "y" => y}, socket) do
-  #   {:ok, _} =
-  #     Presence.update(socket, socket.assigns.current_user, fn previousState ->
-  #       Map.merge(
-  #         previousState,
-  #         %{
-  #           online_at: inspect(System.system_time(:second)),
-  #           x: x,
-  #           y: y
-  #         }
-  #       )
-  #     end)
-
-  #   {:noreply, socket}
-  # end
 
   def handle_in("draw", payload, socket) do
     broadcast(socket, "draw-replay", payload)

@@ -7,7 +7,7 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear -s",
     "test": "jest src",
-    "test:watch": "npm run test -- --watch",
+    "test:watch": "npm run test --watch",
     "format": "prettier",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },

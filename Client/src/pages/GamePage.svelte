@@ -6,11 +6,7 @@ import Canvas from '../components/canvas.svelte';
   export let gameSocket;
   export let id;
   console.log(id)
-  // import { onMount, setContext } from 'svelte';
-  // setContext('socket', {
-  //   getSocket: (channelTopic) => socket(channelTopic)
-  // });
-
+  
   const canvasProps = {
     gameSocket: gameSocket
   }
