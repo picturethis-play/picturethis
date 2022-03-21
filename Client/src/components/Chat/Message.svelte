@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import { messages, playerName, secretWord, guessedWord } from '../../stores/chat-stores';
 
   let player;
@@ -41,7 +40,6 @@
       guessedWord.set(true)
     }
 
-    console.log(secret);
 
     let msgsArr;
     messages.subscribe((messages) => {
@@ -55,9 +53,6 @@
     userInput = '';
   }
 
-  onMount(() => {
-    console.log(userInput + ' is the user input');
-  });
 </script>
 
 <div class="Message__Container">

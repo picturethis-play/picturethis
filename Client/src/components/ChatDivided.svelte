@@ -1,25 +1,14 @@
 <script>
-  import { onMount } from 'svelte';
-
   //components
   import Message from './Chat/Message.svelte';
   import Messages from './Chat/Messages.svelte';
   import Word from './Chat/Word.svelte';
-
-  import wordDb from '../assets/db';
-
-  let secretWord = wordDb[Math.floor(Math.random() * wordDb.length)];
-  onMount(() => {
-    console.log(wordDb);
-    console.log(wordDb[0].word);
-    secretWord = wordDb[Math.floor(Math.random() * wordDb.length)];
-  });
 </script>
 
 <div class="Chat__container">
   <Word />
   <Messages />
-  <Message/>
+  <Message />
 </div>
 
 <style>

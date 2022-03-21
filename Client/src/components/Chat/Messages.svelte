@@ -1,6 +1,6 @@
 <script>
   import { beforeUpdate, afterUpdate } from 'svelte';
-  import { messages, playerName } from '../../stores/chat-stores';
+  import { messages } from '../../stores/chat-stores';
 
   let msgs;
 
@@ -8,38 +8,17 @@
     msgs = messages;
   });
 
-  console.log(msgs);
-
   // enabling chat to autoscroll
   let scroll;
   let autoscroll;
 
   beforeUpdate(() => {
-    autoscroll =
-      scroll &&
-      scroll.offsetHeight + scroll.scrollTop > scroll.scrollHeight - 20;
+    autoscroll = scroll && scroll.offsetHeight + scroll.scrollTop > scroll.scrollHeight - 20;
   });
 
   afterUpdate(() => {
     if (autoscroll) scroll.scrollTo(0, scroll.scrollHeight);
   });
-
-  // export let msgs = [
-  //   {
-  //     text: 'Welcome!',
-  //     user: 'Picture',
-  //     player: false,
-  //     guess: false,
-  //     timestamp: 1,
-  //   },
-  //   {
-  //     text: 'What is your guess?',
-  //     user: 'This',
-  //     player: true,
-  //     guess: false,
-  //     timestamp: 2,
-  //   },
-  // ];
 </script>
 
 <div class="Messages__Container">
