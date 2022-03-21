@@ -1,6 +1,8 @@
 <script>
   import { beforeUpdate, afterUpdate } from 'svelte';
 
+  export let gameSocket;
+
   // enabling chat to autoscroll
   let scroll;
   let autoscroll;
@@ -23,20 +25,22 @@
 
   //mock msgs
   let msgs = [
-    {
-      text: 'Welcome!',
-      user: 'Picture',
-      player: false,
-      guess: false,
-      timestamp: 1,
-    },
-    {
-      text: 'What is your guess?',
-      user: 'This',
-      player: true,
-      guess: false,
-      timestamp: 2,
-    },
+    // {
+    //   text: 'Welcome!',
+    //   user: 'Picture',
+    //   player: false,
+    //   guess: false,
+    //   timestamp: 1,
+    // },
+    // {
+    //   text: 'What is your guess?',
+    //   user: 'This',
+    //   player: true,
+    //   guess: false,
+    //   timestamp: 2,
+    // },
+    // { user: 'dan', text: 'hello' },
+    // { user: 'dan', text: 'hi' },
   ];
 
   //mock timestamp
@@ -55,27 +59,32 @@
     }
 
     //generate msg-object
-    const msg = {
-      text: userInput,
-      user: playerName,
-      player: true,
-      guess: false,
-      timestamp: timestamp,
-    };
+    // const msg = {
+    //   text: userInput,
+    //   user: playerName,
+    //   player: true,
+    //   guess: false,
+    //   timestamp: timestamp,
+    // };
 
     //check if guess is correct
-    if (msg.text === secretWord) {
-      msg.guess = true;
-    }
+    // if (msg.text === secretWord) {
+    //   msg.guess = true;
+    // }
     //increment mocktimestamp
     timestamp++;
 
     //add message to msgs array
-    msgs = [...msgs, msg];
 
+    gameSocket.push('guess', { userInput });
     //reset userInput
     userInput = '';
   }
+
+  gameSocket.on('guessmessage', (mzg) => {
+    console.log('mzggg', mzg);
+    msgs = [...msgs, { user: 'dan', text: mzg.userInput }];
+  });
 </script>
 
 <div class="chat">

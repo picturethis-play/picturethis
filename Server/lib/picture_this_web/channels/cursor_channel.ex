@@ -9,7 +9,7 @@ defmodule PictureThisWeb.CursorChannel do
   def join("cursor:lobby", _payload, socket) do
     Phoenix.PubSub.subscribe(PictureThis.PubSub, "cursor:lobby")
 
-    {:ok, socket |> assign(:is_drawing?, false) |> assign(:player_id, generate_player_id())} 
+    {:ok, socket |> assign(:is_drawing?, false) |> assign(:player_id, generate_player_id())}
   end
 
   def generate_player_id() do
@@ -64,12 +64,12 @@ defmodule PictureThisWeb.CursorChannel do
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (cursor:lobby).
-  @impl true
-  def handle_in("shout", payload, socket) do
-    broadcast(socket, "shout", payload)
+  def handle_in("guess", payload, socket) do
+    broadcast(socket, "guessmessage", payload)
     {:noreply, socket}
   end
 
+  @impl true
   def handle_out("draw-replay", payload, socket) do
     unless socket.assigns.is_drawing? do
       Logger.debug("replay")
@@ -78,6 +78,7 @@ defmodule PictureThisWeb.CursorChannel do
 
     {:noreply, socket}
   end
+
 
   # Add authorization logic here as required.
   # defp authorized?(_payload) do
