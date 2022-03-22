@@ -10,9 +10,8 @@
     });
   }
 </script>
-
-<button on:click={sayHello} class="button">
-  <h3>{name}</h3>
+<button on:click={sayHello} class="button" aria-label="button" >
+  <h3 >{name}</h3>
 </button>
 
 <style>
@@ -20,7 +19,7 @@
     height: 70px;
     width: 150px;
     color: white;
-    background-color: blue;
+    background-color: #3B28CC;
     border-radius: 8px;
     display: flex;
     align-items: center;
