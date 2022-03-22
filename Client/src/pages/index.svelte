@@ -1,10 +1,9 @@
-<script lang="ts">
+<script>
   import { Router, Route } from 'svelte-routing';
   import GamePage from './GamePage.svelte';
   import LandingPage from './LandingPage.svelte';
   import socket from '../socket';
   export const url = '';
-
   const gameSocket = socket('cursor:lobby');
 </script>
 
