@@ -1,5 +1,4 @@
 <script lang="ts">
-  import App from '../App.svelte';
   import Canvas from '../components/canvas.svelte';
   import Chat from '../components/Chat.svelte';
   import ChatDivided from '../components/ChatDivided.svelte';
