@@ -52,7 +52,10 @@ defmodule PictureThis.GameServer do
 
   def handle_call(:start, _from, state) do
     # choose drawer choose prompt
-    prompt = "Michael Scott"
+    prompt =
+      ~w(Angel Eyeball Pizza Angry Fireworks Pumpkin Baby Flower Rainbow Beard Flying saucer Recycle Bible GiraffeSand castle Bikini Glasses Snowflake Book High-heel Stairs Bucket Ice-cream-cone Starfish Bumble-bee Igloo Strawberry Butterfly Lady-bug Sun Camera Lamp Tire Cat LionToast Church Mailbox Toothbrush Crayon Night Toothpaste Dolphin Nose Truck Egg Olympics Volleyball Eiffel Tower Peanut)
+      |> Enum.random()
+
     drawer = Enum.random(state.players)
     broadcast(state.topic, {:game_started, %{prompt: prompt, drawer: drawer}})
     {:reply, :ok, %{state | status: :active}}
