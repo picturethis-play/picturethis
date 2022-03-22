@@ -11,13 +11,14 @@
   const canvasProps = {
     gameSocket: gameSocket,
   };
+
 </script>
 
 <div class="container">
   <div class="app">
     <Canvas {...canvasProps} />
     <Chat {...canvasProps} />
-    <ChatDivided />
+    <ChatDivided {...canvasProps}/>
   </div>
 </div>
 

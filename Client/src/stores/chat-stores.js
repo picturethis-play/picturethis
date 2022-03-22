@@ -7,6 +7,8 @@ export const secretWord = writable(
 );
 
 export let playerName = writable('Player1');
+export let playerNameSet = writable(false);
+
 export let messages = writable([
   {
     text: 'Welcome!',
@@ -33,4 +35,12 @@ export let messages = writable([
 
 export let guessedWord = writable(false)
 export let drawer = writable(true)
+
+
+
+// socket
+import socket from '../socket';
+export const url = '';
+export const gameSocket = socket('cursor:lobby');
+
 

@@ -1,5 +1,11 @@
 <script>
-  import { messages, playerName, secretWord, guessedWord } from '../../stores/chat-stores';
+  import {
+    messages,
+    playerName,
+    secretWord,
+    guessedWord,
+    gameSocket,
+  } from '../../stores/chat-stores';
 
   let player;
   let secret;
@@ -20,6 +26,8 @@
     }
   }
 
+  let msgsArr = []
+
   function handleSubmit() {
     //if user input is empty, do not add message
     if (userInput === '') {
@@ -37,11 +45,11 @@
 
     if (msg.text == secret) {
       msg.guess = true;
-      guessedWord.set(true)
+      guessedWord.set(true);
     }
 
+    gameSocket.push('guess', { userInput });
 
-    let msgsArr;
     messages.subscribe((messages) => {
       msgsArr = messages;
     });
@@ -53,6 +61,11 @@
     userInput = '';
   }
 
+  // gameSocket.on('guessmessage', (mzg) => {
+  //   console.log('mzggg', mzg);
+  //   messages.set([...msgsArr, msg]);
+  //   // msgs = [...msgs, { user: 'dan', text: mzg.userInput }];
+  // });
 </script>
 
 <div class="Message__Container">
