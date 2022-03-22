@@ -32,5 +32,5 @@ export let messages = writable([
 ]);
 
 export let guessedWord = writable(false)
-export let drawer = writable(false)
+export let drawer = writable(true)
 

@@ -17,6 +17,7 @@
   <div class="app">
     <Canvas {...canvasProps} />
     <Chat {...canvasProps} />
+    <ChatDivided />
   </div>
 </div>
 
