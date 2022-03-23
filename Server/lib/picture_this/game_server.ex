@@ -22,7 +22,8 @@ defmodule PictureThis.GameServer do
 
   def start_link([game_id]) do
     state = %__MODULE__{topic: topic(game_id), id: game_id}
-    GenServer.start_link(__MODULE__, state)
+    name = {:via, Registry, {GameRegistry, game_id, []}}
+    GenServer.start_link(__MODULE__, state, name: name)
   end
 
   def create_game() do

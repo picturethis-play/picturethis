@@ -4,14 +4,13 @@
   import Button from '../components/Button.svelte';
   export const location = null;
   import socket from '../socket';
-  export let id;
+  export let gameId;
   let name = '';
 
 
-  const canvasProps = {
-    gameSocket: gameSocket,
-  };
-
+  const gameSocket = socket('game:' + gameId);
+  console.log(gameSocket);
+  
 
   function createGame() {
     //validate name
@@ -19,11 +18,8 @@
       alert('please name yourself');
       return;
     }
-
-    // gameSocket.push('create-game', { name });
+    gameSocket.push('create-game', { name });
   }
-
-  const gameSocket = socket('game:' + id);
 
 </script>
 
