@@ -109,6 +109,7 @@
 
     <p>{time}</p>
     <button on:click={clear}> Clear </button>
+    <button on:click={startGame}> Start </button>
     <input class="h-8" type="color" bind:value={penColor} />
     <input type="range" min="1" max="10" bind:value={lineWidth} />
   </div>
