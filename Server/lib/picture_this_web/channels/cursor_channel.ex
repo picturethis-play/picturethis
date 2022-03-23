@@ -41,32 +41,6 @@ defmodule PictureThisWeb.CursorChannel do
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
-
-  # %{"name" => name}
-
-  # def handle_in("create-game", _from, socket) do
-  #   id = GameServer.generate_id()
-  #   topic = GameServer.topic(id)
-
-  #   case DynamicSupervisor.start_child(
-  #          GameSupervisor,
-  #          {GameServer, [id, socket.assigns.player_id]}
-  #        ) do
-  #     {:ok, pid} ->
-  #       Logger.debug("created game")
-  #       Logger.debug("subscribing to #{topic}")
-  #       Phoenix.PubSub.subscribe(PictureThis.PubSub, topic)
-  #       GameServer.start_game(pid)
-  #       push(socket, "game-created", %{gameId: id})
-  #       {:noreply, socket}
-
-  #     {:error, reason} ->
-  #       # send error message to client
-  #       Logger.error("failed to create game #{inspect(reason)}")
-  #       {:noreply, socket}
-  #   end
-  # end
-
   @impl true
 
   def handle_in("draw", payload, socket) do
@@ -88,8 +62,6 @@ defmodule PictureThisWeb.CursorChannel do
     {:noreply, socket}
   end
 
-
-
   @impl true
 
   def handle_out("draw-replay", payload, socket) do
@@ -106,10 +78,10 @@ defmodule PictureThisWeb.CursorChannel do
     {:noreply, socket}
   end
 
-  # def handle_out("cleargame", payload, socket) do
-  #   Logger.debug("cleargame")
-  #   {:noreply, socket}
-  # end
+  def handle_out("cleargame", payload, socket) do
+    Logger.debug("cleargame")
+    {:noreply, socket}
+  end
 
   # Add authorization logic here as required.
   # defp authorized?(_payload) do

@@ -28,12 +28,18 @@ defmodule PictureThis.GameServer do
 
   def create_game() do
     id = generate_id()
-    with {:ok, _} <- DynamicSupervisor.start_child(
-      GameSupervisor,
-      {__MODULE__, [id]}
-    ) do
+
+    with {:ok, _} <-
+           DynamicSupervisor.start_child(
+             GameSupervisor,
+             {__MODULE__, [id]}
+           ) do
       {:ok, id}
     end
+  end
+
+  def via_tuple(game_id) do
+    {:via, Registry, {GameRegistry, game_id}}
   end
 
   def topic(id) do
@@ -45,16 +51,22 @@ defmodule PictureThis.GameServer do
     |> Base.encode64(padding: false)
   end
 
-  def join(pid, player_id) do
-    GenServer.call(pid, {:join, player_id})
+  def join(game_id, player_id) do
+    game_id
+    |> via_tuple()
+    |> GenServer.call({:join, player_id})
   end
 
-  def start_game(pid) do
-    GenServer.call(pid, :start)
+  def start_game(game_id) do
+    game_id
+    |> via_tuple()
+    |> GenServer.call(:start)
   end
 
-  def guess(pid, guess, player_id) do
-    GenServer.call(pid, {:guess, guess, player_id})
+  def guess(game_id, guess, player_id) do
+    game_id
+    |> via_tuple()
+    |> GenServer.call(pid, {:guess, guess, player_id})
   end
 
   @impl true
@@ -70,11 +82,12 @@ defmodule PictureThis.GameServer do
 
     drawer = Enum.random(state.players)
     broadcast(state.topic, {:game_started, %{prompt: prompt, drawer: drawer}})
-    {:reply, :ok, %{state | status: :active}}
+    {:reply, :ok, %{state | status: :active, current_prompt: prompt, current_drawer: drawer}}
   end
 
   def handle_call({:guess, guess, player_id}, _from, state) do
     if guess == state.current_prompt do
+      Logger.debug("you win baby #{guess}")
       # award points, end round, start round, add new prompt
       {:reply, true, state}
     else

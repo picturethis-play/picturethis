@@ -5,7 +5,7 @@ defmodule PictureThisWeb.CursorChannelTest do
     {:ok, _, socket} =
       PictureThisWeb.UserSocket
       |> socket("user_id", %{some: :assign})
-      |> subscribe_and_join(PictureThisWeb.CursorChannel, "cursor:lobby")
+      |> subscribe_and_join(PictureThisWeb.CursorChannel, "game:*")
 
     %{socket: socket}
   end
