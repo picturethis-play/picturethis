@@ -1,11 +1,11 @@
-defmodule PictureThisWeb.CursorChannelTest do
+defmodule PictureThisWeb.GameChannelTest do
   use PictureThisWeb.ChannelCase
 
   setup do
     {:ok, _, socket} =
       PictureThisWeb.UserSocket
       |> socket("user_id", %{some: :assign})
-      |> subscribe_and_join(PictureThisWeb.CursorChannel, "game:*")
+      |> subscribe_and_join(PictureThisWeb.GameChannel, "game:*")
 
     %{socket: socket}
   end

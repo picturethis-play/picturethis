@@ -1,4 +1,4 @@
-defmodule PictureThisWeb.CursorChannel do
+defmodule PictureThisWeb.GameChannel do
   alias PictureThisWeb.Presence
   alias PictureThis.GameServer
   use PictureThisWeb, :channel
