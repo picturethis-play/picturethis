@@ -85,9 +85,16 @@ defmodule PictureThisWeb.CursorChannel do
   def handle_in("clear", payload, socket) do
     broadcast(socket, "cleargame", payload)
     # GameServer.guess(:pid, payload, :player_id)
+
     {:noreply, socket}
   end
 
+  def handle_in("start", payload, socket) do
+    broadcast(socket, "startgame", payload)
+    # GameServer.guess(:pid, payload, :player_id)
+
+    {:noreply, socket}
+  end
 
 
   @impl true
