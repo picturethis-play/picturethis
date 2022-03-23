@@ -2,7 +2,10 @@
   import Button from '../components/Button.svelte';
   import { fade, fly } from 'svelte/transition';
   import { navigate } from 'svelte-routing';
-  // export let gameSocket;
+
+  import { playerName } from '../stores/chat-stores';
+  export let gameSocket;
+  let name = '';
 
   $: visible = true;
 
@@ -26,6 +29,18 @@
     visible = !visible;
     console.log('hi');
   }
+
+
+  function createGame() {
+    //validate name
+    if (name.length === 0) {
+      alert('please name yourself');
+      return;
+    }
+    playerName.set(name)
+    gameSocket.push('create-game', { name });
+  }
+
 </script>
 
 <!-- <label>

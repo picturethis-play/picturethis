@@ -7,9 +7,11 @@
   export let gameId;
   let name = '';
 
+
   const gameSocket = socket('game:' + gameId);
   console.log(gameSocket);
   
+
   function createGame() {
     //validate name
     if (name.length === 0) {
@@ -18,16 +20,19 @@
     }
     gameSocket.push('create-game', { name });
   }
+
 </script>
 
 <div class="container">
   <div class="app">
+
     <div class="name-input">
       <input type="text" placeholder="" bind:value={name} />
       <Button on:message={createGame} name="Enter Name" />
     </div>
     <Canvas {gameSocket} />
     <Chat {gameSocket} />
+
   </div>
 </div>
 

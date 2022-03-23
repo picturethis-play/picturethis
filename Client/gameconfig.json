@@ -1,0 +1,26 @@
+{
+  "Rounds": 3,
+  "Players": {
+    "MinPlayers": 3,
+    "MaxPlayers": 12
+  },
+  "Timers": {
+    "SecondsPerRound": 60,
+    "SecondsBetweenRounds": 10,
+    "SecondsBetweenDrawers": 2
+  },
+  "Gameplay": {
+    "HangmanMode": true
+  },
+  "Words": {
+    "Language": "English",
+    "Difficulty": 2,
+    "RestrictedWords": true
+  },
+  "Points": {
+    "PointsForWin": 5
+  },
+  "Guesses": {
+    "MaxGuessesPerDrawing": 100
+  }
+}
