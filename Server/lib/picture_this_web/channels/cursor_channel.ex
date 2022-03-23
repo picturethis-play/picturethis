@@ -82,6 +82,14 @@ defmodule PictureThisWeb.CursorChannel do
     {:noreply, socket}
   end
 
+  def handle_in("clear", payload, socket) do
+    broadcast(socket, "cleargame", payload)
+    # GameServer.guess(:pid, payload, :player_id)
+    {:noreply, socket}
+  end
+
+
+
   @impl true
 
   def handle_out("draw-replay", payload, socket) do
@@ -97,6 +105,11 @@ defmodule PictureThisWeb.CursorChannel do
     Logger.debug("guessmessage")
     {:noreply, socket}
   end
+
+  # def handle_out("cleargame", payload, socket) do
+  #   Logger.debug("cleargame")
+  #   {:noreply, socket}
+  # end
 
   # Add authorization logic here as required.
   # defp authorized?(_payload) do
