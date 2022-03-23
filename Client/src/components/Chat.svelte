@@ -87,20 +87,20 @@
   });
 </script>
 
-<div class="chat">
-  <div class="messages" bind:this={scroll}>
+<div class="flex flex-col h-500px max-w-xs border-2 border-solid border-black bg-white">
+  <div class="h-500px max-w-xs text-left flex-auto overflow-y-auto flex flex-col items-end" bind:this={scroll}>
     <ul>
       {#each msgs as { user, text, guess }}
         {#if guess}
-          <li class="correct"><strong>{user}: </strong>{text}</li>
+          <li class="text-green-400 break-all"><strong>{user}: </strong>{text}</li>
         {:else}
-          <li><strong>{user}: </strong>{text} <span /></li>
+          <li class="break-all"><strong>{user}: </strong>{text} <span /></li>
         {/if}
       {/each}
     </ul>
   </div>
 
-  <div class="user-input">
+  <div >
     <input
       type="text"
       name=""
@@ -112,38 +112,3 @@
     <input type="submit" value="Submit" on:click={handleSubmit} />
   </div>
 </div>
-
-<style>
-  .chat {
-    display: flex;
-    flex-direction: column;
-    height: 500px;
-    max-width: 320px;
-    border: 2px solid black;
-    background-color: white;
-  }
-
-  .messages {
-    height: 500px;
-    max-width: 270px;
-    text-align: left;
-    flex: 1 1 auto;
-    overflow-y: auto;
-    display: flex;
-    direction: column;
-    align-items: flex-end;
-  }
-
-  ul {
-    list-style-type: none;
-  }
-
-  li {
-    margin-left: -40px;
-    word-break: break-all;
-  }
-
-  .correct {
-    color: green;
-  }
-</style>

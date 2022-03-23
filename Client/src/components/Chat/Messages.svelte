@@ -21,40 +21,16 @@
   });
 </script>
 
-<div class="Messages__Container">
+<div class="h-500px max-w-xs flex-1 overflow-y-auto flex flex-col items-center">
   <ul>
     {#each msgs as { user, text, guess }}
       {#if guess}
-        <li class="correct"><strong>{user}: </strong>{text}</li>
+        <li class="text-green-400 break-all"><strong>{user}: </strong>{text}</li>
       {:else}
-        <li><strong>{user}: </strong>{text} <span /></li>
+        <li class="break-all"><strong>{user}: </strong>{text} <span /></li>
       {/if}
     {/each}
   </ul>
 </div>
 
-<style>
-  .Messages__Container {
-    height: 500px;
-    max-width: 270px;
-    text-align: left;
-    flex: 1 1 auto;
-    overflow-y: auto;
-    display: flex;
-    direction: column;
-    align-items: flex-end;
-  }
 
-  .correct {
-    color: green;
-  }
-
-  ul {
-    list-style-type: none;
-  }
-
-  li {
-    margin-left: -40px;
-    word-break: break-all;
-  }
-</style>

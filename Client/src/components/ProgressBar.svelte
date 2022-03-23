@@ -10,7 +10,7 @@
   $: progress.set(time);
 </script>
 
-<progress value={$progress} />
+<progress class="block w-full"  value={$progress} />
 
 <!-- <button on:click={() => progress.set(0)}> 0% </button>
 
@@ -23,9 +23,3 @@
 <!-- <button on:click={() => progress.set(1)}> 100% </button> -->
 <button on:click={() => coundown()}> 100% </button>
 
-<style>
-  progress {
-    display: block;
-    width: 100%;
-  }
-</style>

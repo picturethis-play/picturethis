@@ -101,32 +101,22 @@
 </script>
 
 <div>
-  <canvas class="canvas" id="myCanvas" on:mousemove={handleMousemove} />
-  <button on:click={startGame}>Start Game</button>
-  <div class="footer">
+
+  <canvas
+    class="bg-white border-2 border-solid border-black block cursor-crosshair h-canvas w-canvas"
+    id="myCanvas"
+    on:mousemove={handleMousemove}
+  />
+
+  <div class="flex gap-4 items-center h-12">
+
     <p>{time}</p>
     <button on:click={clear}> Clear </button>
-    <input type="color" bind:value={penColor} />
+    <input class="h-8" type="color" bind:value={penColor} />
     <input type="range" min="1" max="10" bind:value={lineWidth} />
   </div>
 </div>
 
 <style>
-  .canvas {
-    border: 2px solid;
-    width: 500px;
-    height: 500px;
-    display: block;
-    cursor: crosshair;
-    background-color: white;
-  }
-  .footer {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    height: 50px;
-  }
-  input[type='color'] {
-    height: 36px;
-  }
+
 </style>
