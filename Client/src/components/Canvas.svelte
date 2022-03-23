@@ -14,6 +14,8 @@
     clear();
   });
 
+  $: time = 60;
+
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
@@ -26,6 +28,26 @@
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
+
+    // setTimeout(() => {
+    //   gameSocket.push('clear');
+    // }, 60000);
+  });
+  function startGame() {
+    gameSocket.push('start');
+  }
+
+  gameSocket.on('startgame', () => {
+    const gameTimer = setInterval(() => {
+      time = time - 1;
+      if (time === 0) {
+        gameSocket.push('clear');
+        time = 60;
+        // alert('round over');
+        clearInterval(gameTimer);
+        return;
+      }
+    }, 1000);
   });
 
   function startPosition(e) {
@@ -80,8 +102,9 @@
 
 <div>
   <canvas class="canvas" id="myCanvas" on:mousemove={handleMousemove} />
-
+  <button on:click={startGame}>Start Game</button>
   <div class="footer">
+    <p>{time}</p>
     <button on:click={clear}> Clear </button>
     <input type="color" bind:value={penColor} />
     <input type="range" min="1" max="10" bind:value={lineWidth} />
