@@ -30,27 +30,25 @@
     console.log('hi');
   }
 
-
   function createGame() {
     //validate name
     if (name.length === 0) {
       alert('please name yourself');
       return;
     }
-    playerName.set(name)
+    playerName.set(name);
     gameSocket.push('create-game', { name });
   }
-
 </script>
 
 <!-- <label>
   <input type="checkbox" bind:checked={visible} />
 </label> -->
 
-<div class="container">
-  <div class="logo">
-    <!-- <Header /> -->
-    <div class="centered">
+<!-- h-820px is a hack, set in tailwind.css file -->
+<div class="bg-gray-400 h-820px w-full">
+  <div class="bg-gray-400 flex items-center justify-center w-full">
+    <div class="flex items-center h-40 text-6xl">
       {#if visible}
         {#each 'picturethis' as char, i}
           <h1
@@ -63,42 +61,8 @@
       {/if}
     </div>
   </div>
-  <div class="buttons">
+  <div class="flex items-center justify-center gap-8">
     <Button on:message={startGame} name="Create Room" />
     <Button name="Join Room" />
   </div>
 </div>
-
-<style>
-  .container {
-    background-color: #bdc3d5;
-    height: 820px;
-    width: 100%;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #bdc3d5;
-    /* color: white; */
-    width: 100%;
-  }
-  /* .name-input {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 50px;
-  } */
-  .buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    border-top: 150px;
-  }
-  .centered {
-    display: flex;
-    font-size: 32px;
-    height: 150px;
-  }
-</style>

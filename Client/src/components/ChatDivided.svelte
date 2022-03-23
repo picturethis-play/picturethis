@@ -13,7 +13,7 @@
   });
 </script>
 
-<div class="Chat__container">
+<div class="flex flex-col h-full max-w-xs border-2 border-solid border-black p-2">
   <Word />
   <Messages />
 
@@ -23,15 +23,3 @@
     <InputName />
   {/if}
 </div>
-
-<style>
-  .Chat__container {
-    display: flex;
-    flex-direction: column;
-    height: 500px;
-    max-width: 320px;
-    border: 2px solid black;
-    background-color: white;
-    padding: 1rem;
-  }
-</style>
