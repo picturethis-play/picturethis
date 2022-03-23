@@ -9,6 +9,7 @@ defmodule PictureThisWeb.CursorChannel do
     Phoenix.PubSub.subscribe(PictureThis.PubSub, "game:" <> id)
     player_id = generate_player_id()
     Logger.debug("player #{player_id} joined game #{id}")
+
     {:ok,
      socket
      |> assign(:is_drawing?, false)
@@ -51,52 +52,54 @@ defmodule PictureThisWeb.CursorChannel do
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (cursor:lobby).
   def handle_in("guess", payload, socket) do
-    broadcast(socket, "guessmessage", payload)
-    # GameServer.guess(:pid, payload, :player_id)
+    broadcast(socket, "guess-message", payload)
     {:noreply, socket}
   end
 
   def handle_in("clear", payload, socket) do
-    broadcast(socket, "cleargame", payload)
-    # GameServer.guess(:pid, payload, :player_id)
+    broadcast(socket,"cleargame", payload)
 
     {:noreply, socket}
   end
 
-<<<<<<< HEAD
-=======
   def handle_in("start", payload, socket) do
-    broadcast(socket, "startgame", payload)
-    # GameServer.guess(:pid, payload, :player_id)
-
+    broadcast(socket, "start-game", payload)
+    GameServer.start_game(socket.assigns.game_id)
     {:noreply, socket}
   end
 
+  def handle_in("join-game", payload, socket) do
+    GameServer.join(socket.assigns.game_id, socket.assigns.player_id)
+    broadcast(socket, "joined", payload)
+    {:noreply, socket}
+  end
 
->>>>>>> main
   @impl true
-
   def handle_out("draw-replay", payload, socket) do
     unless socket.assigns.is_drawing? do
       Logger.debug("replay")
-      # push(socket, "draw-replay", payload)
     end
 
     {:noreply, socket}
   end
 
-  def handle_out("guessmessage", payload, socket) do
-    Logger.debug("guessmessage")
+  def handle_out("guess-message", payload, socket) do
+    Logger.debug("guess-message")
     {:noreply, socket}
   end
 
-  def handle_out("cleargame", payload, socket) do
-    Logger.debug("cleargame")
+  def handle_out("clear-game", payload, socket) do
+    Logger.debug("clear-game")
     {:noreply, socket}
   end
 
-  # Add authorization logic here as required.
-  # defp authorized?(_payload) do
-  #   true
-  # end
+  def handle_out("start-game", payload, socket) do
+    Logger.debug("start-game")
+    {:noreply, socket}
+  end
+
+  def handle_out("joined", payload, socket) do
+    Logger.debug("joined")
+    {:noreply, socket}
+  end
 end

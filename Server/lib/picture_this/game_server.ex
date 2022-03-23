@@ -66,7 +66,7 @@ defmodule PictureThis.GameServer do
   def guess(game_id, guess, player_id) do
     game_id
     |> via_tuple()
-    |> GenServer.call(pid, {:guess, guess, player_id})
+    |> GenServer.call({:guess, guess, player_id})
   end
 
   @impl true
