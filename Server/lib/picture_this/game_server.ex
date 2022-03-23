@@ -79,6 +79,7 @@ defmodule PictureThis.GameServer do
     prompt =
       ~w(Angel Eyeball Pizza Angry Fireworks Pumpkin Baby Flower Rainbow Beard Flying saucer Recycle Bible Giraffe Sand-castle Bikini Glasses Snowflake Book High-heel Stairs Bucket Ice-cream-cone Starfish Bumble-bee Igloo Strawberry Butterfly Lady-bug Sun Camera Lamp Tire Cat Lion Toast Church Mailbox Toothbrush Crayon Night Toothpaste Dolphin Nose Truck Egg Olympics Volleyball Eiffel Tower Peanut)
       |> Enum.random()
+      |> String.downcase()
 
     drawer = Enum.random(state.players)
     broadcast(state.topic, {:game_started, %{prompt: prompt, drawer: drawer}})
@@ -87,7 +88,7 @@ defmodule PictureThis.GameServer do
 
   def handle_call({:guess, guess, player_id}, _from, state) do
     if guess == state.current_prompt do
-      Logger.debug("you win baby #{guess}")
+      Logger.debug("you win")
       # award points, end round, start round, add new prompt
       {:reply, true, state}
     else
