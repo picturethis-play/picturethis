@@ -11,7 +11,7 @@
   });
 
   gameSocket.on('clear-game', (e) => {
-    clear();
+    clear(false);
   });
 
   $: time = 60;
@@ -29,9 +29,6 @@
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
 
-    // setTimeout(() => {
-    //   gameSocket.push('clear');
-    // }, 60000);
   });
   function startGame() {
     gameSocket.push('start');
@@ -85,11 +82,11 @@
     if (broadcast) gameSocket.push('draw', { mousePosition, lineWidth, penColor });
   }
 
-  function clear() {
+  function clear(broadcast) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.height = 500;
     canvas.width = 500;
-    gameSocket.push('clear');
+    if (broadcast) gameSocket.push('clear');
   }
 
   let m = { x: 0, y: 0 };

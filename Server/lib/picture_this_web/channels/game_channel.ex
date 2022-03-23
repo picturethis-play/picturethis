@@ -57,8 +57,7 @@ defmodule PictureThisWeb.GameChannel do
   end
 
   def handle_in("clear", payload, socket) do
-    broadcast(socket,"clear-game", payload)
-
+    broadcast(socket, "clear-game", payload)
     {:noreply, socket}
   end
 
@@ -88,7 +87,7 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_out("clear-game", payload, socket) do
+  def handle_out("clear-game", _payload, socket) do
     Logger.debug("clear-game")
     {:noreply, socket}
   end
