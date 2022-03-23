@@ -7,17 +7,17 @@
   export let id;
   let name = '';
 
+  const gameSocket = socket('game:' + id);
+  console.log(gameSocket);
+  
   function createGame() {
     //validate name
     if (name.length === 0) {
       alert('please name yourself');
       return;
     }
-
-    // gameSocket.push('create-game', { name });
+    gameSocket.push('create-game', { name });
   }
-
-  const gameSocket = socket('game:' + id);
 </script>
 
 <div class="container">
