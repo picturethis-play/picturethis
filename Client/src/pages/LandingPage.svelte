@@ -30,17 +30,15 @@
     console.log('hi');
   }
 
-
   function createGame() {
     //validate name
     if (name.length === 0) {
       alert('please name yourself');
       return;
     }
-    playerName.set(name)
+    playerName.set(name);
     gameSocket.push('create-game', { name });
   }
-
 </script>
 
 <!-- <label>
@@ -49,10 +47,8 @@
 
 <!-- h-820px is a hack, set in tailwind.css file -->
 <div class="bg-gray-400 h-820px w-full">
-
   <div class="bg-gray-400 flex items-center justify-center w-full">
-
-    <div class="flex  items-center h-40 text-6xl">
+    <div class="flex items-center h-40 text-6xl">
       {#if visible}
         {#each 'picturethis' as char, i}
           <h1
@@ -70,4 +66,3 @@
     <Button name="Join Room" />
   </div>
 </div>
-
