@@ -18,6 +18,7 @@ defmodule PictureThisWeb.Endpoint do
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
+  plug Corsica, origins: "*", allow_methods: :all, allow_headers: :all
   plug Plug.Static,
     at: "/",
     from: :picture_this,

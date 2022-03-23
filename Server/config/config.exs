@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :picture_this,
+  frontend_url: "http://localhost:8080"
+
 # Configures the endpoint
 config :picture_this, PictureThisWeb.Endpoint,
   url: [host: "localhost"],
