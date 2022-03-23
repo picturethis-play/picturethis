@@ -4,10 +4,10 @@
   import Button from '../components/Button.svelte';
   export const location = null;
   import socket from '../socket';
-  export let id;
+  export let gameId;
   let name = '';
 
-  const gameSocket = socket('game:' + id);
+  const gameSocket = socket('game:' + gameId);
   console.log(gameSocket);
   
   function createGame() {

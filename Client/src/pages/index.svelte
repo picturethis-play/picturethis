@@ -8,7 +8,7 @@
 <Router {url}>
   <div class="app">
     <Route path="game/:gameId" let:params>
-      <GamePage id={params.id}/>
+      <GamePage gameId={params.gameId}/>
     </Route>
     <Route path="/"><LandingPage/></Route>
   </div>
