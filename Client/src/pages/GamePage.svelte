@@ -10,6 +10,8 @@
   const gameSocket = socket('game:' + gameId);
   console.log(gameSocket);
 
+  gameSocket.push('join-game');
+
   function createGame() {
     //validate name
     if (name.length === 0) {
