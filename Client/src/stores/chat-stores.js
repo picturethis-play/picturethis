@@ -38,9 +38,3 @@ export let drawer = writable(true)
 
 
 
-// socket
-import socket from '../socket';
-export const url = '';
-export const gameSocket = socket('cursor:lobby');
-
-

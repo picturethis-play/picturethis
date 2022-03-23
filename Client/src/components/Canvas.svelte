@@ -10,6 +10,12 @@
     draw(mousePosition, lineWidth, penColor, false);
   });
 
+  gameSocket.on('clear-game', (e) => {
+    clear();
+  });
+
+  $: time = 60;
+
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
@@ -22,6 +28,26 @@
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
+
+    // setTimeout(() => {
+    //   gameSocket.push('clear');
+    // }, 60000);
+  });
+  function startGame() {
+    gameSocket.push('start');
+  }
+
+  gameSocket.on('start-game', () => {
+    const gameTimer = setInterval(() => {
+      time = time - 1;
+      if (time === 0) {
+        gameSocket.push('clear');
+        time = 60;
+        // alert('round over');
+        clearInterval(gameTimer);
+        return;
+      }
+    }, 1000);
   });
 
   function startPosition(e) {
@@ -63,6 +89,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.height = 500;
     canvas.width = 500;
+    gameSocket.push('clear');
   }
 
   let m = { x: 0, y: 0 };
@@ -74,6 +101,7 @@
 </script>
 
 <div>
+
   <canvas
     class="bg-white border-2 border-solid border-black block cursor-crosshair h-canvas w-canvas"
     id="myCanvas"
@@ -81,6 +109,8 @@
   />
 
   <div class="flex gap-4 items-center h-12">
+
+    <p>{time}</p>
     <button on:click={clear}> Clear </button>
     <input class="h-8" type="color" bind:value={penColor} />
     <input type="range" min="1" max="10" bind:value={lineWidth} />

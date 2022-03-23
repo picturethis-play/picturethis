@@ -10,6 +10,10 @@
   const gameSocket = socket('game:' + gameId);
   console.log(gameSocket);
 
+
+  gameSocket.push('join-game');
+
+
   function createGame() {
     //validate name
     if (name.length === 0) {
@@ -20,8 +24,10 @@
   }
 </script>
 
+
 <div class="h-820px w-full flex items-center justify-center bg-gray-400 pt-52">
   <div class="flex justify-center gap-5 items-start h-1000px">
+
     <div class="name-input">
       <input type="text" placeholder="" bind:value={name} />
       <Button on:message={createGame} name="Enter Name" />

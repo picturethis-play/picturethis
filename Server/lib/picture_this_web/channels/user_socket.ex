@@ -8,7 +8,7 @@ defmodule PictureThisWeb.UserSocket do
 
   ## Channels
 
-  channel("game:*", PictureThisWeb.CursorChannel)
+  channel("game:*", PictureThisWeb.GameChannel)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
