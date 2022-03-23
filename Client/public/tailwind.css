@@ -10,4 +10,10 @@
     height: 1000px;
   }
 
+  .w-canvas {
+    width: 500px
+  }
+  .h-canvas {
+    height: 500px
+  }
 }
