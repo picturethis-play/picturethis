@@ -10,7 +10,7 @@
     draw(mousePosition, lineWidth, penColor, false);
   });
 
-  gameSocket.on('cleargame', (e) => {
+  gameSocket.on('clear-game', (e) => {
     clear();
   });
 
@@ -37,7 +37,7 @@
     gameSocket.push('start');
   }
 
-  gameSocket.on('startgame', () => {
+  gameSocket.on('start-game', () => {
     const gameTimer = setInterval(() => {
       time = time - 1;
       if (time === 0) {
