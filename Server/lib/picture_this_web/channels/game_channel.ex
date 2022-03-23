@@ -50,15 +50,22 @@ defmodule PictureThisWeb.GameChannel do
   end
 
   # It is also common to receive messages from the client and
-  # broadcast to everyone in the current topic (cursor:lobby).
+  # broadcast to everyone in the current topic (game:gameId).
   def handle_in("guess", payload, socket) do
     broadcast(socket, "guess-message", payload)
+
+    guess =
+      payload["userInput"]
+      |> String.trim()
+      |> String.downcase()
+
+    IO.inspect(guess)
+    GameServer.guess(socket.assigns.game_id, guess, socket.assigns.player_id)
     {:noreply, socket}
   end
 
   def handle_in("clear", payload, socket) do
-    broadcast(socket,"clear-game", payload)
-
+    broadcast(socket, "clear-game", payload)
     {:noreply, socket}
   end
 
@@ -88,7 +95,7 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_out("clear-game", payload, socket) do
+  def handle_out("clear-game", _payload, socket) do
     Logger.debug("clear-game")
     {:noreply, socket}
   end
