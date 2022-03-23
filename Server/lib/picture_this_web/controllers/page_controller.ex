@@ -1,10 +1,9 @@
 defmodule PictureThisWeb.PageController do
+  alias PictureThis.GameServer
   use PictureThisWeb, :controller
 
-  def index(conn, _params) do
-    render(conn, "index.html",
-      user_token:
-        Phoenix.Token.sign(PictureThisWeb.Endpoint, "user socket", Cursor.Names.generate())
-    )
+  def create_game(conn, _params) do
+    {:ok, game_id} = GameServer.create_game()
+    json(conn, %{gameId: game_id})
   end
 end

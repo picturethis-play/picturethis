@@ -2,17 +2,15 @@
   import { Router, Route } from 'svelte-routing';
   import GamePage from './GamePage.svelte';
   import LandingPage from './LandingPage.svelte';
-  import socket from '../socket';
   export const url = '';
-  const gameSocket = socket('cursor:lobby');
 </script>
 
 <Router {url}>
   <div class="app">
     <Route path="game/:gameId" let:params>
-      <GamePage id={params.id} {gameSocket} />
+      <GamePage gameId={params.gameId}/>
     </Route>
-    <Route path="/"><LandingPage {gameSocket} /></Route>
+    <Route path="/"><LandingPage/></Route>
   </div>
 </Router>
 
