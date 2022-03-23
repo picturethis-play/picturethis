@@ -1,4 +1,5 @@
 defmodule PictureThis.GameServer do
+  alias PictureThis.GameSupervisor
   use GenServer
   require Logger
 
@@ -19,9 +20,19 @@ defmodule PictureThis.GameServer do
     {:ok, args}
   end
 
-  def start_link([game_id, creator_id]) do
-    state = %__MODULE__{topic: topic(game_id), players: [creator_id], id: game_id}
+  def start_link([game_id]) do
+    state = %__MODULE__{topic: topic(game_id), id: game_id}
     GenServer.start_link(__MODULE__, state)
+  end
+
+  def create_game() do
+    id = generate_id()
+    with {:ok, _} <- DynamicSupervisor.start_child(
+      GameSupervisor,
+      {__MODULE__, [id]}
+    ) do
+      {:ok, id}
+    end
   end
 
   def topic(id) do
@@ -52,7 +63,10 @@ defmodule PictureThis.GameServer do
 
   def handle_call(:start, _from, state) do
     # choose drawer choose prompt
-    prompt = "Michael Scott"
+    prompt =
+      ~w(Angel Eyeball Pizza Angry Fireworks Pumpkin Baby Flower Rainbow Beard Flying saucer Recycle Bible Giraffe Sand-castle Bikini Glasses Snowflake Book High-heel Stairs Bucket Ice-cream-cone Starfish Bumble-bee Igloo Strawberry Butterfly Lady-bug Sun Camera Lamp Tire Cat Lion Toast Church Mailbox Toothbrush Crayon Night Toothpaste Dolphin Nose Truck Egg Olympics Volleyball Eiffel Tower Peanut)
+      |> Enum.random()
+
     drawer = Enum.random(state.players)
     broadcast(state.topic, {:game_started, %{prompt: prompt, drawer: drawer}})
     {:reply, :ok, %{state | status: :active}}

@@ -1,23 +1,42 @@
 <script lang="ts">
   import Canvas from '../components/canvas.svelte';
   import Chat from '../components/Chat.svelte';
-  import ChatDivided from '../components/ChatDivided.svelte';
+  import Button from '../components/Button.svelte';
   export const location = null;
-  export let gameSocket;
+  import socket from '../socket';
   export let id;
-  console.log(id);
+  let name = '';
+
 
   const canvasProps = {
     gameSocket: gameSocket,
   };
 
+
+  function createGame() {
+    //validate name
+    if (name.length === 0) {
+      alert('please name yourself');
+      return;
+    }
+
+    // gameSocket.push('create-game', { name });
+  }
+
+  const gameSocket = socket('game:' + id);
+
 </script>
 
 <div class="container">
   <div class="app">
-    <Canvas {...canvasProps} />
-    <Chat {...canvasProps} />
-    <ChatDivided {...canvasProps}/>
+
+    <div class="name-input">
+      <input type="text" placeholder="" bind:value={name} />
+      <Button on:message={createGame} name="Enter Name" />
+    </div>
+    <Canvas {gameSocket} />
+    <Chat {gameSocket} />
+
   </div>
 </div>
 
