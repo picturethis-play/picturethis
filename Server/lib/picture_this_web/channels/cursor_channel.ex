@@ -1,7 +1,6 @@
 defmodule PictureThisWeb.CursorChannel do
   alias PictureThisWeb.Presence
   alias PictureThis.GameServer
-  alias PictureThis.GameSupervisor
   use PictureThisWeb, :channel
   require Logger
 
@@ -33,8 +32,11 @@ defmodule PictureThisWeb.CursorChannel do
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
+
+  # %{"name" => name}
+
   @impl true
-  def handle_in("create-game", %{"name" => name}, socket) do
+  def handle_in("create-game", _from, socket) do
     id = GameServer.generate_id()
     topic = GameServer.topic(id)
 
@@ -59,13 +61,14 @@ defmodule PictureThisWeb.CursorChannel do
 
   def handle_in("draw", payload, socket) do
     broadcast(socket, "draw-replay", payload)
-    {:noreply, assign(socket, :is_drawing, true)}
+    {:noreply, assign(socket, :is_drawing?, true)}
   end
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (cursor:lobby).
   def handle_in("guess", payload, socket) do
     broadcast(socket, "guessmessage", payload)
+    # GameServer.guess(:pid, payload, :player_id)
     {:noreply, socket}
   end
 
@@ -79,6 +82,10 @@ defmodule PictureThisWeb.CursorChannel do
     {:noreply, socket}
   end
 
+  def handle_out("guessmessage", payload, socket) do
+    Logger.debug("guessmessage")
+    {:noreply, socket}
+  end
 
   # Add authorization logic here as required.
   # defp authorized?(_payload) do

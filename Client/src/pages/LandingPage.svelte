@@ -1,27 +1,30 @@
-<script>
+<script lang="ts">
   import Button from '../components/Button.svelte';
   import { fade, fly } from 'svelte/transition';
   import { navigate } from 'svelte-routing';
-  export let gameSocket;
-  let name = '';
+  // export let gameSocket;
+
   $: visible = true;
 
-  gameSocket.on('game-created', ({ gameId }) => {
-    navigate(`/game/${gameId}`, { replace: true });
-  });
+  // gameSocket.on('game-created', ({ gameId }) => {
+  //   navigate(`/game/${gameId}`, { replace: true });
+  // });
+  async function startGame() {
+    await fetch('http://localhost:4000/create-game', {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'same-origin',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => navigate(`/game/${data.gameId}`, { replace: true }));
+  }
 
   function visibility() {
     visible = !visible;
     console.log('hi');
-  }
-
-  function createGame() {
-    //validate name
-    if (name.length === 0) {
-      alert('please name yourself');
-      return;
-    }
-    gameSocket.push('create-game', { name });
   }
 </script>
 
@@ -45,13 +48,8 @@
       {/if}
     </div>
   </div>
-
-  <div class="name-input">
-    <input type="text" placeholder="enter name" bind:value={name} />
-  </div>
-
   <div class="buttons">
-    <Button on:message={createGame} name="Create Room" />
+    <Button on:message={startGame} name="Create Room" />
     <Button name="Join Room" />
   </div>
 </div>
@@ -70,12 +68,12 @@
     /* color: white; */
     width: 100%;
   }
-  .name-input {
+  /* .name-input {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 50px;
-  }
+  } */
   .buttons {
     display: flex;
     align-items: center;
