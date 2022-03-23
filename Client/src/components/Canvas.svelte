@@ -10,6 +10,10 @@
     draw(mousePosition, lineWidth, penColor, false);
   });
 
+  gameSocket.on('cleargame', (e) => {
+    clear();
+  });
+
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
@@ -63,6 +67,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.height = 500;
     canvas.width = 500;
+    gameSocket.push('clear');
   }
 
   let m = { x: 0, y: 0 };
