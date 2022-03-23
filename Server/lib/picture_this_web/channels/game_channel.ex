@@ -57,7 +57,7 @@ defmodule PictureThisWeb.GameChannel do
   end
 
   def handle_in("clear", payload, socket) do
-    broadcast(socket,"cleargame", payload)
+    broadcast(socket,"clear-game", payload)
 
     {:noreply, socket}
   end
