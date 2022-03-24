@@ -93,9 +93,8 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_in("join-game", payload, socket) do
-    GameServer.join(socket.assigns.game_id, socket.assigns.player_id)
-    broadcast(socket, "joined", payload)
+  def handle_in("join-game", %{"name" => name}, socket) do
+    GameServer.join(socket.assigns.game_id, socket.assigns.player_id, name)
     {:noreply, socket}
   end
 
@@ -120,11 +119,6 @@ defmodule PictureThisWeb.GameChannel do
 
   def handle_out("start-game", _payload, socket) do
     Logger.debug("start-game")
-    {:noreply, socket}
-  end
-
-  def handle_out("joined", _payload, socket) do
-    Logger.debug("joined")
     {:noreply, socket}
   end
 

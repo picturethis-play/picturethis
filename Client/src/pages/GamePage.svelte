@@ -11,16 +11,16 @@
   console.log(gameSocket);
 
 
-  gameSocket.push('join-game');
-
-
-  function createGame() {
+  
+  
+  function joinGame() {
     //validate name
     if (name.length === 0) {
       alert('please name yourself');
       return;
     }
-    gameSocket.push('create-game', { name });
+    gameSocket.push('join-game', { name });
+  
   }
 </script>
 
@@ -30,7 +30,7 @@
 
     <div class="name-input">
       <input type="text" placeholder="" bind:value={name} />
-      <Button on:message={createGame} name="Enter Name" />
+      <Button on:message={joinGame} name="Enter Name" />
     </div>
     <Canvas {gameSocket} />
     <Chat {gameSocket} />

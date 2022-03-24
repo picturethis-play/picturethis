@@ -25,8 +25,8 @@
   gameSocket.on('clear-game', (e) => {
     clear(false);
   });
-  gameSocket.on('winner', ({ player_id }) => {
-    winner = player_id;
+  gameSocket.on('winner', ({ player_name }) => {
+    winner = player_name;
   });
   gameSocket.on('finished-position', () => finishedPosition(false));
   $: time = 60;
