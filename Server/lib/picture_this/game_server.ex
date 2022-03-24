@@ -135,6 +135,7 @@ defmodule PictureThis.GameServer do
 
     drawer = Enum.random(state.players)
     broadcast(state.topic, {:game_started, %{prompt: prompt, drawer: drawer}})
+    Process.send_after(self(), :round_over, :timer.seconds(30))
     {:reply, :ok, %{state | status: :active, current_prompt: prompt, current_drawer: drawer}}
   end
 
@@ -146,6 +147,12 @@ defmodule PictureThis.GameServer do
     else
       {:reply, false, state}
     end
+  end
+
+  @impl true
+  def handle_info(:round_over, state) do
+    broadcast(state.topic, "round-over")
+    {:noreply, state}
   end
 
   defp broadcast(topic, payload) do

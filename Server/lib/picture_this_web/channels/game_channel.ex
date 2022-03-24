@@ -39,10 +39,14 @@ defmodule PictureThisWeb.GameChannel do
       Logger.debug("setting is_drawing true")
       push(socket, "prompt", payload)
       {:noreply, assign(socket, :is_drawing?, true)}
-
     else
       {:noreply, socket}
     end
+  end
+
+  def handle_info("round-over", socket) do
+    broadcast(socket, "round-over", %{})
+    {:noreply, socket}
   end
 
   # Channels can be used in a request/response fashion
@@ -98,16 +102,6 @@ defmodule PictureThisWeb.GameChannel do
   def handle_out("start-round", payload, socket) do
     Logger.debug(payload[:drawer])
     Logger.debug(socket.assigns.player_id)
-
-    # payload =
-    #   if payload[:drawer] == socket.assigns.player_id do
-    #     payload
-    #   else
-    #     Logger.debug("prompt not received")
-    #     Map.delete(payload, :prompt)
-    #   end
-
-    # push(socket, "start-round", payload)
     {:noreply, socket}
   end
 
@@ -128,6 +122,11 @@ defmodule PictureThisWeb.GameChannel do
 
   def handle_out("joined", payload, socket) do
     Logger.debug("joined")
+    {:noreply, socket}
+  end
+
+  def handle_out("round-over", payload, socket) do
+    Logger.debug("round-over")
     {:noreply, socket}
   end
 end

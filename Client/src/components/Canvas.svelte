@@ -16,6 +16,10 @@
     isDrawing = true;
     secretWord = prompt;
   });
+  gameSocket.on('round-over', () => {
+    isDrawing = false;
+    clear(false);
+  });
   gameSocket.on('clear-game', (e) => {
     clear(false);
   });
@@ -29,7 +33,6 @@
 
     canvas.addEventListener('mousedown', startPosition);
     canvas.addEventListener('mouseup', finishedPosition);
-    // canvas.addEventListener('mousemove', handleDraw);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
@@ -42,9 +45,8 @@
     const gameTimer = setInterval(() => {
       time = time - 1;
       if (time === 0) {
-        gameSocket.push('clear');
         time = 60;
-        // alert('round over');
+        alert('round over');
         clearInterval(gameTimer);
         return;
       }
