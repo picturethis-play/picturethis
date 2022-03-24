@@ -5,11 +5,15 @@
   let painting;
   let canvas;
   let ctx;
+  let isDrawing = false;
   let lineWidth = 5;
   gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
     draw(mousePosition, lineWidth, penColor, false);
   });
-
+  gameSocket.on('prompt', ({ drawer, prompt }) => {
+    console.log('DRAWER', prompt);
+    isDrawing = true;
+  });
   gameSocket.on('clear-game', (e) => {
     clear(false);
   });
@@ -24,11 +28,10 @@
 
     canvas.addEventListener('mousedown', startPosition);
     canvas.addEventListener('mouseup', finishedPosition);
-    canvas.addEventListener('mousemove', handleDraw);
+    // canvas.addEventListener('mousemove', handleDraw);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
-
   });
   function startGame() {
     gameSocket.push('start');
@@ -98,15 +101,13 @@
 </script>
 
 <div>
-
   <canvas
     class="bg-white border-2 border-solid border-black block cursor-crosshair h-canvas w-canvas"
     id="myCanvas"
-    on:mousemove={handleMousemove}
+    on:mousemove={isDrawing ? handleDraw : null}
   />
 
   <div class="flex gap-4 items-center h-12">
-
     <p>{time}</p>
     <button on:click={clear}> Clear </button>
     <button on:click={startGame}> Start </button>
@@ -116,5 +117,4 @@
 </div>
 
 <style>
-
 </style>

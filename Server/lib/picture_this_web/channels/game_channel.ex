@@ -4,6 +4,8 @@ defmodule PictureThisWeb.GameChannel do
   use PictureThisWeb, :channel
   require Logger
 
+  intercept(["start-game"])
+
   @impl true
   def join("game:" <> id, _payload, socket) do
     Phoenix.PubSub.subscribe(PictureThis.PubSub, "game:" <> id)
@@ -28,13 +30,16 @@ defmodule PictureThisWeb.GameChannel do
   end
 
   @impl true
-  def handle_info({:game_started, %{prompt: prompt, drawer: drawer}}, socket) do
+  def handle_info({:game_started, %{drawer: drawer} = payload}, socket) do
+    broadcast(socket, "start-round", payload)
     IO.inspect(socket.assigns.player_id, label: :info)
     IO.inspect(drawer, label: :info_drawer)
 
     if socket.assigns.player_id == drawer do
       Logger.debug("setting is_drawing true")
+      push(socket, "prompt", payload)
       {:noreply, assign(socket, :is_drawing?, true)}
+
     else
       {:noreply, socket}
     end
@@ -87,6 +92,22 @@ defmodule PictureThisWeb.GameChannel do
       Logger.debug("replay")
     end
 
+    {:noreply, socket}
+  end
+
+  def handle_out("start-round", payload, socket) do
+    Logger.debug(payload[:drawer])
+    Logger.debug(socket.assigns.player_id)
+
+    # payload =
+    #   if payload[:drawer] == socket.assigns.player_id do
+    #     payload
+    #   else
+    #     Logger.debug("prompt not received")
+    #     Map.delete(payload, :prompt)
+    #   end
+
+    # push(socket, "start-round", payload)
     {:noreply, socket}
   end
 
