@@ -552,8 +552,22 @@ video {
   border-color: rgba(229, 231, 235, var(--tw-border-opacity));
 }
 
-.visible {
-  visibility: visible;
+@font-face {
+  font-family: "logo";
+
+  src: url('../fonts/th-song-miti.ttf');
+}
+
+.mt-48 {
+  margin-top: 12rem;
+}
+
+.mt-72 {
+  margin-top: 18rem;
+}
+
+.box-border {
+  box-sizing: border-box;
 }
 
 .block {
@@ -670,8 +684,42 @@ video {
   }
 }
 
-.cursor-pointer {
-  cursor: pointer;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50% {
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50% {
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+.animate-bouncey {
+  -webkit-animation: bounce 5s ease infinite;
+          animation: bounce 5s ease infinite;
+}
+
+.animate-bouncer {
+  -webkit-animation: bounce 4s ease infinite;
+          animation: bounce 4s ease infinite;
 }
 
 .flex-col {
@@ -698,6 +746,10 @@ video {
   justify-content: center;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .gap-4 {
   gap: 1rem;
 }
@@ -716,6 +768,10 @@ video {
 
 .break-all {
   word-break: break-all;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
 }
 
 .rounded-lg {
@@ -764,6 +820,11 @@ video {
   padding: 0.5rem;
 }
 
+.py-40 {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
 .pt-52 {
   padding-top: 13rem;
 }
@@ -772,14 +833,12 @@ video {
   text-align: left;
 }
 
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
+.font-logo {
+  font-family: logo;
 }
 
-.text-6xl {
-  font-size: 3.75rem;
-  line-height: 1;
+.text-69xl {
+  font-size: 20rem;
 }
 
 .text-white {

@@ -20,6 +20,7 @@
   gameSocket.on('round-over', () => {
     isDrawing = false;
     clear(false);
+    winner = false;
   });
   gameSocket.on('clear-game', (e) => {
     clear(false);
@@ -46,7 +47,6 @@
   }
 
   gameSocket.on('start-game', () => {
-    winner = false;
     const gameTimer = setInterval(() => {
       time = time - 1;
       if (time === 0) {

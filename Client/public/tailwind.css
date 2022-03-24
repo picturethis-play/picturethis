@@ -30,4 +30,12 @@
   .h-canvas {
     height: 600px
   }
+  
+}
+
+@layer base {
+ @font-face {
+    font-family: "logo"; 
+    src: url('../fonts/th-song-miti.ttf');
+  }
 }
