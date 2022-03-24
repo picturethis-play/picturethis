@@ -7,6 +7,7 @@
   let ctx;
   let isDrawing = false;
   let secretWord;
+  let winner;
   let lineWidth = 5;
   gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
     draw(mousePosition, lineWidth, penColor, false);
@@ -22,6 +23,9 @@
   });
   gameSocket.on('clear-game', (e) => {
     clear(false);
+  });
+  gameSocket.on('winner', ({ player_id }) => {
+    winner = player_id;
   });
   $: time = 60;
 
@@ -42,11 +46,12 @@
   }
 
   gameSocket.on('start-game', () => {
+    winner = false;
     const gameTimer = setInterval(() => {
       time = time - 1;
       if (time === 0) {
         time = 60;
-        alert('round over');
+        // alert('round over');
         clearInterval(gameTimer);
         return;
       }
@@ -104,6 +109,11 @@
 </script>
 
 <div>
+  <div>
+    {#if winner}
+      <p>{winner} is your champion</p>
+    {/if}
+  </div>
   <canvas
     class="bg-white border-2 border-solid border-black block cursor-crosshair h-canvas w-canvas"
     id="myCanvas"

@@ -142,6 +142,7 @@ defmodule PictureThis.GameServer do
   def handle_call({:guess, guess, player_id}, _from, state) do
     if guess == state.current_prompt do
       Logger.debug("you win")
+      broadcast(state.topic, {:winner, %{player_id: player_id}})
       # award points, end round, start round, add new prompt
       {:reply, true, state}
     else

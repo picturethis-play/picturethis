@@ -49,6 +49,11 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, socket}
   end
 
+  def handle_info({:winner, %{player_id: player_id} = payload}, socket) do
+    broadcast(socket, "winner", payload)
+    {:noreply, socket}
+  end
+
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
   @impl true
@@ -100,8 +105,6 @@ defmodule PictureThisWeb.GameChannel do
   end
 
   def handle_out("start-round", payload, socket) do
-    Logger.debug(payload[:drawer])
-    Logger.debug(socket.assigns.player_id)
     {:noreply, socket}
   end
 
@@ -127,6 +130,11 @@ defmodule PictureThisWeb.GameChannel do
 
   def handle_out("round-over", payload, socket) do
     Logger.debug("round-over")
+    {:noreply, socket}
+  end
+
+  def handle_out("winner", payload, socket) do
+    Logger.debug("winner")
     {:noreply, socket}
   end
 end
