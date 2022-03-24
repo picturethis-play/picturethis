@@ -813,6 +813,10 @@ video {
   height: 500px;
 }
 
+.h-600px {
+  height: 600px;
+}
+
 .w-500px {
   width: 500px;
 }
@@ -822,11 +826,11 @@ video {
 }
 
 .w-canvas {
-  width: 500px
+  width: 800px
 }
 
 .h-canvas {
-  height: 500px
+  height: 600px
 }
 
 @media (min-width: 640px) {

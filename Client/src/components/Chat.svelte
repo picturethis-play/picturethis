@@ -53,8 +53,8 @@
   });
 </script>
 
-<div class="flex flex-col h-500px max-w-xs border-2 border-solid border-black bg-white">
-  <div class="h-500px max-w-xs text-left flex-auto overflow-y-auto flex flex-col items-end" bind:this={scroll}>
+<div class="flex flex-col h-600px max-w-xs border-2 border-solid border-black bg-white">
+  <div class="h-600px max-w-xs text-left flex-auto overflow-y-auto flex flex-col items-end" bind:this={scroll}>
     <ul>
       {#each msgs as { user, text, guess }}
         {#if guess}

@@ -6,6 +6,7 @@
   let canvas;
   let ctx;
   let isDrawing = false;
+  let secretWord;
   let lineWidth = 5;
   gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
     draw(mousePosition, lineWidth, penColor, false);
@@ -13,18 +14,18 @@
   gameSocket.on('prompt', ({ drawer, prompt }) => {
     console.log('DRAWER', prompt);
     isDrawing = true;
+    secretWord = prompt;
   });
   gameSocket.on('clear-game', (e) => {
     clear(false);
   });
-
   $: time = 60;
 
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
     canvas.height = 500;
-    canvas.width = 500;
+    canvas.width = 800;
 
     canvas.addEventListener('mousedown', startPosition);
     canvas.addEventListener('mouseup', finishedPosition);
@@ -88,7 +89,7 @@
   function clear(broadcast) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.height = 500;
-    canvas.width = 500;
+    canvas.width = 800;
     if (broadcast) gameSocket.push('clear');
   }
 
@@ -113,6 +114,11 @@
     <button on:click={startGame}> Start </button>
     <input class="h-8" type="color" bind:value={penColor} />
     <input type="range" min="1" max="10" bind:value={lineWidth} />
+    <div>
+      {#if isDrawing}
+        <p>your secret word is: {secretWord}</p>
+      {/if}
+    </div>
   </div>
 </div>
 
