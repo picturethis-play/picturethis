@@ -28,6 +28,7 @@
   gameSocket.on('winner', ({ player_id }) => {
     winner = player_id;
   });
+  gameSocket.on('finished-position', () => finishedPosition(false));
   $: time = 60;
 
   onMount(() => {
@@ -35,9 +36,6 @@
     ctx = canvas.getContext('2d');
     canvas.height = 500;
     canvas.width = 800;
-
-    canvas.addEventListener('mousedown', startPosition);
-    canvas.addEventListener('mouseup', finishedPosition);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
@@ -63,9 +61,10 @@
     console.log('startposition');
   }
 
-  function finishedPosition() {
+  function finishedPosition(broadcast) {
     painting = false;
     ctx.beginPath();
+    if(broadcast) gameSocket.push('finished-position');
     console.log('finishedposition');
   }
 
@@ -99,13 +98,6 @@
     canvas.width = 800;
     if (broadcast) gameSocket.push('clear');
   }
-
-  let m = { x: 0, y: 0 };
-
-  function handleMousemove(event) {
-    m.x = event.clientX;
-    m.y = event.clientY;
-  }
 </script>
 
 <div>
@@ -118,6 +110,8 @@
     class="bg-white border-2 border-solid border-black block cursor-crosshair h-canvas w-canvas"
     id="myCanvas"
     on:mousemove={isDrawing ? handleDraw : null}
+    on:mousedown={isDrawing ? startPosition : null}
+    on:mouseup={isDrawing ? () => finishedPosition(true) : null}
   />
 
   <div class="flex gap-4 items-center h-12">

@@ -31,7 +31,7 @@ defmodule PictureThisWeb.GameChannel do
 
   @impl true
   def handle_info({:game_started, %{drawer: drawer} = payload}, socket) do
-    broadcast(socket, "start-round", payload)
+    push(socket, "start-round", payload)
     IO.inspect(socket.assigns.player_id, label: :info)
     IO.inspect(drawer, label: :info_drawer)
 
@@ -44,13 +44,13 @@ defmodule PictureThisWeb.GameChannel do
     end
   end
 
-  def handle_info("round-over", socket) do
-    broadcast(socket, "round-over", %{})
+  def handle_info("end-round", socket) do
+    push(socket, "round-over", %{})
     {:noreply, socket}
   end
 
-  def handle_info({:winner, %{player_id: player_id} = payload}, socket) do
-    broadcast(socket, "winner", payload)
+  def handle_info({:winner, payload}, socket) do
+    push(socket, "winner", payload)
     {:noreply, socket}
   end
 
@@ -63,6 +63,11 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, assign(socket, :is_drawing?, true)}
   end
 
+  def handle_in("finished-position", payload, socket) do
+    broadcast(socket, "finished-position", payload)
+    {:noreply, assign(socket, :is_drawing?, false)}
+  end
+
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (game:gameId).
   def handle_in("guess", payload, socket) do
@@ -73,7 +78,6 @@ defmodule PictureThisWeb.GameChannel do
       |> String.trim()
       |> String.downcase()
 
-    IO.inspect(guess)
     GameServer.guess(socket.assigns.game_id, guess, socket.assigns.player_id)
     {:noreply, socket}
   end
@@ -96,7 +100,7 @@ defmodule PictureThisWeb.GameChannel do
   end
 
   @impl true
-  def handle_out("draw-replay", payload, socket) do
+  def handle_out("draw-replay", _payload, socket) do
     unless socket.assigns.is_drawing? do
       Logger.debug("replay")
     end
@@ -104,11 +108,7 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_out("start-round", payload, socket) do
-    {:noreply, socket}
-  end
-
-  def handle_out("guess-message", payload, socket) do
+  def handle_out("guess-message", _payload, socket) do
     Logger.debug("guess-message")
     {:noreply, socket}
   end
@@ -118,23 +118,18 @@ defmodule PictureThisWeb.GameChannel do
     {:noreply, socket}
   end
 
-  def handle_out("start-game", payload, socket) do
+  def handle_out("start-game", _payload, socket) do
     Logger.debug("start-game")
     {:noreply, socket}
   end
 
-  def handle_out("joined", payload, socket) do
+  def handle_out("joined", _payload, socket) do
     Logger.debug("joined")
     {:noreply, socket}
   end
 
-  def handle_out("round-over", payload, socket) do
-    Logger.debug("round-over")
-    {:noreply, socket}
-  end
-
-  def handle_out("winner", payload, socket) do
-    Logger.debug("winner")
+  def handle_out("finished-position", _payload, socket) do
+    Logger.debug("finished-position")
     {:noreply, socket}
   end
 end

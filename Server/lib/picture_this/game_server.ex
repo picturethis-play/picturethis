@@ -152,7 +152,7 @@ defmodule PictureThis.GameServer do
 
   @impl true
   def handle_info(:round_over, state) do
-    broadcast(state.topic, "round-over")
+    broadcast(state.topic, "end-round")
     {:noreply, state}
   end
 
