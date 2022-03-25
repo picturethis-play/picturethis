@@ -1,61 +1,98 @@
 <script>
-  export let gameSocket;
   import { onMount } from 'svelte';
+  import { secretWord, counter, randomUser } from '../stores/chat-stores';
+  import wordDb from '../assets/db';
+  import Button from './Button.svelte';
   let penColor;
   let painting;
   let canvas;
   let ctx;
   let lineWidth = 5;
-  gameSocket.on('draw-replay', ({ mousePosition, lineWidth, penColor }) => {
-    draw(mousePosition, lineWidth, penColor, false);
-  });
+  let playersArr = [];
+  import io from 'socket.io-client';
 
-  gameSocket.on('clear-game', (e) => {
-    clear(false);
-  });
+  const socket = io('http://192.168.1.151:3000');
 
   $: time = 60;
 
+  socket.on('draw', ({ mousePosition, lineWidth, penColor }) => {
+    console.log('hi');
+    draw(mousePosition, lineWidth, penColor, false);
+  });
+
+  socket.on('clear', (e) => {
+    clear(false);
+  });
+
+  socket.on('finishedPosition', () => {
+    finishedPosition(false);
+  });
+  socket.on('startPosition', () => {
+    startPosition(false);
+  });
+
+  // const randomWords = ['table', 'chair', 'hat', 'bag', 'keys', 'laptop', 'door'];
+  const randomWords = wordDb;
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
     canvas.height = 500;
-    canvas.width = 500;
+    canvas.width = 800;
 
-    canvas.addEventListener('mousedown', startPosition);
-    canvas.addEventListener('mouseup', finishedPosition);
-    canvas.addEventListener('mousemove', handleDraw);
+    // canvas.addEventListener('mousedown', startPosition);
+    // canvas.addEventListener('mouseup', finishedPosition);
+    // canvas.addEventListener('mousemove', handleDraw);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
-
+    getRandomUser();
+    startGame();
   });
   function startGame() {
-    gameSocket.push('start');
+    socket.emit('start', randomWords[Math.floor(Math.random() * randomWords.length)].word);
   }
 
-  gameSocket.on('start-game', () => {
-    const gameTimer = setInterval(() => {
-      time = time - 1;
-      if (time === 0) {
-        gameSocket.push('clear');
-        time = 60;
-        // alert('round over');
-        clearInterval(gameTimer);
-        return;
-      }
-    }, 1000);
+  $: randomuser = { id: 2 };
+
+  socket.on('randomuser', (user) => {
+    console.log('↪️', user);
+    randomuser = user;
+    randomUser.set(user);
   });
 
-  function startPosition(e) {
+  // socket.on('new', (d) => {
+  //   socket.emit('getUsers');
+  //   console.log('socket', d);
+  //   // playerId = d;
+  //   // setUserClientId(d);
+  // });
+
+  socket.on('start', (word) => {
+    console.log(word);
+    secretWord.set(word);
+    // const gameTimer = setInterval(() => {
+    //   time = time - 1;
+    //   // counter.set(time);
+    //   if (time === 0) {
+    //     socket.emit('clear');
+    //     time = 60;
+    //     clearInterval(gameTimer);
+    //     return;
+    //   }
+    // }, 1000);
+  });
+
+  function startPosition(start) {
     painting = true;
     console.log('startposition');
+    if (start) socket.emit('startPosition');
   }
 
-  function finishedPosition() {
+  function finishedPosition(finished) {
     painting = false;
     ctx.beginPath();
     console.log('finishedposition');
+    if (finished) socket.emit('finishedPosition');
   }
 
   function getMousePosition(e) {
@@ -79,14 +116,14 @@
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(mousePosition.x, mousePosition.y);
-    if (broadcast) gameSocket.push('draw', { mousePosition, lineWidth, penColor });
+    if (broadcast) socket.emit('draw', { mousePosition, lineWidth, penColor });
   }
 
   function clear(broadcast) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.height = 500;
-    canvas.width = 500;
-    if (broadcast) gameSocket.push('clear');
+    canvas.width = 800;
+    if (broadcast) socket.emit('clear');
   }
 
   let m = { x: 0, y: 0 };
@@ -95,26 +132,66 @@
     m.x = event.clientX;
     m.y = event.clientY;
   }
+
+  function getRandomUser() {
+    socket.emit('randomuser');
+  }
+  // function getUsers() {
+  //   socket.emit('getUsers');
+  // }
+
+  // let joinedUsers = [];
+
+  // socket.on('joined users', (users) => {
+  //   console.log(users);
+  //   joinedUsers = users;
+  // });
+  // console.log('randomuser', randomuser);
+  let data = sessionStorage.getItem('socketid');
+
+  let space = $secretWord.indexOf(' ');
+  let joinedWord = Array($secretWord.length + 1).join('_ ');
+  let actualWord = joinedWord.charAt(space, ' ');
 </script>
 
-<div>
-
+<div class="flex flex-col items-center justify-center">
+  <!-- {#await randomuser then randomuser}
+    <p>{randomuser.name} is drawing</p> -->
+  <!-- <p>played id {data}</p> -->
+  <button on:click={getRandomUser}>New Drawer</button>
+  <button on:click={startGame}>New Word</button>
+  <!-- <button on:click={getUsers}>Get Users</button> -->
+  <!-- {/await} -->
+  <div class="h-16 flex">
+    {#if data == randomuser.id}
+      <p class="text-5xl">{$secretWord}</p>
+    {:else}
+      <p class="text-5xl">
+        {Array($secretWord.length + 1).join('_ ')}
+      </p>
+    {/if}
+  </div>
   <canvas
-    class="bg-white border-2 border-solid border-black block cursor-crosshair h-canvas w-canvas"
+    class="bg-white border-2 rounded-md border-solid border-black block cursor-crosshair h-canvas w-canvas"
     id="myCanvas"
-    on:mousemove={handleMousemove}
+    on:mousemove={data == randomuser.id ? handleDraw : null}
+    on:mousedown={startPosition}
+    on:mouseup={finishedPosition}
+    on:mouseleave={finishedPosition}
   />
 
   <div class="flex gap-4 items-center h-12">
-
     <p>{time}</p>
-    <button on:click={clear}> Clear </button>
-    <button on:click={startGame}> Start </button>
-    <input class="h-8" type="color" bind:value={penColor} />
-    <input type="range" min="1" max="10" bind:value={lineWidth} />
+    {#if data == randomuser.id}
+      <button on:click={clear}> Clear </button>
+      {#if time === 60}
+        <button on:click={startGame}> Start </button>
+      {/if}
+      <input class="h-8" type="color" bind:value={penColor} />
+      <input type="range" min="1" max="10" bind:value={lineWidth} />
+    {/if}
   </div>
 </div>
 
 <style>
-
 </style>

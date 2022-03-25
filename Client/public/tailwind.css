@@ -12,14 +12,14 @@
   .w-500px {
     width: 500px;
   }
-    .h-1000px {
+  .h-1000px {
     height: 1000px;
   }
 
   .w-canvas {
-    width: 500px
+    width: 800px;
   }
   .h-canvas {
-    height: 500px
+    height: 500px;
   }
 }

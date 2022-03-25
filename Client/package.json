@@ -8,7 +8,7 @@
     "build": "npm run build:tailwind && rollup -c",
     "start": "sirv public --no-clear -s",
     "serve": "serve public -p 80",
-    "dev": "concurrently \"rollup -c -w\" \"npm run watch:tailwind\"",
+    "dev": "concurrently \" HOST=192.168.1.151 rollup -c -w\" \"npm run watch:tailwind\"",
     "test": "jest src",
     "test:watch": "npm run test --watch",
     "format": "prettier",
@@ -47,6 +47,7 @@
     "@testing-library/svelte": "^3.1.0",
     "phoenix": "^1.6.6",
     "sirv-cli": "^2.0.0",
+    "socket.io-client": "^4.4.1",
     "svelte-canvas": "^0.7.1",
     "svelte-routing": "^1.6.0"
   },
