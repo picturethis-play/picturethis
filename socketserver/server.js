@@ -13,7 +13,7 @@ const userArray = [];
 let connectionsCounter = 0;
 
 io.on('connection', (socket) => {
-  socket.emit('new', socket.id);
+  // socket.emit('new', socket.id);
   socket.on('chat message', ({ message, data }) => {
     let user = users.find((user) => user.id === data);
     io.emit('chat message', { message: message, user: user });
@@ -30,17 +30,18 @@ io.on('connection', (socket) => {
   socket.on('start', (word) => {
     io.emit('start', word);
   });
-  socket.on('login', (data) => {
+  socket.on('updateStores', (data) => {
     console.log('a user ' + data + ' connected');
     connectionsCounter++;
     // users[socket.id] = data;
-    users = [...users, { id: socket.id, name: data }];
-    console.log('user object', users);
+    users = [...users, data];
+    // console.log('user object', users);
     // let user = Object.values(users);
     // console.log('user array', user);
     // userArray.push(data);
     console.log('uzers', users);
-    io.emit('newPlayer', users);
+    // io.emit('login', users);
+    io.emit('updateStores', users);
     console.log(connectionsCounter);
   });
 
@@ -59,7 +60,7 @@ io.on('connection', (socket) => {
       // console.log(socket.id);
       return x.id != socket.id;
     });
-    io.emit('newPlayer', users);
+    io.emit('login', users);
     console.log(connectionsCounter);
     // delete users[socket.id];
   });
