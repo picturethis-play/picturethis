@@ -13,7 +13,6 @@ const userArray = [];
 let connectionsCounter = 0;
 
 io.on('connection', (socket) => {
-  // console.log(socket);
   socket.emit('new', socket.id);
   socket.on('chat message', ({ message, data }) => {
     let user = users.find((user) => user.id === data);
@@ -64,9 +63,6 @@ io.on('connection', (socket) => {
     console.log(connectionsCounter);
     // delete users[socket.id];
   });
-  // socket.on('usersending', (id) => {
-  //   io.emit('usersending', id);
-  // });
   socket.on('randomuser', () => {
     console.log('random user requested');
     console.log('randomuserreq', users);
