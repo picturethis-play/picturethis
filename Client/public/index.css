@@ -564,6 +564,40 @@ video {
   src: url('../fonts/pointalism.ttf');
 }
 
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
 .m-2 {
   margin: 0.5rem;
 }
@@ -730,6 +764,16 @@ video {
   }
 }
 
+.animate-bouncey {
+  -webkit-animation: bounce 3s ease infinite;
+          animation: bounce 3s ease infinite;
+}
+
+.animate-bouncer {
+  -webkit-animation: bounce 2s ease infinite;
+          animation: bounce 2s ease infinite;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -746,16 +790,8 @@ video {
   flex-direction: column-reverse;
 }
 
-.items-start {
-  align-items: flex-start;
-}
-
 .items-center {
   align-items: center;
-}
-
-.justify-start {
-  justify-content: flex-start;
 }
 
 .justify-center {
@@ -894,14 +930,6 @@ video {
 
 .w-500px {
   width: 500px;
-}
-
-.w-canvas {
-  width: 800px;
-}
-
-.h-canvas {
-  height: 500px;
 }
 
 @media (min-width: 640px) {
