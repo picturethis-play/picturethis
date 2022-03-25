@@ -7,10 +7,10 @@
 </script>
 
 <Router {url}>
-  <div class="flex flex-col justify-start items-start w-full h-full bg-gray-400">
+  <div>
     <Route path="/game" let:params>
       <GamePage />
     </Route>
-    <Route path="/"><WaitingRoom /></Route>
+    <Route path="/"><LandingPage /></Route>
   </div>
 </Router>

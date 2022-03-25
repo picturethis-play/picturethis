@@ -552,8 +552,16 @@ video {
   border-color: rgba(229, 231, 235, var(--tw-border-opacity));
 }
 
-.visible {
-  visibility: visible;
+@font-face {
+  font-family: "logo";
+
+  src: url('../fonts/th-song-miti.ttf');
+}
+
+@font-face {
+  font-family: "buttons";
+
+  src: url('../fonts/pointalism.ttf');
 }
 
 .m-2 {
@@ -590,10 +598,6 @@ video {
 
 .h-28 {
   height: 7rem;
-}
-
-.h-40 {
-  height: 10rem;
 }
 
 .h-96 {
@@ -698,6 +702,34 @@ video {
   }
 }
 
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50% {
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50% {
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -766,6 +798,10 @@ video {
   border-style: solid;
 }
 
+.border-none {
+  border-style: none;
+}
+
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgba(0, 0, 0, var(--tw-border-opacity));
@@ -812,24 +848,16 @@ video {
   text-align: left;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
+.font-logo {
+  font-family: logo;
 }
 
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
+.text-69xl {
+  font-size: 20rem;
 }
 
-.text-6xl {
-  font-size: 3.75rem;
-  line-height: 1;
-}
-
-.text-7xl {
-  font-size: 4.5rem;
-  line-height: 1;
+.text-10xl {
+  font-size: 10rem;
 }
 
 .text-white {
@@ -858,10 +886,6 @@ video {
   --tw-ring-color: rgba(59, 130, 246, 0.5);
   --tw-ring-offset-shadow: 0 0 #0000;
   --tw-ring-shadow: 0 0 #0000;
-}
-
-.h-820px {
-  height: 820px;
 }
 
 .h-500px {
