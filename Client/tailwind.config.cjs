@@ -3,7 +3,8 @@ module.exports = {
   theme: {
     fontSize: {
       '69xl': '20rem',
-      '10xl': '10rem'
+      '10xl': '10rem',
+      '5xl': '5rem'
     },
     fontFamily: {
       logo: "logo"

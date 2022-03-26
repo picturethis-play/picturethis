@@ -32,10 +32,9 @@
   @font-face {
     font-family: "logo";
     src: url('../fonts/th-song-miti.ttf');
-  }
-
+  },
   @font-face {
     font-family: "buttons";
-    src: url('../fonts/pointalism.ttf');
+    src: url('../fonts/kawaii.ttf');
   }
 }

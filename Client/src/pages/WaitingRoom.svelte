@@ -4,7 +4,7 @@
   const socket = io('http://localhost:3000');
   import { navigate } from 'svelte-routing';
   import { players } from '../stores/chat-stores';
-  import { fade } from 'svelte/transition';
+  import { fade, fly } from 'svelte/transition';
   console.log('thesocket', socket);
 
   let name = '';
@@ -44,25 +44,50 @@
 </script>
 
 <div class=" w-screen h-screen flex justify-center items-center flex-col">
-  <p>
+  <div class="flex items-center justify-center">
+  <div class="flex items-center font-logo text-69xl text-primary">
+    {#each 'picture' as char, i}
+      <p
+        class="animate-bouncer"
+        in:fade={{ delay: 1000 + i * 150, duration: 1500 }}
+        out:fly={{ y: -20, duration: 1000 }}
+      >
+        {char}
+      </p>
+    {/each}
+  </div>
+  <div class="flex items-center font-logo text-69xl text-secondary">
+    {#each 'this' as char, i}
+      <p
+        class="animate-bouncey"
+        in:fade={{ delay: 2000 + i * 150, duration: 1800 }}
+        out:fly={{ y: -20, duration: 2000 }}
+      >
+        {char}
+      </p>
+    {/each}
+  </div>
+</div>
+  <p class=" text-5xl text-primary font-logo">
     {$players.length} people waiting to play {#each '...' as char, i}
       <span in:fade={{ delay: 1000 + i * 150, duration: 1000 }}>{char}</span>{/each}
   </p>
   <div class="mb-6 flex justify-center items-center flex-col-reverse">
     {#each $players as player}
-      <p class="text-7xl">{player.name}</p>
+      <p class=" text-5xl text-primary font-logo">{player.name}</p>
     {/each}
   </div>
   <div class="flex items-center flex-col justify-between h-28 ">
-    <input class="p-2  m-2" type="text" placeholder="" bind:value={name} />
+    <p class="text-secondary">Enter name to get started</p>
+    <input class="input input-bordered input-primary text-primary" type="text" placeholder="" bind:value={name} />
     {#if name.length}
       {#if enterName}
-        <button on:message={addName} class="btn btn-outline">Enter Name</button>
+        <button on:click={addName} class="btn btn-outline">Enter Name</button>
       {/if}
       {#if $players.length > 1}
-        <button on:message={startGame} class="btn btn-secondary" >Start Game</button> 
+        <button on:click={startGame} class="btn btn-secondary" >Start Game</button> 
       {/if}
-      <button on:message={copyLink} class="btn btn-outline">Invite Friends</button>
+      <button on:click={copyLink} class="btn btn-outline">Invite Friends</button>
     {/if}
   </div>
 </div>
