@@ -40,7 +40,6 @@ io.on('connection', (socket) => {
     // console.log('user array', user);
     // userArray.push(data);
     console.log('uzers', users);
-    // io.emit('login', users);
     io.emit('updateStores', users);
     console.log(connectionsCounter);
   });
@@ -55,28 +54,37 @@ io.on('connection', (socket) => {
     //   // console.log(socket.id);
     //   return x.id != socket.id;
     // })
-    users.filter((x) => {
+    console.log('ysysysysysys', users);
+    let takenOutUser = users.filter((x) => {
       console.log('filter', x);
-      // console.log(socket.id);
+      console.log(x.id);
+      console.log(socket.id);
+      console.log(socket.id === x.id);
       return x.id != socket.id;
     });
-    io.emit('login', users);
+    users = takenOutUser;
+    console.log('newnenwew', takenOutUser);
+    io.emit('updateStores', takenOutUser);
     console.log(connectionsCounter);
     // delete users[socket.id];
   });
+
   socket.on('randomuser', () => {
     console.log('random user requested');
     console.log('randomuserreq', users);
     io.emit('randomuser', users[Math.floor(Math.random() * users.length)]);
   });
+
   socket.on('getUsers', () => {
     let user = Object.entries(users);
     console.log(user);
     io.emit('joined users', user);
   });
+
   socket.on('finishedPosition', () => {
     io.emit('finishedPosition');
   });
+
   socket.on('startPosition', () => {
     io.emit('startPosition');
   });
