@@ -7,7 +7,6 @@
   import { fade } from 'svelte/transition';
   console.log('thesocket', socket);
 
-  let name = '';
   // $: players = [];
 
   socket.on('connect', () => {
@@ -15,32 +14,47 @@
     sessionStorage.setItem('socketid', socket.id);
   });
 
-  let enterName = true;
+  // New Player Joined
+  let name = '';
+  let enteredName = false;
+  function addPlayer() {
+    enteredName = !enteredName;
+    const player = { id: socket.id, name: name, points: 0, hasGuessed: false, isDrawer: false };
+    // players.set([...$players, player]);
 
-  function addName() {
-    enterName = !enterName;
-    socket.emit('login', name);
+    // let updatedPlayers = [...$players, player];
+    console.log('players😀', $players);
+    // socket.emit('login', name);
+    // socket.emit('login', updatedPlayers);
+    socket.emit('updateStores', player);
   }
 
-  socket.on('newPlayer', (name) => {
-    players.set(name);
-    sessionStorage.setItem('players', name);
+  function setPlayers(player) {
+    players.set(player);
+    console.log(player);
+  }
+
+  socket.on('updateStores', (player) => {
+    // players.set(name);
+    console.log(player);
+    setPlayers(player);
+    sessionStorage.setItem('players', JSON.stringify(player));
   });
 
-  socket.on('navigate', () => {
-    navigate(`/game`, { replace: true });
-  });
-
+  // Navigate to GamePage
   function startGame() {
     socket.emit('navigate');
     socket.emit('randomuser');
   }
-  function copyLink() {
-    // let textArea =
-    let location = window.href.location;
-    location.select();
-    document.execCommand('copy');
-  }
+  socket.on('navigate', () => {
+    navigate(`/game`, { replace: true });
+  });
+  // function copyLink() {
+  //   // let textArea =
+  //   let location = window.href.location;
+  //   location.select();
+  //   document.execCommand('copy');
+  // }
 </script>
 
 <div class="w-screen h-screen flex justify-center items-center flex-col">
@@ -56,13 +70,13 @@
   <div class="flex items-center flex-col justify-between h-28 ">
     <input class="p-2  m-2" type="text" placeholder="" bind:value={name} />
     {#if name.length}
-      {#if enterName}
-        <Button on:message={addName} name="Enter Name" />
+      {#if !enteredName}
+        <Button on:message={addPlayer} name="Enter Name" />
       {/if}
       {#if $players.length > 1}
         <Button on:message={startGame} name="Start Game" />
       {/if}
-      <Button on:message={copyLink} name="Invite Friends" />
+      <Button name="Invite Friends" />
     {/if}
   </div>
 </div>
