@@ -27,9 +27,7 @@ module.exports = {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
-  plugins: [],
-  purge: {
-    content: ['./src/App.svelte', './src/pages/*', './src/components/*'],
-    enabled: production, // disable purge in dev
-  },
+  plugins: [require('daisyui')],
+  content: ['./src/App.svelte', './src/pages/*', './src/components/*'],
+  enabled: production, // disable purge in dev
 };

@@ -43,7 +43,7 @@
   }
 </script>
 
-<div class="w-screen h-screen flex justify-center items-center flex-col">
+<div class=" w-screen h-screen flex justify-center items-center flex-col">
   <p>
     {$players.length} people waiting to play {#each '...' as char, i}
       <span in:fade={{ delay: 1000 + i * 150, duration: 1000 }}>{char}</span>{/each}
@@ -57,12 +57,12 @@
     <input class="p-2  m-2" type="text" placeholder="" bind:value={name} />
     {#if name.length}
       {#if enterName}
-        <Button on:message={addName} name="Enter Name" />
+        <button on:message={addName} class="btn btn-outline">Enter Name</button>
       {/if}
       {#if $players.length > 1}
-        <Button on:message={startGame} name="Start Game" />
+        <button on:message={startGame} class="btn btn-secondary" >Start Game</button> 
       {/if}
-      <Button on:message={copyLink} name="Invite Friends" />
+      <button on:message={copyLink} class="btn btn-outline">Invite Friends</button>
     {/if}
   </div>
 </div>

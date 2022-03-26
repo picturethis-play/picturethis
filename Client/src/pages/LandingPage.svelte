@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { onMount } from 'svelte';
-  let penColor;
+  let penColor; 
   let canvas;
   let ctx;
   let stroke;
