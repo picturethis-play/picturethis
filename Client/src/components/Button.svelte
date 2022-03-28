@@ -5,9 +5,7 @@
   const dispatch = createEventDispatcher();
 
   function sayHello() {
-    dispatch('message', {
-      text: 'Hello!',
-    });
+    dispatch('message');
   }
 </script>
 

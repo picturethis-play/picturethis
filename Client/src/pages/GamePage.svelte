@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Canvas from '../components/canvas.svelte';
+  import Canvas from '../components/Canvas.svelte';
   import Chat from '../components/Chat.svelte';
   import Players from '../components/Players.svelte';
   export const location = null;

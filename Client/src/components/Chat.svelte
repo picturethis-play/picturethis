@@ -17,7 +17,6 @@
     messages = [...messages, { user: data.user.name, message: data.message }];
   });
 
-  // let xwxwplayerId;
   let data = sessionStorage.getItem('socketid');
   // socket.on('new', (d) => {
   //   socket.emit('getUsers');
