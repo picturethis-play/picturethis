@@ -75,6 +75,9 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   plugins: [require('daisyui')],
+  daisyui: {
+    themes: ["dracula", "pastel"]
+  },
   content: ['./src/App.svelte', './src/pages/*', './src/components/*'],
   enabled: production, // disable purge in dev
 };
