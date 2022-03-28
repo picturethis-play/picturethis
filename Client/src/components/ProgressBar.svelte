@@ -24,4 +24,7 @@
     {:else}
       <div class="h-full bg-red-600" style="width: {($timer * 100) / setTime}%" />{/if}
   </div>
+  <div class="radial-progress text-primary" style="--value:{($timer * 100) / setTime};">
+    {($timer * 100) / setTime}%
+  </div>
 </div>
