@@ -172,7 +172,7 @@
     {/if}
   </div>
   <canvas
-    class="bg-white border-2 rounded-md border-solid border-black block cursor-crosshair h-canvas w-canvas"
+    class="bg-white border-2 rounded-md border-solid border-black block h-canvas w-canvas"
     id="myCanvas"
     on:mousemove={data == randomuser.id ? handleDraw : null}
     on:mousedown={startPosition}

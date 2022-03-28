@@ -6,12 +6,15 @@
   .h-820px {
     height: 820px;
   }
+
   .h-500px {
     height: 500px;
   }
+
   .w-500px {
     width: 500px;
   }
+
   .h-1000px {
     height: 1000px;
   }
@@ -19,7 +22,19 @@
   .w-canvas {
     width: 800px;
   }
+
   .h-canvas {
     height: 500px;
+  }
+}
+
+@layer base {
+  @font-face {
+    font-family: "logo";
+    src: url('../fonts/th-song-miti.ttf');
+  },
+  @font-face {
+    font-family: "buttons";
+    src: url('../fonts/kawaii.ttf');
   }
 }
