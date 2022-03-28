@@ -5,7 +5,7 @@
   export const location = null;
 </script>
 
-<div class="w-full h-full flex flex-row justify-center items-center bg-gray-400 gap-4">
+<div class="flex flex-row md:flex-col md:gap-0 md:mt-0 md:mb-4 md:w-full justify-center items-center gap-4">
   <Players />
   <Canvas />
   <Chat />
