@@ -13,7 +13,7 @@
 
   const socket = io('http://localhost:3000');
 
-  // $: time = 60;
+  $: time = 60;
 
   socket.on('draw', ({ mousePosition, lineWidth, penColor }) => {
     console.log('hi');
@@ -143,7 +143,7 @@
   <!-- {#await randomuser then randomuser}
     <p>{randomuser.name} is drawing</p> -->
   <!-- <p>played id {data}</p> -->
-  <div class="flex">
+  <div class="flex justify-between">
   <button on:click={getRandomUser}>New Drawer</button>
   <button on:click={startGame}>New Word</button>
   <!-- <button on:click={getUsers}>Get Users</button> -->
@@ -159,9 +159,10 @@
       </p>
     {/if}
   </div>
+  <p class="text-secondary font-logo text-2xl ">{time}</p>
   </div>
   <canvas
-    class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-96"
+    class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
     id="myCanvas"
     on:mousemove={socketId == ssDrawer.id ? handleDraw : null}
     on:mousedown={startPosition}
