@@ -10,6 +10,7 @@
   let lineWidth = 5;
   let playersArr = [];
   import io from 'socket.io-client';
+  import ProgressBar from './ProgressBar.svelte';
 
   const socket = io('http://localhost:3000');
 
@@ -144,22 +145,20 @@
     <p>{randomuser.name} is drawing</p> -->
   <!-- <p>played id {data}</p> -->
   <div class="flex justify-between">
-  <button on:click={getRandomUser}>New Drawer</button>
-  <button on:click={startGame}>New Word</button>
-  <!-- <button on:click={getUsers}>Get Users</button> -->
-  <!-- {/await} -->
-  <div class="h-16 flex">
-
-        {#if socketId == ssDrawer.id}
-      <p class="text-2xl text-secondary w-12">{$secretWord}</p>
-
-    {:else}
-      <p class="text-2xl text-secondary h-1">
-        {Array($secretWord.length + 1).join('_ ')}
-      </p>
-    {/if}
-  </div>
-  <p class="text-secondary font-logo text-2xl ">{time}</p>
+    <button on:click={getRandomUser}>New Drawer</button>
+    <button on:click={startGame}>New Word</button>
+    <!-- <button on:click={getUsers}>Get Users</button> -->
+    <!-- {/await} -->
+    <div class="h-16 flex">
+      {#if socketId == ssDrawer.id}
+        <p class="text-2xl text-secondary w-12">{$secretWord}</p>
+      {:else}
+        <p class="text-2xl text-secondary h-1">
+          {Array($secretWord.length + 1).join('_ ')}
+        </p>
+      {/if}
+    </div>
+    <p class="text-secondary font-logo text-2xl ">{time}</p>
   </div>
   <canvas
     class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
@@ -169,28 +168,113 @@
     on:mouseup={finishedPosition}
     on:mouseleave={finishedPosition}
   />
-
+  <div>
+    <ProgressBar />
+  </div>
   <div class="flex justify-between gap-4 mt-8">
     <!-- <p class="text-secondary font-logo text-2xl">{time}</p> -->
     {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <!-- {#if time === 60} -->
-        <!-- <button on:click={startGame}> Start </button> -->
+      <!-- <button on:click={startGame}> Start </button> -->
       <!-- {/if} -->
       <div class="btn-group">
-        <input type="radio" name="options" bind:group={penColor} value={'black'} data-title="🖤" class="btn btn-outline" checked>
-        <input type="radio" name="options" bind:group={penColor} value={'red'} data-title="🍓" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'blue'} data-title="🫐" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'green'} data-title="🥒" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'yellow'} data-title="🍋" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'orange'} data-title="🍊" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'brown'} data-title="📦" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'purple'} data-title="♏️" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'pink'} data-title="🌸" class="btn btn-outline">
-        <input type="radio" name="options" bind:group={penColor} value={'white'} data-title="🧼" class="btn btn-outline">
-        <input type="color" name="options" bind:value={penColor} data-title="🎨" class="btn btn-outline">
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'black'}
+          data-title="🖤"
+          class="btn btn-outline"
+          checked
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'red'}
+          data-title="🍓"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'blue'}
+          data-title="🫐"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'green'}
+          data-title="🥒"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'yellow'}
+          data-title="🍋"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'orange'}
+          data-title="🍊"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'brown'}
+          data-title="📦"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'purple'}
+          data-title="♏️"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'pink'}
+          data-title="🌸"
+          class="btn btn-outline"
+        />
+        <input
+          type="radio"
+          name="options"
+          bind:group={penColor}
+          value={'white'}
+          data-title="🧼"
+          class="btn btn-outline"
+        />
+        <input
+          type="color"
+          name="options"
+          bind:value={penColor}
+          data-title="🎨"
+          class="btn btn-outline"
+        />
       </div>
-      <input type="range" min="1" max="30" bind:value={lineWidth} class="range range-xs range-accent w-52 lg:w-40"/>
+      <input
+        type="range"
+        min="1"
+        max="30"
+        bind:value={lineWidth}
+        class="range range-xs range-accent w-52 lg:w-40"
+      />
     {/if}
   </div>
 </div>
