@@ -13,7 +13,7 @@
 
   const socket = io('http://localhost:3000');
 
-  $: time = 60;
+  // $: time = 60;
 
   socket.on('draw', ({ mousePosition, lineWidth, penColor }) => {
     console.log('hi');
@@ -38,48 +38,31 @@
     ctx = canvas.getContext('2d');
     canvas.height = 500;
     canvas.width = 800;
-
-    // canvas.addEventListener('mousedown', startPosition);
-    // canvas.addEventListener('mouseup', finishedPosition);
-    // canvas.addEventListener('mousemove', handleDraw);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
     getRandomUser();
     startGame();
   });
+
   function startGame() {
     socket.emit('start', randomWords[Math.floor(Math.random() * randomWords.length)].word);
   }
 
-  $: randomuser = { id: 2 };
+  $: drawer = { id: 2 };
+  $: ssDrawer = {};
 
-  socket.on('randomuser', (user) => {
+  socket.on('drawer', (user) => {
     console.log('↪️', user);
-    randomuser = user;
+    drawer = user;
     randomUser.set(user);
+    sessionStorage.setItem('drawer', JSON.stringify(user));
+    ssDrawer = user;
   });
-
-  // socket.on('new', (d) => {
-  //   socket.emit('getUsers');
-  //   console.log('socket', d);
-  //   // playerId = d;
-  //   // setUserClientId(d);
-  // });
 
   socket.on('start', (word) => {
     console.log(word);
     secretWord.set(word);
-    // const gameTimer = setInterval(() => {
-    //   time = time - 1;
-    //   // counter.set(time);
-    //   if (time === 0) {
-    //     socket.emit('clear');
-    //     time = 60;
-    //     clearInterval(gameTimer);
-    //     return;
-    //   }
-    // }, 1000);
   });
 
   function startPosition(start) {
@@ -134,7 +117,7 @@
   }
 
   function getRandomUser() {
-    socket.emit('randomuser');
+    socket.emit('drawer');
   }
   // function getUsers() {
   //   socket.emit('getUsers');
@@ -147,48 +130,66 @@
   //   joinedUsers = users;
   // });
   // console.log('randomuser', randomuser);
-  let data = sessionStorage.getItem('socketid');
+  let socketId = sessionStorage.getItem('socketid');
 
   let space = $secretWord.indexOf(' ');
   let joinedWord = Array($secretWord.length + 1).join('_ ');
   let actualWord = joinedWord.charAt(space, ' ');
+  console.log('🥰🥰🥰🥰', ssDrawer);
+  console.log('🥰🥰🥰🥰', socketId);
 </script>
 
-<div class="flex flex-col items-center justify-center">
+<div>
   <!-- {#await randomuser then randomuser}
     <p>{randomuser.name} is drawing</p> -->
   <!-- <p>played id {data}</p> -->
+  <div class="flex">
   <button on:click={getRandomUser}>New Drawer</button>
   <button on:click={startGame}>New Word</button>
   <!-- <button on:click={getUsers}>Get Users</button> -->
   <!-- {/await} -->
   <div class="h-16 flex">
-    {#if data == randomuser.id}
-      <p class="text-5xl">{$secretWord}</p>
+
+        {#if socketId == ssDrawer.id}
+      <p class="text-2xl text-secondary w-12">{$secretWord}</p>
+
     {:else}
-      <p class="text-5xl">
+      <p class="text-2xl text-secondary h-1">
         {Array($secretWord.length + 1).join('_ ')}
       </p>
     {/if}
   </div>
+  </div>
   <canvas
-    class="bg-white border-2 rounded-md border-solid border-black block cursor-crosshair h-canvas w-canvas"
+    class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-96"
     id="myCanvas"
-    on:mousemove={data == randomuser.id ? handleDraw : null}
+    on:mousemove={socketId == ssDrawer.id ? handleDraw : null}
     on:mousedown={startPosition}
     on:mouseup={finishedPosition}
     on:mouseleave={finishedPosition}
   />
 
-  <div class="flex gap-4 items-center h-12">
-    <p>{time}</p>
-    {#if data == randomuser.id}
-      <button on:click={clear}> Clear </button>
-      {#if time === 60}
-        <button on:click={startGame}> Start </button>
-      {/if}
-      <input class="h-8" type="color" bind:value={penColor} />
-      <input type="range" min="1" max="10" bind:value={lineWidth} />
+  <div class="flex justify-between gap-4 mt-8">
+    <!-- <p class="text-secondary font-logo text-2xl">{time}</p> -->
+    {#if socketId == ssDrawer.id}
+      <button on:click={clear} class="btn btn-success"> Clear </button>
+      <!-- {#if time === 60} -->
+        <!-- <button on:click={startGame}> Start </button> -->
+      <!-- {/if} -->
+      <div class="btn-group">
+        <input type="radio" name="options" bind:group={penColor} value={'black'} data-title="🖤" class="btn btn-outline" checked>
+        <input type="radio" name="options" bind:group={penColor} value={'red'} data-title="🍓" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'blue'} data-title="🫐" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'green'} data-title="🥒" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'yellow'} data-title="🍋" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'orange'} data-title="🍊" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'brown'} data-title="📦" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'purple'} data-title="♏️" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'pink'} data-title="🌸" class="btn btn-outline">
+        <input type="radio" name="options" bind:group={penColor} value={'white'} data-title="🧼" class="btn btn-outline">
+        <input type="color" name="options" bind:value={penColor} data-title="🎨" class="btn btn-outline">
+      </div>
+      <input type="range" min="1" max="30" bind:value={lineWidth} class="range range-xs range-accent w-52 lg:w-40"/>
     {/if}
   </div>
 </div>

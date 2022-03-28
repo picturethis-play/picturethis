@@ -1,13 +1,19 @@
 <script>
-  import Button from '../components/Button.svelte';
   import io from 'socket.io-client';
   const socket = io('http://localhost:3000');
   import { navigate } from 'svelte-routing';
   import { players } from '../stores/chat-stores';
-  import { fade } from 'svelte/transition';
+  import { fade, fly } from 'svelte/transition';
+  import { themeChange } from 'theme-change';
+  import { onMount } from 'svelte';
+  let carousel;
+  let round = true;
   console.log('thesocket', socket);
 
-  let name = '';
+  onMount(() => {
+    themeChange(false);
+    // 👆 false parameter is required for svelte
+  });
   // $: players = [];
 
   socket.on('connect', () => {
@@ -15,54 +21,94 @@
     sessionStorage.setItem('socketid', socket.id);
   });
 
-  let enterName = true;
-
-  function addName() {
-    enterName = !enterName;
-    socket.emit('login', name);
+  // NEW PLAYER
+  let name = '';
+  let enteredName = false;
+  function addPlayer() {
+    enteredName = !enteredName;
+    const player = { id: socket.id, name: name, points: 0, hasGuessed: false, isDrawer: false };
+    console.log('players😀', $players);
+    socket.emit('updateStores', player);
+    name = '';
   }
 
-  socket.on('newPlayer', (name) => {
-    players.set(name);
-    sessionStorage.setItem('players', name);
+  function setPlayers(player) {
+    players.set(player);
+    console.log(player);
+  }
+
+  socket.on('updateStores', (player) => {
+    console.log(player);
+    setPlayers(player);
+    sessionStorage.setItem('players', JSON.stringify(player));
   });
 
-  socket.on('navigate', () => {
-    navigate(`/game`, { replace: true });
-  });
-
+  //NAVIGATE TO GAME PAGE
   function startGame() {
     socket.emit('navigate');
-    socket.emit('randomuser');
+    // socket.emit('drawer');
   }
-  function copyLink() {
-    // let textArea =
-    let location = window.href.location;
-    location.select();
-    document.execCommand('copy');
-  }
+
+  socket.on('navigate', (drawer) => {
+    navigate(`/game`, { replace: true });
+    sessionStorage.setItem('drawer', JSON.stringify(drawer));
+  });
 </script>
 
-<div class="w-screen h-screen flex justify-center items-center flex-col">
-  <p>
-    {$players.length} people waiting to play {#each '...' as char, i}
+<div class=" w-screen h-screen flex md:flex-col justify-center items-center flex-col">
+  <div class="flex items-center justify-center">
+    <div class="flex items-center font-logo text-69xl md:text-5xl text-primary">
+      {#each 'picture' as char, i}
+        <p
+          class="animate-bouncer"
+          in:fade={{ delay: 1000 + i * 150, duration: 1500 }}
+          out:fly={{ y: -20, duration: 1000 }}
+        >
+          {char}
+        </p>
+      {/each}
+    </div>
+    <div class="flex items-center font-logo text-69xl md:text-5xl text-secondary">
+      {#each 'this' as char, i}
+        <p
+          class="animate-bouncey"
+          in:fade={{ delay: 2000 + i * 150, duration: 1800 }}
+          out:fly={{ y: -20, duration: 2000 }}
+        >
+          {char}
+        </p>
+      {/each}
+    </div>
+  </div>
+  <p class=" text-5xl md:text-2x text-primary font-logo">
+    {$players.length}
+    {$players.length === 1 ? `person` : `people`} waiting to play {#each '...' as char, i}
       <span in:fade={{ delay: 1000 + i * 150, duration: 1000 }}>{char}</span>{/each}
   </p>
-  <div class="mb-6 flex justify-center items-center flex-col-reverse">
-    {#each $players as player}
-      <p class="text-7xl">{player.name}</p>
+  <div class="carousel rounded-box w-40 gap-5 " id="carousel">
+    {#each $players as player, i}
+      <div class="carousel-item animate-scrolling">
+        <p class="text-5xl text-accent font-logo ">{player.name}</p>
+      </div>
     {/each}
   </div>
-  <div class="flex items-center flex-col justify-between h-28 ">
-    <input class="p-2  m-2" type="text" placeholder="" bind:value={name} />
+  <div class="flex items-center flex-col justify-between">
+    <p class="text-secondary">Enter name to get started</p>
+    <input
+      class="input input-bordered input-primary text-primary text-2xl md:w-64"
+      type="text"
+      placeholder=""
+      bind:value={name}
+    />
     {#if name.length}
-      {#if enterName}
-        <Button on:message={addName} name="Enter Name" />
+      {#if !enteredName}
+        <button on:click={addPlayer} class="btn btn-outline mt-2">Enter Name</button>
       {/if}
-      {#if $players.length > 1}
-        <Button on:message={startGame} name="Start Game" />
-      {/if}
-      <Button on:message={copyLink} name="Invite Friends" />
     {/if}
+    {#if $players.length > 1}
+      <button on:click={startGame} class="btn btn-secondary mt-2">Start Game</button>
+    {/if}
+    <button class="btn btn-primary mt-2">Invite Friends</button>
+  <input type="checkbox" class="toggle mt-1" data-toggle-theme="dracula,pastel" data-act-class="ACTIVECLASS">🌚/🌞
   </div>
 </div>

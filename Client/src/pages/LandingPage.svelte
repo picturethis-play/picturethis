@@ -1,42 +1,74 @@
 <script lang="ts">
-  import Button from '../components/Button.svelte';
   import { fade, fly } from 'svelte/transition';
-  import { navigate } from 'svelte-routing';
+  import { onMount } from 'svelte';
+  let penColor; 
+  let canvas;
+  let ctx;
+  let stroke;
+  let lineWidth = 20;
+  onMount(() => {
+    canvas = document.getElementById('theCanvas');
+    ctx = canvas.getContext('2d');
+    canvas.height = 500;
+    canvas.width = 800;
+  });
 
-  $: visible = true;
-
-  async function startGame() {
-    await fetch('http://localhost:4000/create-game', {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'same-origin',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => navigate(`/game/${data.gameId}`, { replace: true }));
+  function getMousePosition(e) {
+    var mouseX = ((e.offsetX * canvas.width) / canvas.clientWidth) | 0;
+    var mouseY = ((e.offsetY * canvas.height) / canvas.clientHeight) | 0;
+    return { x: mouseX, y: mouseY };
+  }
+  function randomColor() {
+    const colors = ['blue', 'yellow', 'red', 'purple', 'orange', 'pink', 'green'];
+    const random = Math.floor(Math.random() * colors.length);
+    stroke = colors[random];
+  }
+  function handleDraw(e) {
+    const mousePosition = getMousePosition(e);
+    draw(mousePosition, lineWidth, penColor);
+  }
+  function draw(mousePosition, lineWidth, penColor) {
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = penColor;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = `${stroke}`;
+    ctx.lineTo(mousePosition.x, mousePosition.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(mousePosition.x, mousePosition.y);
   }
 </script>
 
-<!-- h-820px is a hack, set in tailwind.css file -->
-<div class="bg-gray-400 h-820px w-full">
-  <div class="bg-gray-400 flex items-center justify-center w-full">
-    <div class="flex items-center h-40 text-6xl">
-      {#if visible}
-        {#each 'picturethis' as char, i}
-          <h1
+<div id="container">
+  <div id="overlay">
+    <div class=" flex items-center justify-center">
+      <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
+      <div class="flex items-center font-logo text-69xl">
+        {#each 'picture' as char, i}
+          <p
+            class="animate-bouncer"
             in:fade={{ delay: 1000 + i * 150, duration: 1500 }}
             out:fly={{ y: -20, duration: 1000 }}
           >
             {char}
-          </h1>
+          </p>
         {/each}
-      {/if}
+      </div>
+      <div class="flex items-center font-logo text-69xl">
+        {#each 'this' as char, i}
+          <p
+            class="animate-bouncey"
+            in:fade={{ delay: 2000 + i * 150, duration: 1800 }}
+            out:fly={{ y: -20, duration: 2000 }}
+          >
+            {char}
+          </p>
+        {/each}
+      </div>
     </div>
-  </div>
-  <div class="flex items-center justify-center gap-8">
-    <Button on:message={startGame} name="Create Room" />
-    <Button name="Join Room" />
+    <div class="flex items-center justify-center font-logo text-10xl gap-8" id="start">
+      <button class="border-none">Create Game</button>
+      <button class="border-none">Join Game</button>
+    </div>
   </div>
 </div>

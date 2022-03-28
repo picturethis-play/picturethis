@@ -66,3 +66,23 @@ button:not(:disabled):active {
 button:focus {
   border-color: #666;
 }
+
+#container {
+  position: relative;
+}
+
+#theCanvas {
+  z-index: 0;
+  position: absolute;
+  height: 2000px;
+  width: 100%;
+}
+
+#overlay {
+  z-index: 100;
+}
+
+#start {
+  z-index: 1000;
+  position: relative;
+}
