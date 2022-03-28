@@ -13,13 +13,13 @@ module.exports = {
       logo: "logo"
     },
     screens: {
-      'xl': { 'min': '1500px' },
+      'xl': { 'min': '1401px' },
       // => @media (max-width: 1279px)
 
       'lg': { 'max': '1400px' },
       // => @media (max-width: 1023px)
 
-      'md': { 'max': '900px' },
+      'md': { 'max': '1200px' },
       // => @media (max-width: 767px)
 
       'sm': { 'max': '700px' },
@@ -57,6 +57,7 @@ module.exports = {
       width: {
         'xl': '1100px',
         'rr': '800px',
+        'df': '600px',
         '70': '17rem'
       },
      cursor: {
@@ -74,6 +75,9 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   plugins: [require('daisyui')],
+  daisyui: {
+    themes: ["dracula", "pastel"]
+  },
   content: ['./src/App.svelte', './src/pages/*', './src/components/*'],
   enabled: production, // disable purge in dev
 };
