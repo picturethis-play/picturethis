@@ -4,27 +4,37 @@
   import { navigate } from 'svelte-routing';
   import { players } from '../stores/chat-stores';
   import { fade, fly } from 'svelte/transition';
+  import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
   let carousel;
   let round = true;
   console.log('thesocket', socket);
 
+  onMount(() => {
+    themeChange(true);
+    // 👆 false parameter is required for svelte
+  });
   // $: players = [];
 
   socket.on('connect', () => {
     console.log('sox', socket.id);
     sessionStorage.setItem('socketid', socket.id);
   });
+
   // onMount(() => {
   //   carousel = document.getElementById('carousel');
-  //     carousel.addEventListener('mouseover', () => {
-  //       console.log('ooooOOOOOOOOOOooo');
-  //       const roll = () =>
-  //         setInterval(() => {
-  //           carousel.scrollBy(2, 0);
-  //         }, 30);
-  //       roll();
-  //     });
+  //   carousel.addEventListener('mouseover', () => {
+  //     console.log('ooooOOOOOOOOOOooo');
+  //     const roll = () =>
+  //       setInterval(() => {
+  //         carousel.scrollBy(2, 0);
+  //       }, 30);
+  //     roll();
+  //   });
+  // });
+
+  // onDestroy(() => {
+  //   clearInterval(roll);
   // });
   // New Player Joined
   let name = '';
@@ -117,12 +127,13 @@
     />
     {#if name.length}
       {#if !enteredName}
-        <button on:click={addPlayer} class="btn btn-primary">Enter Name</button>
+        <button on:click={addPlayer} class="btn btn-outline">Enter Name</button>
       {/if}
-      {#if $players.length > 1}
-        <button on:click={startGame} class="btn btn-secondary">Start Game</button>
-      {/if}
-      <button class="btn btn-primary">Invite Friends</button>
     {/if}
+    {#if $players.length > 1}
+      <button on:click={startGame} class="btn btn-secondary">Start Game</button>
+    {/if}
+    <button class="btn btn-primary">Invite Friends</button>
+    <input type="checkbox" class="toggle" data-toggle-theme="dracula,cyberpunk" data-act-class="ACTIVECLASS">
   </div>
 </div>

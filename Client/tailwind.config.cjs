@@ -14,7 +14,7 @@ module.exports = {
       animation: {
         'bouncey': 'bounce 3s ease infinite',
         'bouncer': 'bounce 2s ease infinite',
-        'scrolling': 'scrolling 5s linear 1'
+        'scrolling': 'scrolling 5s linear infinite'
       },
       boxShadow: {
         '69xl': '6px 10px 0px rgba(0, 0, 0, 1)'
