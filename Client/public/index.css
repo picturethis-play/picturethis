@@ -1597,10 +1597,10 @@ html {
 .container {
   width: 100%;
 }
-@media (min-width: 1500px) {
+@media (min-width: 1401px) {
 
   .container {
-    max-width: 1500px;
+    max-width: 1401px;
   }
 }
 .avatar {
@@ -2901,6 +2901,9 @@ body[dir="rtl"] .checkbox:checked,
 .gap-5 {
   gap: 1.25rem;
 }
+.self-end {
+  align-self: flex-end;
+}
 .overflow-y-auto {
   overflow-y: auto;
 }
@@ -3018,7 +3021,7 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1401px) {
 
   .xl\:h-xl {
     height: 700px;
@@ -3056,30 +3059,26 @@ body[dir="rtl"] .checkbox:checked,
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
 
   .md\:mt-0 {
     margin-top: 0px;
-  }
-
-  .md\:mb-4 {
-    margin-bottom: 1rem;
-  }
-
-  .md\:h-48 {
-    height: 12rem;
   }
 
   .md\:h-36 {
     height: 9rem;
   }
 
+  .md\:h-48 {
+    height: 12rem;
+  }
+
   .md\:w-full {
     width: 100%;
   }
 
-  .md\:w-64 {
-    width: 16rem;
+  .md\:w-df {
+    width: 600px;
   }
 
   .md\:w-96 {
@@ -3090,20 +3089,20 @@ body[dir="rtl"] .checkbox:checked,
     flex-direction: column;
   }
 
+  .md\:justify-start {
+    justify-content: flex-start;
+  }
+
   .md\:gap-0 {
     gap: 0px;
   }
 
-  .md\:text-5xl {
-    font-size: 5rem;
-  }
-
-  .md\:text-2x {
-    font-size: 24px;
+  .md\:text-10xl {
+    font-size: 10rem;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 700px) {
 
   .sm\:mt-0 {
     margin-top: 0px;

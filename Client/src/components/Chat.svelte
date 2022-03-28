@@ -61,7 +61,7 @@
 </script>
 
 <div
-  class="flex flex-col xl:h-xl lg:h-rr lg:mt-4 sm:h-48 w-72 max-w-xs border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
+  class="flex flex-col xl:h-xl lg:h-rr lg:mt-4 sm:h-48 md:h-36 md:w-df w-72 max-w-xs border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
   <div class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
     <ul>

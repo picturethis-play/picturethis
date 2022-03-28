@@ -3,7 +3,6 @@
 
   import { players, randomUser } from '../stores/chat-stores';
   console.log($randomUser);
-  $: time = 60;
   $: playerz = [];
   onMount(() => {
     playerz = JSON.parse(sessionStorage.getItem('players'));
@@ -11,7 +10,7 @@
   });
 </script>
 <div>
-<div class="border-2 rounded-md border-secondary shadow-69xl shadow-secondary xl:h-xl-jr lg:h-rr lg:mt-24 lg:mb-2 sm:h-36 sm:w-96 mt-16 mw-72 w-48 bg-neutral p-3">
+<div class="border-2 rounded-md border-secondary shadow-69xl shadow-secondary xl:h-xl-jr lg:h-rr lg:mt-24 lg:mb-2 sm:h-36 sm:w-96 md:h-48 md:w-96 mt-16 mw-72 w-48 bg-neutral p-3">
   {#if playerz.length > 0}
     {#each playerz as user}
       {#if user.name === $randomUser.name}
@@ -22,5 +21,4 @@
     {/each}
   {/if}
 </div>
-<p class="text-secondary font-logo text-2xl">{time}</p>
 </div>

@@ -82,7 +82,7 @@
 
 <div class=" w-screen h-screen flex sm:flex-col justify-center items-center flex-col">
   <div class="flex items-center justify-center">
-    <div class="flex items-center font-logo text-69xl sm:text-5xl text-primary">
+    <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-primary">
       {#each 'picture' as char, i}
         <p
           class="animate-bouncer"
@@ -93,7 +93,7 @@
         </p>
       {/each}
     </div>
-    <div class="flex items-center font-logo text-69xl sm:text-5xl text-secondary">
+    <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-secondary">
       {#each 'this' as char, i}
         <p
           class="animate-bouncey"
@@ -119,12 +119,14 @@
   </div>
   <div class="flex items-center flex-col justify-between">
     <p class="text-secondary">Enter name to get started</p>
+    {#if !enteredName}
     <input
       class="input input-bordered input-primary text-primary text-2xl sm:w-64"
       type="text"
       placeholder=""
       bind:value={name}
     />
+    {/if}
     {#if name.length}
       {#if !enteredName}
         <button on:click={addPlayer} class="btn btn-outline mt-2">Enter Name</button>
