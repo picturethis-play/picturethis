@@ -38,48 +38,31 @@
     ctx = canvas.getContext('2d');
     canvas.height = 500;
     canvas.width = 800;
-
-    // canvas.addEventListener('mousedown', startPosition);
-    // canvas.addEventListener('mouseup', finishedPosition);
-    // canvas.addEventListener('mousemove', handleDraw);
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
     getRandomUser();
     startGame();
   });
+
   function startGame() {
     socket.emit('start', randomWords[Math.floor(Math.random() * randomWords.length)].word);
   }
 
-  $: randomuser = { id: 2 };
+  $: drawer = { id: 2 };
+  $: ssDrawer = {};
 
-  socket.on('randomuser', (user) => {
+  socket.on('drawer', (user) => {
     console.log('↪️', user);
-    randomuser = user;
+    drawer = user;
     randomUser.set(user);
+    sessionStorage.setItem('drawer', JSON.stringify(user));
+    ssDrawer = user;
   });
-
-  // socket.on('new', (d) => {
-  //   socket.emit('getUsers');
-  //   console.log('socket', d);
-  //   // playerId = d;
-  //   // setUserClientId(d);
-  // });
 
   socket.on('start', (word) => {
     console.log(word);
     secretWord.set(word);
-    // const gameTimer = setInterval(() => {
-    //   time = time - 1;
-    //   // counter.set(time);
-    //   if (time === 0) {
-    //     socket.emit('clear');
-    //     time = 60;
-    //     clearInterval(gameTimer);
-    //     return;
-    //   }
-    // }, 1000);
   });
 
   function startPosition(start) {
@@ -134,7 +117,7 @@
   }
 
   function getRandomUser() {
-    socket.emit('randomuser');
+    socket.emit('drawer');
   }
   // function getUsers() {
   //   socket.emit('getUsers');
@@ -147,11 +130,13 @@
   //   joinedUsers = users;
   // });
   // console.log('randomuser', randomuser);
-  let data = sessionStorage.getItem('socketid');
+  let socketId = sessionStorage.getItem('socketid');
 
   let space = $secretWord.indexOf(' ');
   let joinedWord = Array($secretWord.length + 1).join('_ ');
   let actualWord = joinedWord.charAt(space, ' ');
+  console.log('🥰🥰🥰🥰', ssDrawer);
+  console.log('🥰🥰🥰🥰', socketId);
 </script>
 
 <div>
@@ -164,8 +149,10 @@
   <!-- <button on:click={getUsers}>Get Users</button> -->
   <!-- {/await} -->
   <div class="h-16 flex">
-    {#if data == randomuser.id}
+
+        {#if socketId == ssDrawer.id}
       <p class="text-2xl text-secondary w-12">{$secretWord}</p>
+
     {:else}
       <p class="text-2xl text-secondary h-1">
         {Array($secretWord.length + 1).join('_ ')}
@@ -176,7 +163,7 @@
   <canvas
     class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-96"
     id="myCanvas"
-    on:mousemove={data == randomuser.id ? handleDraw : null}
+    on:mousemove={socketId == ssDrawer.id ? handleDraw : null}
     on:mousedown={startPosition}
     on:mouseup={finishedPosition}
     on:mouseleave={finishedPosition}
@@ -184,7 +171,7 @@
 
   <div class="flex justify-between gap-4 mt-8">
     <!-- <p class="text-secondary font-logo text-2xl">{time}</p> -->
-    {#if data == randomuser.id}
+    {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <!-- {#if time === 60} -->
         <!-- <button on:click={startGame}> Start </button> -->

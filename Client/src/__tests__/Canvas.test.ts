@@ -7,4 +7,4 @@ import userEvent from '@testing-library/user-event';
 it('should render a canvas on the screen on mount', () => {
   const { component } = render(Canvas);
   console.log(component);
-})
+});

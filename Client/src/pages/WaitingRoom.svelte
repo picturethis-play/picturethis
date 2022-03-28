@@ -21,33 +21,13 @@
     sessionStorage.setItem('socketid', socket.id);
   });
 
-  // onMount(() => {
-  //   carousel = document.getElementById('carousel');
-  //   carousel.addEventListener('mouseover', () => {
-  //     console.log('ooooOOOOOOOOOOooo');
-  //     const roll = () =>
-  //       setInterval(() => {
-  //         carousel.scrollBy(2, 0);
-  //       }, 30);
-  //     roll();
-  //   });
-  // });
-
-  // onDestroy(() => {
-  //   clearInterval(roll);
-  // });
-  // New Player Joined
+  // NEW PLAYER
   let name = '';
   let enteredName = false;
   function addPlayer() {
     enteredName = !enteredName;
     const player = { id: socket.id, name: name, points: 0, hasGuessed: false, isDrawer: false };
-    // players.set([...$players, player]);
-
-    // let updatedPlayers = [...$players, player];
     console.log('players😀', $players);
-    // socket.emit('login', name);
-    // socket.emit('login', updatedPlayers);
     socket.emit('updateStores', player);
     name = '';
   }
@@ -58,26 +38,21 @@
   }
 
   socket.on('updateStores', (player) => {
-    // players.set(name);
     console.log(player);
     setPlayers(player);
     sessionStorage.setItem('players', JSON.stringify(player));
   });
 
-  // Navigate to GamePage
+  //NAVIGATE TO GAME PAGE
   function startGame() {
     socket.emit('navigate');
-    socket.emit('randomuser');
+    // socket.emit('drawer');
   }
-  socket.on('navigate', () => {
+
+  socket.on('navigate', (drawer) => {
     navigate(`/game`, { replace: true });
+    sessionStorage.setItem('drawer', JSON.stringify(drawer));
   });
-  // function copyLink() {
-  //   // let textArea =
-  //   let location = window.href.location;
-  //   location.select();
-  //   document.execCommand('copy');
-  // }
 </script>
 
 <div class=" w-screen h-screen flex md:flex-col justify-center items-center flex-col">
