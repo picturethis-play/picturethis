@@ -61,9 +61,9 @@
 </script>
 
 <div
-  class="flex flex-col h-96 w-72 max-w-xs border-2 rounded-md border-solid border-black bg-white"
+  class="flex flex-col xl:h-xl lg:h-rr lg:mt-4 md:h-48 w-72 max-w-xs border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
-  <div class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 " bind:this={scroll}>
+  <div class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
     <ul>
       {#each messages as text}
         {#if text.message === $secretWord}
@@ -71,7 +71,7 @@
             {text.user} guessed the word
           </li>
         {:else}
-          <li class="break-all">{text.user}: {text.message}</li>
+          <li class="break-all">{text.user}: <span class="text-white">{text.message}</span></li>
         {/if}
       {/each}
     </ul>
@@ -79,12 +79,12 @@
 
   <div>
     <input
-      class="w-full p-3"
+      class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"
       type="text"
       name=""
       id=""
       bind:value={message}
-      placeholder="Type your message.."
+      placeholder="Enter your guess here...."
       on:keydown={handleKeydown}
     />
     <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
