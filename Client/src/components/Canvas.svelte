@@ -36,8 +36,8 @@
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
-    canvas.height = 1500;
-    canvas.width = 1800;
+    canvas.height = 500;
+    canvas.width = 800;
 
     // canvas.addEventListener('mousedown', startPosition);
     // canvas.addEventListener('mouseup', finishedPosition);
@@ -172,7 +172,7 @@
     {/if}
   </div>
   <canvas
-    class="bg-white border-2 rounded-md border-solid border-black block"
+    class="bg-white border-2 rounded-md border-solid border-black block h-canvas w-canvas"
     id="myCanvas"
     on:mousemove={data == randomuser.id ? handleDraw : null}
     on:mousedown={startPosition}

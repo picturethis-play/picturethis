@@ -71,7 +71,7 @@ button:focus {
   position: relative;
 }
 
-#myCanvas {
+#theCanvas {
   z-index: 0;
   position: absolute;
   height: 2000px;

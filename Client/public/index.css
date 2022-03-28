@@ -2894,12 +2894,16 @@ body[dir="rtl"] .checkbox:checked,
 .w-500px {
     width: 500px;
   }
-
+.w-canvas {
+    width: 800px;
+  }
+.h-canvas {
+    height: 500px;
+  }
 .hover\:bg-red-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
-
 .active\:bg-green-400:active {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));

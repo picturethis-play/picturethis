@@ -7,7 +7,7 @@
   let stroke;
   let lineWidth = 20;
   onMount(() => {
-    canvas = document.getElementById('myCanvas');
+    canvas = document.getElementById('theCanvas');
     ctx = canvas.getContext('2d');
     canvas.height = 500;
     canvas.width = 800;
@@ -42,7 +42,7 @@
 <div id="container">
   <div id="overlay">
     <div class=" flex items-center justify-center">
-      <canvas class="" id="myCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
+      <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
       <div class="flex items-center font-logo text-69xl">
         {#each 'picture' as char, i}
           <p
