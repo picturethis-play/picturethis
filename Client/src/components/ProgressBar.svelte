@@ -1,6 +1,15 @@
 <script>
   import { writable } from 'svelte/store';
 
+  import { timer } from '../stores/gameStates';
+
+  setInterval(() => {
+    if ($timer === 0) {
+      timer.set(10)
+    }
+    timer.set($timer - 1);
+  }, 1000);
+
   const time = 1;
   const progress = writable(time);
   const coundown = () => {
