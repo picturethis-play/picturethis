@@ -174,7 +174,7 @@
   </div>
   </div>
   <canvas
-    class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-96"
+    class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl sm:w-96"
     id="myCanvas"
     on:mousemove={data == randomuser.id ? handleDraw : null}
     on:mousedown={startPosition}
