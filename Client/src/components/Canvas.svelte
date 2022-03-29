@@ -28,12 +28,14 @@
   socket.on('finishedPosition', () => {
     finishedPosition(false);
   });
+
   socket.on('startPosition', () => {
     startPosition(false);
   });
 
   // const randomWords = ['table', 'chair', 'hat', 'bag', 'keys', 'laptop', 'door'];
   const randomWords = wordDb;
+
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
@@ -42,13 +44,9 @@
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
-    getRandomUser();
-    startGame();
+    // getRandomUser();
+    // startGame();
   });
-
-  function startGame() {
-    socket.emit('start', randomWords[Math.floor(Math.random() * randomWords.length)].word);
-  }
 
   $: drawer = { id: 2 };
   $: ssDrawer = {};
@@ -146,7 +144,7 @@
   <!-- <p>played id {data}</p> -->
   <div class="flex justify-between">
     <button on:click={getRandomUser}>New Drawer</button>
-    <button on:click={startGame}>New Word</button>
+    <!-- <button on:click={startGame}>New Word</button> -->
     <!-- <button on:click={getUsers}>Get Users</button> -->
     <!-- {/await} -->
     <div class="h-16 flex">

@@ -44,7 +44,7 @@
   });
 
   //NAVIGATE TO GAME PAGE
-  function startGame() {
+  function navigateToGamePage() {
     socket.emit('navigate');
     // socket.emit('drawer');
   }
@@ -95,12 +95,12 @@
   <div class="flex items-center flex-col justify-between">
     <p class="text-secondary">Enter name to get started</p>
     {#if !enteredName}
-    <input
-      class="input input-bordered input-primary text-primary text-2xl sm:w-64"
-      type="text"
-      placeholder=""
-      bind:value={name}
-    />
+      <input
+        class="input input-bordered input-primary text-primary text-2xl sm:w-64"
+        type="text"
+        placeholder=""
+        bind:value={name}
+      />
     {/if}
     {#if name.length}
       {#if !enteredName}
@@ -108,9 +108,14 @@
       {/if}
     {/if}
     {#if $players.length > 1}
-      <button on:click={startGame} class="btn btn-secondary mt-2">Start Game</button>
+      <button on:click={navigateToGamePage} class="btn btn-secondary mt-2">Start Game</button>
     {/if}
     <button class="btn btn-primary mt-2">Invite Friends</button>
-  <input type="checkbox" class="toggle mt-1" data-toggle-theme="dracula,pastel" data-act-class="ACTIVECLASS">🌚/🌞
+    <input
+      type="checkbox"
+      class="toggle mt-1"
+      data-toggle-theme="dracula,pastel"
+      data-act-class="ACTIVECLASS"
+    />🌚/🌞
   </div>
 </div>

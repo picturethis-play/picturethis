@@ -17,29 +17,23 @@
 
   let totalRounds = $numberOfRounds * $players.length;
 
-  function startGame() {
-    console.log('gamestarted');
-    let round = setInterval(() => {
-      console.log($drawerIndex);
-      if ($gameRound === totalRounds) {
-        clearInterval(round);
-        console.log('round over');
-      }
+  // function startGame() {
+  //   console.log('gamestarted');
+  //   let round = setInterval(() => {
+  //     console.log($drawerIndex);
+  //     if ($gameRound === totalRounds) {
+  //       clearInterval(round);
+  //       console.log('round over');
+  //     }
 
-      drawerIndex.set($drawerIndex + 1);
-      if ($drawerIndex >= $players.length) {
-        console.log('setting drawerindex');
-        drawerIndex.set(0);
-      }
-      gameRound.set($gameRound + 1);
-    }, roundTime * 1000);
-  }
-
-  onMount(() => {
-    console.log('timer is', $timer);
-    startGame();
-    console.log('started game Gauteeee');
-  });
+  //     drawerIndex.set($drawerIndex + 1);
+  //     if ($drawerIndex >= $players.length) {
+  //       console.log('setting drawerindex');
+  //       drawerIndex.set(0);
+  //     }
+  //     gameRound.set($gameRound + 1);
+  //   }, roundTime * 1000);
+  // }
 </script>
 
 <div class="mx-4 border-2 border-solid border-red-800 p-2 text-primary">
