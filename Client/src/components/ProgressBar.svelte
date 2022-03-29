@@ -26,7 +26,7 @@
 
   function startRound() {
     socket.emit('start', randomWords[Math.floor(Math.random() * randomWords.length)].word);
-    socket.emit('drawer');
+    // socket.emit('drawer');
   }
 
   $: realTime = $roundTime;

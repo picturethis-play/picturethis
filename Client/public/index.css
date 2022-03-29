@@ -2110,17 +2110,14 @@ body[dir="rtl"] .checkbox:checked,
 .w-500px {
     width: 500px;
   }
-
 .hover\:bg-red-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
-
 .active\:bg-green-400:active {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
-
 @media (min-width: 1401px) {
 
   .xl\:h-xl {
@@ -2135,7 +2132,6 @@ body[dir="rtl"] .checkbox:checked,
     width: 1100px;
   }
 }
-
 @media (max-width: 1400px) {
 
   .lg\:mt-4 {
@@ -2158,7 +2154,6 @@ body[dir="rtl"] .checkbox:checked,
     width: 10rem;
   }
 }
-
 @media (max-width: 1200px) {
 
   .md\:mt-0 {
@@ -2197,7 +2192,6 @@ body[dir="rtl"] .checkbox:checked,
     font-size: 10rem;
   }
 }
-
 @media (max-width: 700px) {
 
   .sm\:mt-0 {
