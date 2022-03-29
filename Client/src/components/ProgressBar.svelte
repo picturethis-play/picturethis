@@ -3,7 +3,7 @@
   import { timer, waitingTime, roundTime } from '../stores/gameStates';
   import { randomUser } from '../stores/chat-stores';
   import io from 'socket.io-client';
-  const socket = io('http://localhost:3000');
+  const socket = io('http://192.168.1.201:3000');
   import wordDb from '../assets/db';
   const randomWords = wordDb;
   let socketId = sessionStorage.getItem('socketid');
@@ -18,8 +18,8 @@
             'roundOver',
             randomWords[Math.floor(Math.random() * randomWords.length)].word,
           );
+          socket.emit('drawer');
         }
-        socket.emit('drawer');
         socket.emit('clear');
       }
       socket.emit('timer', $timer);
@@ -44,6 +44,6 @@
     class="radial-progress text-primary"
     style="--value:{(realTime * 100) / setTime}; --size:4rem;"
   >
-    {(realTime * 100) / setTime / 10}
+    {(realTime * 100) / setTime / 100}
   </div>
 </div>

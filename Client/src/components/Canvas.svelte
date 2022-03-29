@@ -9,7 +9,7 @@
   import io from 'socket.io-client';
   import ProgressBar from './ProgressBar.svelte';
 
-  const socket = io('http://localhost:3000');
+  const socket = io('http://192.168.1.201:3000');
 
   $: time = 60;
 
