@@ -2,26 +2,23 @@
   import Canvas from '../components/Canvas.svelte';
   import Chat from '../components/Chat.svelte';
   import Players from '../components/Players.svelte';
-  import GameState from '../components/GameState.svelte';
   import StartModal from '../components/StartModal.svelte';
   import RoundEnd from '../components/RoundEnd.svelte';
   export const location = null;
-  import { timer, waitingTime, roundTime } from '../stores/gameStates';
+  import { timer, roundTime } from '../stores/gameStates';
   import io from 'socket.io-client';
-  const socket = io('http://localhost:3000');
+  const socket = io('http://192.168.1.201:3000');
   let displayModal = true;
   socket.on('start', () => {
     displayModal = !displayModal;
   });
-  let roundOver = false;
+
+  let roundOver = true;
   socket.on('roundOver', () => {
-    roundOver = !roundOver;
+    roundOver = false;
   });
 </script>
 
-<!-- <div class="flex flex-col">
-  <GameState />
-</div> -->
 <div
   class="flex flex-row sm:flex-col sm:gap-0 sm:mt-0 sm:mb-4 sm:w-full md:flex-col md:gap-0 md:mt-0 md:w-full justify-center items-center gap-4"
 >
@@ -29,7 +26,9 @@
     <RoundEnd />
   {/if}
   {#if displayModal}
-    <StartModal />
+    {#if roundOver}
+      <StartModal />
+    {/if}
   {/if}
   <Players />
   <Canvas />
