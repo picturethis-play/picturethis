@@ -623,6 +623,11 @@ html {
 }
 .btn-disabled, .btn[disabled] {
   pointer-events: none;
+  --tw-border-opacity: 0;
+  background-color: hsl(var(--n) / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.2;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  --tw-text-opacity: 0.2;
 }
 .btn.loading, .btn.loading:hover {
   pointer-events: none;
@@ -916,16 +921,6 @@ html {
 }
 .range:focus {
   outline: none;
-}
-.table {
-  position: relative;
-  text-align: left;
-}
-.table th:first-child {
-  position: sticky;
-  position: -webkit-sticky;
-  left: 0px;
-  z-index: 11;
 }
 .toggle {
   flex-shrink: 0;
@@ -1291,13 +1286,6 @@ html {
   --tw-text-opacity: 1;
   color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity));
 }
-.btn-disabled, .btn-disabled:hover, .btn[disabled], .btn[disabled]:hover {
-  --tw-border-opacity: 0;
-  background-color: hsl(var(--n) / var(--tw-bg-opacity));
-  --tw-bg-opacity: 0.2;
-  color: hsl(var(--bc) / var(--tw-text-opacity));
-  --tw-text-opacity: 0.2;
-}
 .btn.loading.btn-square:before, .btn.loading.btn-circle:before {
   margin-right: 0px;
 }
@@ -1637,48 +1625,6 @@ body[dir="rtl"] .checkbox:checked,
     transform: translateY(0);
   }
 }
-.table :where(th, td) {
-  white-space: nowrap;
-  padding: 1rem;
-  vertical-align: middle;
-}
-.table tr.active th, .table tr.active td, .table tr.active:nth-child(even) th, .table tr.active:nth-child(even) td {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b3, var(--b2)) / var(--tw-bg-opacity));
-}
-.table tr.hover:hover th, .table tr.hover:hover td, .table tr.hover:nth-child(even):hover th, .table tr.hover:nth-child(even):hover td {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b3, var(--b2)) / var(--tw-bg-opacity));
-}
-.table:where(:not(.table-zebra)) :where(thead, tbody, tfoot) :where(tr:not(:last-child) :where(th, td)) {
-  border-bottom-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--b2, var(--b1)) / var(--tw-border-opacity));
-}
-.table :where(thead, tfoot) :where(th, td) {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.table :where(:first-child) :where(:first-child) :where(th, td):first-child {
-  border-top-left-radius: 0.5rem;
-}
-.table :where(:first-child) :where(:first-child) :where(th, td):last-child {
-  border-top-right-radius: 0.5rem;
-}
-.table :where(:last-child) :where(:last-child) :where(th, td):first-child {
-  border-bottom-left-radius: 0.5rem;
-}
-.table :where(:last-child) :where(:last-child) :where(th, td):last-child {
-  border-bottom-right-radius: 0.5rem;
-}
-.table :where(tbody th, tbody td) {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b1) / var(--tw-bg-opacity));
-}
 .toggle:focus-visible {
   outline: 2px solid hsl(var(--bc));
   outline-offset: 2px;
@@ -1816,9 +1762,6 @@ body[dir="rtl"] .checkbox:checked,
 .flex {
   display: flex;
 }
-.table {
-  display: table;
-}
 .h-screen {
   height: 100vh;
 }
@@ -1830,12 +1773,6 @@ body[dir="rtl"] .checkbox:checked,
 }
 .h-1 {
   height: 0.25rem;
-}
-.h-full {
-  height: 100%;
-}
-.h-5 {
-  height: 1.25rem;
 }
 .w-screen {
   width: 100vw;
@@ -1974,9 +1911,6 @@ body[dir="rtl"] .checkbox:checked,
 .gap-5 {
   gap: 1.25rem;
 }
-.overflow-hidden {
-  overflow: hidden;
-}
 .overflow-y-auto {
   overflow-y: auto;
 }
@@ -2021,18 +1955,6 @@ body[dir="rtl"] .checkbox:checked,
 .bg-neutral {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--n) / var(--tw-bg-opacity));
-}
-.bg-gray-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-.bg-blue-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-.bg-red-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 .p-4 {
   padding: 1rem;
@@ -2110,14 +2032,17 @@ body[dir="rtl"] .checkbox:checked,
 .w-500px {
     width: 500px;
   }
+
 .hover\:bg-red-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
+
 .active\:bg-green-400:active {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
+
 @media (min-width: 1401px) {
 
   .xl\:h-xl {
@@ -2132,6 +2057,7 @@ body[dir="rtl"] .checkbox:checked,
     width: 1100px;
   }
 }
+
 @media (max-width: 1400px) {
 
   .lg\:mt-4 {
@@ -2154,6 +2080,7 @@ body[dir="rtl"] .checkbox:checked,
     width: 10rem;
   }
 }
+
 @media (max-width: 1200px) {
 
   .md\:mt-0 {
@@ -2192,6 +2119,7 @@ body[dir="rtl"] .checkbox:checked,
     font-size: 10rem;
   }
 }
+
 @media (max-width: 700px) {
 
   .sm\:mt-0 {

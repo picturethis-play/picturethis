@@ -1,14 +1,11 @@
 <script>
   import { onMount } from 'svelte';
-  import { secretWord, counter, randomUser } from '../stores/chat-stores';
-  import wordDb from '../assets/db';
-  import Button from './Button.svelte';
+  import { randomUser, secretWords } from '../stores/chat-stores';
   let penColor;
   let painting;
   let canvas;
   let ctx;
   let lineWidth = 5;
-  let playersArr = [];
   import io from 'socket.io-client';
   import ProgressBar from './ProgressBar.svelte';
 
@@ -33,9 +30,6 @@
     startPosition(false);
   });
 
-  // const randomWords = ['table', 'chair', 'hat', 'bag', 'keys', 'laptop', 'door'];
-  const randomWords = wordDb;
-
   onMount(() => {
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
@@ -44,24 +38,27 @@
     canvas.addEventListener('touchstart', startPosition);
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
-    // getRandomUser();
-    // startGame();
   });
 
-  $: drawer = { id: 2 };
   $: ssDrawer = {};
 
   socket.on('drawer', (user) => {
     console.log('↪️', user);
-    drawer = user;
     randomUser.set(user);
     sessionStorage.setItem('drawer', JSON.stringify(user));
     ssDrawer = user;
   });
 
   socket.on('start', (word) => {
-    console.log(word);
-    secretWord.set(word);
+    console.log(word, 'STARTSTARTSTARTSTARTSTART');
+    // secretWord.set(word);
+    secretWords.set([...$secretWords, word]);
+  });
+
+  socket.on('roundOver', (word) => {
+    console.log(word, 'ROUNDOVEROROUNDOVERROUNDOVER');
+    // secretWord.set(word);
+    secretWords.set([...$secretWords, word]);
   });
 
   function startPosition(start) {
@@ -118,45 +115,29 @@
   function getRandomUser() {
     socket.emit('drawer');
   }
-  // function getUsers() {
-  //   socket.emit('getUsers');
-  // }
 
-  // let joinedUsers = [];
-
-  // socket.on('joined users', (users) => {
-  //   console.log(users);
-  //   joinedUsers = users;
-  // });
-  // console.log('randomuser', randomuser);
   let socketId = sessionStorage.getItem('socketid');
 
-  let space = $secretWord.indexOf(' ');
-  let joinedWord = Array($secretWord.length + 1).join('_ ');
-  let actualWord = joinedWord.charAt(space, ' ');
-  console.log('🥰🥰🥰🥰', ssDrawer);
-  console.log('🥰🥰🥰🥰', socketId);
+  // let space = $secretWord.indexOf(' ');
+  // let joinedWord = Array($secretWord.length + 1).join('_ ');
+  // console.log('🥰🥰🥰🥰', ssDrawer);
+  // console.log('🥰🥰🥰🥰', socketId);
 </script>
 
 <div>
-  <!-- {#await randomuser then randomuser}
-    <p>{randomuser.name} is drawing</p> -->
-  <!-- <p>played id {data}</p> -->
   <div class="flex justify-between">
-    <button on:click={getRandomUser}>New Drawer</button>
-    <!-- <button on:click={startGame}>New Word</button> -->
-    <!-- <button on:click={getUsers}>Get Users</button> -->
-    <!-- {/await} -->
     <div class="h-16 flex">
       {#if socketId == ssDrawer.id}
-        <p class="text-2xl text-secondary w-12">{$secretWord}</p>
+        <p class="text-2xl text-secondary w-12">{$secretWords.at(-1)}</p>
       {:else}
         <p class="text-2xl text-secondary h-1">
-          {Array($secretWord.length + 1).join('_ ')}
+          <!-- {Array($secretWords.at(-1).length + 1).join('_ ')} -->
         </p>
       {/if}
     </div>
-    <p class="text-secondary font-logo text-2xl ">{time}</p>
+    <div>
+      <ProgressBar />
+    </div>
   </div>
   <canvas
     class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
@@ -166,16 +147,9 @@
     on:mouseup={finishedPosition}
     on:mouseleave={finishedPosition}
   />
-  <div>
-    <ProgressBar />
-  </div>
   <div class="flex justify-between gap-4 mt-8">
-    <!-- <p class="text-secondary font-logo text-2xl">{time}</p> -->
     {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
-      <!-- {#if time === 60} -->
-      <!-- <button on:click={startGame}> Start </button> -->
-      <!-- {/if} -->
       <div class="btn-group">
         <input
           type="radio"

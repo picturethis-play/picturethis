@@ -30,6 +30,9 @@ io.on('connection', (socket) => {
   socket.on('start', (word) => {
     io.emit('start', word);
   });
+  // socket.on('nextRound', (word) => {
+  //   io.emit('nextRound', word);
+  // });
   socket.on('updateStores', (data) => {
     console.log('a user ' + data + ' connected');
     connectionsCounter++;
@@ -69,8 +72,8 @@ io.on('connection', (socket) => {
     // delete players[socket.id];
   });
 
-  socket.on('roundOver', () => {
-    io.emit('roundOver');
+  socket.on('roundOver', (word) => {
+    io.emit('roundOver', word);
   });
 
   socket.on('drawer', () => {
