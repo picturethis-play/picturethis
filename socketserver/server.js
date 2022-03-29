@@ -69,6 +69,10 @@ io.on('connection', (socket) => {
     // delete players[socket.id];
   });
 
+  socket.on('roundOver', () => {
+    io.emit('roundOver');
+  });
+
   socket.on('drawer', () => {
     console.log('random user requested');
     console.log('randomuserreq', players);
@@ -87,6 +91,9 @@ io.on('connection', (socket) => {
 
   socket.on('startPosition', () => {
     io.emit('startPosition');
+  });
+  socket.on('timer', (timer) => {
+    io.emit('timer', timer);
   });
 });
 
