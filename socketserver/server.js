@@ -2,7 +2,7 @@ const { Server } = require('socket.io');
 
 const io = new Server({
   cors: {
-    origin: 'http://192.168.1.201:8080',
+    origin: 'http://localhost:8080',
   },
 });
 
@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
   // socket.emit('new', socket.id);
   socket.on('chat message', ({ message, data }) => {
     let user = players.find((user) => user.id === data);
-    io.emit('chat message', { message: message, user: user });
+    io.emit('chat message', { message: message, user: user, guessed: false });
   });
   socket.on('draw', (data) => {
     io.emit('draw', data);
@@ -97,6 +97,11 @@ io.on('connection', (socket) => {
   });
   socket.on('timer', (timer) => {
     io.emit('timer', timer);
+  });
+  socket.on('points', ({ data, pointCount }) => {
+    let pointAdd = players.find((player) => player.id === data);
+    pointAdd.points = pointAdd.points + pointCount;
+    io.emit('updateStores', players);
   });
 });
 

@@ -10,7 +10,7 @@
   import ProgressBar from './ProgressBar.svelte';
   import { lengthOfSecretWord } from '../stores/gameStates';
 
-  const socket = io('http://192.168.1.201:3000');
+  const socket = io('http://localhost:3000');
 
   $: time = 60;
 
@@ -153,7 +153,7 @@
           bind:group={penColor}
           value={'black'}
           data-title="🖤"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-black"
           checked
         />
         <input
@@ -162,7 +162,7 @@
           bind:group={penColor}
           value={'red'}
           data-title="🍓"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-red-600"
         />
         <input
           type="radio"
@@ -170,7 +170,7 @@
           bind:group={penColor}
           value={'blue'}
           data-title="🫐"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-blue-500 "
         />
         <input
           type="radio"
@@ -178,7 +178,7 @@
           bind:group={penColor}
           value={'green'}
           data-title="🥒"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-green-700"
         />
         <input
           type="radio"
@@ -186,7 +186,7 @@
           bind:group={penColor}
           value={'yellow'}
           data-title="🍋"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-yellow-400"
         />
         <input
           type="radio"
@@ -194,7 +194,7 @@
           bind:group={penColor}
           value={'orange'}
           data-title="🍊"
-          class="btn btn-outline"
+          class="btn btn-outlineborder-orange-600 border-4 border-orange-500"
         />
         <input
           type="radio"
@@ -202,7 +202,7 @@
           bind:group={penColor}
           value={'brown'}
           data-title="📦"
-          class="btn btn-outline"
+          class="btn btn-outline border-4"
         />
         <input
           type="radio"
