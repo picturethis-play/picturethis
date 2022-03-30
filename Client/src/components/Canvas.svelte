@@ -8,13 +8,13 @@
   let lineWidth = 5;
   import io from 'socket.io-client';
   import ProgressBar from './ProgressBar.svelte';
+  import { lengthOfSecretWord } from '../stores/gameStates';
 
   const socket = io('http://192.168.1.201:3000');
 
   $: time = 60;
 
   socket.on('draw', ({ mousePosition, lineWidth, penColor }) => {
-    console.log('hi');
     draw(mousePosition, lineWidth, penColor, false);
   });
 
@@ -51,26 +51,26 @@
 
   socket.on('start', (word) => {
     console.log(word, 'STARTSTARTSTARTSTARTSTART');
-    // secretWord.set(word);
+    let hangmanString = word.replace(/[a-zA-Z]/g, '_');
     secretWords.set([...$secretWords, word]);
+    lengthOfSecretWord.set(hangmanString);
   });
 
   socket.on('roundOver', (word) => {
     console.log(word, 'ROUNDOVEROROUNDOVERROUNDOVER');
-    // secretWord.set(word);
+    let hangmanString = word.replace(/[a-zA-Z]/g, '_');
     secretWords.set([...$secretWords, word]);
+    lengthOfSecretWord.set(hangmanString);
   });
 
   function startPosition(start) {
     painting = true;
-    console.log('startposition');
     if (start) socket.emit('startPosition');
   }
 
   function finishedPosition(finished) {
     painting = false;
     ctx.beginPath();
-    console.log('finishedposition');
     if (finished) socket.emit('finishedPosition');
   }
 
@@ -83,7 +83,6 @@
   function handleDraw(e) {
     if (!painting) return;
     const mousePosition = getMousePosition(e);
-    console.log('drawing', e);
     draw(mousePosition, lineWidth, penColor, true);
   }
 
@@ -117,11 +116,6 @@
   }
 
   let socketId = sessionStorage.getItem('socketid');
-
-  // let space = $secretWord.indexOf(' ');
-  // let joinedWord = Array($secretWord.length + 1).join('_ ');
-  // console.log('🥰🥰🥰🥰', ssDrawer);
-  // console.log('🥰🥰🥰🥰', socketId);
 </script>
 
 <div>
@@ -130,8 +124,8 @@
       {#if socketId == ssDrawer.id}
         <p class="text-2xl text-secondary w-12">{$secretWords.at(-1)}</p>
       {:else}
-        <p class="text-2xl text-secondary h-1">
-          <!-- {Array($secretWords.at(-1).length + 1).join('_ ')} -->
+        <p class="text-2xl text-secondary h-1 tracking-wider">
+          {$lengthOfSecretWord}
         </p>
       {/if}
     </div>

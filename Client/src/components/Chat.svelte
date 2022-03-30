@@ -1,7 +1,6 @@
 <script>
   import { beforeUpdate, afterUpdate } from 'svelte';
-  import { secretWord, counter } from '../stores/chat-stores';
-  console.log('secret', $secretWord);
+  import { counter, secretWords } from '../stores/chat-stores';
 
   import io from 'socket.io-client';
   const socket = io('http://192.168.1.201:3000');
@@ -10,6 +9,8 @@
   let scroll;
   let autoscroll;
   let message = '';
+
+  let guesses = sessionStorage.setItem('name', {});
 
   let messages = [];
   socket.on('chat message', (data) => {
@@ -65,9 +66,10 @@
   <div class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
     <ul>
       {#each messages as text}
-        {#if text.message === $secretWord}
+        {#if text.message === $secretWords.at(-1)}
           <li class="break-all text-green-500">
             {text.user} guessed the word
+            {guesses+=1}
           </li>
         {:else}
           <li class="break-all">{text.user}: <span class="text-white">{text.message}</span></li>

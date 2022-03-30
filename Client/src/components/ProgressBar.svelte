@@ -1,26 +1,33 @@
 <script>
   import { onMount } from 'svelte';
-  import { timer, waitingTime, roundTime } from '../stores/gameStates';
+  import { timer, waitingTime, roundTime, gameRound, numberOfRounds } from '../stores/gameStates';
   import { randomUser } from '../stores/chat-stores';
   import io from 'socket.io-client';
   const socket = io('http://192.168.1.201:3000');
   import wordDb from '../assets/db';
   const randomWords = wordDb;
   let socketId = sessionStorage.getItem('socketid');
-  // $: ssDrawer = sessionStorage.getItem('drawer');
+  let drawer = sessionStorage.getItem('drawer');
 
   socket.on('start', () => {
-    setInterval(() => {
+    const time = setInterval(() => {
       if ($timer === 0) {
-        timer.set($roundTime + $waitingTime);
-        if (socketId === $randomUser.id) {
-          socket.emit(
-            'roundOver',
-            randomWords[Math.floor(Math.random() * randomWords.length)].word,
-          );
-          socket.emit('drawer');
+        gameRound.set($gameRound + 1);
+        if ($gameRound === $numberOfRounds) {
+          socket.emit('clear');
+          console.log('gaudi is my daddy');
+          clearInterval(time);
+        } else {
+          timer.set($roundTime + $waitingTime);
+          if (socketId === JSON.parse(drawer).id) {
+            socket.emit(
+              'roundOver',
+              randomWords[Math.floor(Math.random() * randomWords.length)].word,
+            );
+            socket.emit('drawer');
+          }
+          socket.emit('clear');
         }
-        socket.emit('clear');
       }
       socket.emit('timer', $timer);
       timer.set($timer - 1);

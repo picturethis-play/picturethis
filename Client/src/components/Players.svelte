@@ -1,12 +1,11 @@
 <script>
   import { onMount } from 'svelte';
+  import { randomUser } from '../stores/chat-stores';
+  const drawer = sessionStorage.getItem('drawer');
 
-  import { players, randomUser } from '../stores/chat-stores';
-  console.log($randomUser);
   $: playerz = [];
   onMount(() => {
     playerz = JSON.parse(sessionStorage.getItem('players'));
-    console.log(typeof playerz);
   });
 </script>
 
@@ -16,7 +15,7 @@
   >
     {#if playerz.length > 0}
       {#each playerz as user}
-        {#if user.name === $randomUser.name}
+        {#if user.id === JSON.parse(drawer).id}
           <p class="text-1x text-primary">{user.name} ✍️</p>
         {:else}
           <p class="text-1x text-accent">{user.name}</p>
