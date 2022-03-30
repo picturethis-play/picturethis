@@ -1,6 +1,6 @@
 <script>
   import { beforeUpdate, afterUpdate } from 'svelte';
-  import { counter, secretWords } from '../stores/chat-stores';
+  import { secretWords } from '../stores/chat-stores';
   import { timer } from '../stores/gameStates';
   import { fade, fly } from 'svelte/transition';
 
@@ -19,6 +19,9 @@
   });
 
   let data = sessionStorage.getItem('socketid');
+  let drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  console.log('drawrere', drawer);
+  console.log('soxxy', data);
 
   $: pointsAdded = 0;
 
@@ -77,15 +80,17 @@
   </div>
 
   <div>
-    <input
-      class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"
-      type="text"
-      name=""
-      id=""
-      bind:value={message}
-      placeholder="Enter your guess here...."
-      on:keydown={handleKeydown}
-    />
+    {#if drawer.id !== data}
+      <input
+        class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"
+        type="text"
+        name=""
+        id=""
+        bind:value={message}
+        placeholder="Enter your guess here...."
+        on:keydown={handleKeydown}
+      />
+    {/if}
     <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
   </div>
 </div>
