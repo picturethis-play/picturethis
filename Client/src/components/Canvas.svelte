@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { fade, fly } from 'svelte/transition';
   import { randomUser, secretWords } from '../stores/chat-stores';
   let penColor;
   let painting;
@@ -118,9 +119,28 @@
   let socketId = sessionStorage.getItem('socketid');
 </script>
 
-<div>
-  <div class="flex justify-start">
-    <div class="h-16">
+<div class="xl:relative lg:relative ">
+  <div class="flex items-center font-logo text-5xl xl:absolute lg:absolute md:relative sm:relative xl:-mt-32 lg:-mt-36 xl:ml-picturethis lg:ml-picturethistwo">
+    {#each 'picture' as char, i}
+      <p
+        class="animate-bouncer text-primary"
+        in:fade={{ delay: 1000 + i * 150, duration: 1800 }}
+        out:fly={{ y: -20, duration: 1000 }}
+      >
+        {char}
+      </p>
+    {/each}
+    {#each 'this' as char, i}
+      <p
+        class="animate-bouncer text-secondary"
+        in:fade={{ delay: 1000 + i * 150, duration: 1800 }}
+        out:fly={{ y: -20, duration: 1000 }}
+      >
+        {char}
+      </p>
+    {/each}
+  </div>
+    <div class="flex h-16 pointer-events-none xl:absolute lg:absolute xl:-mt-14 lg:-mt-14 xl:justify-center lg:justify-center">
       {#if socketId == ssDrawer.id}
         <p class="text-2xl text-secondary">{$secretWords.at(-1)}</p>
       {:else}
@@ -129,9 +149,9 @@
         </p>
       {/if}
     </div>
-    <div>
-      <ProgressBar />
-    </div>
+  
+  <div class="xl:absolute lg:absolute xl:top-2 xl:right-2 lg:top-2 lg:right-2 backdrop-blur-sm rounded-full pointer-events-none">
+    <ProgressBar />
   </div>
   <div class="flex justify-center">
   <canvas
@@ -143,7 +163,7 @@
     on:mouseleave={finishedPosition}
   />
 </div>
-  <div class="flex justify-between gap-4 mt-8">
+  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute ">
     {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <div class="btn-group">

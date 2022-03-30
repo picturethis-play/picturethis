@@ -4,7 +4,7 @@
   import WaitingRoom from './pages/WaitingRoom.svelte';
 </script>
 
-<main>
+<main class="w-full h-full">
   <!-- <GamePage /> -->
   <!-- <WaitingRoom />  -->
   <Router />
