@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  const drawer = sessionStorage.getItem('drawer');
   import io from 'socket.io-client';
   const socket = io('http://localhost:3000');
   import { fade, fly } from 'svelte/transition';
@@ -14,6 +13,11 @@
       newPoints = 0;
     }, 2500);
   };
+  $: drawer = sessionStorage.getItem('drawer');
+
+  socket.on('drawer', () => {
+    drawer = sessionStorage.getItem('drawer');
+  });
 
   $: playerz = [];
   $: newPoints = 0;

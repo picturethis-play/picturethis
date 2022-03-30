@@ -8,9 +8,10 @@
   const randomWords = wordDb;
   let socketId = sessionStorage.getItem('socketid');
   let drawer = sessionStorage.getItem('drawer');
+  let time;
 
   socket.on('start', () => {
-    const time = setInterval(() => {
+    time = setInterval(() => {
       if ($timer === 0) {
         gameRound.set($gameRound + 1);
         if ($gameRound === $numberOfRounds) {
@@ -34,6 +35,14 @@
     }, 1000);
   });
 
+  socket.on('allGuessed', () => {
+    timer.set($roundTime + $waitingTime);
+    if (socketId === JSON.parse(drawer).id) {
+      socket.emit('drawer');
+    }
+    socket.emit('clear');
+  });
+
   $: realTime = $roundTime;
 
   socket.on('timer', (timer) => {
@@ -51,6 +60,6 @@
     class="radial-progress text-primary"
     style="--value:{(realTime * 100) / setTime}; --size:4rem;"
   >
-    {(realTime * 100) / setTime / 2 }
+    {(realTime * 100) / setTime / 2}
   </div>
 </div>

@@ -10,6 +10,7 @@
   import io from 'socket.io-client';
   import ProgressBar from './ProgressBar.svelte';
   import { lengthOfSecretWord } from '../stores/gameStates';
+  // import { navigate } from 'svelte-routing';
 
   const socket = io('http://localhost:3000');
 
@@ -41,14 +42,28 @@
     canvas.addEventListener('touchmove', handleDraw);
   });
 
-  $: ssDrawer = {};
-
+  // $: ssDrawer = {};
+  $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
   socket.on('drawer', (user) => {
     console.log('↪️', user);
     randomUser.set(user);
     sessionStorage.setItem('drawer', JSON.stringify(user));
-    ssDrawer = user;
+    drawer = JSON.parse(sessionStorage.getItem('drawer'));
+    console.log(drawer);
+    // ssDrawer = user;
+    // console.log('ppo', ssDrawer);
   });
+
+  // socket.on('navigate', () => {
+  //   console.log('jhidhishdsdsdf');
+  //   ssDrawer = sessionStorage.getItem('drawer');
+  // });
+
+  // socket.on('navigate', (drawer) => {
+  //   navigate(`/game`, { replace: true });
+  //   sessionStorage.setItem('drawer', JSON.stringify(drawer));
+  //   ssDrawer = drawer;
+  // });
 
   socket.on('start', (word) => {
     console.log(word, 'STARTSTARTSTARTSTARTSTART');
@@ -112,15 +127,17 @@
     m.y = event.clientY;
   }
 
-  function getRandomUser() {
-    socket.emit('drawer');
-  }
+  // function getRandomUser() {
+  //   socket.emit('drawer');
+  // }
 
   let socketId = sessionStorage.getItem('socketid');
 </script>
 
 <div class="xl:relative lg:relative ">
-  <div class="flex items-center font-logo text-5xl xl:absolute lg:absolute md:relative sm:relative xl:-mt-32 lg:-mt-36 xl:ml-picturethis lg:ml-picturethistwo">
+  <div
+    class="flex items-center font-logo text-5xl xl:absolute lg:absolute md:relative sm:relative xl:-mt-32 lg:-mt-36 xl:ml-picturethis lg:ml-picturethistwo"
+  >
     {#each 'picture' as char, i}
       <p
         class="animate-bouncer text-primary"
@@ -140,32 +157,37 @@
       </p>
     {/each}
   </div>
-    <div class="flex h-16 pointer-events-none xl:absolute lg:absolute xl:-mt-14 lg:-mt-14 xl:justify-center lg:justify-center">
-      {#if socketId == ssDrawer.id}
+  <div
+    class="flex h-16 pointer-events-none xl:absolute lg:absolute xl:-mt-14 lg:-mt-14 xl:justify-center lg:justify-center"
+  >
+    {#if $secretWords.length}
+      {#if socketId == drawer.id}
         <p class="text-2xl text-secondary">{$secretWords.at(-1)}</p>
       {:else}
         <p class="text-2xl text-secondary h-1 tracking-wider">
           {$lengthOfSecretWord}
         </p>
       {/if}
-    </div>
-  
-  <div class="xl:absolute lg:absolute xl:top-2 xl:right-2 lg:top-2 lg:right-2 backdrop-blur-sm rounded-full pointer-events-none">
+    {/if}
+  </div>
+
+  <div
+    class="xl:absolute lg:absolute xl:top-2 xl:right-2 lg:top-2 lg:right-2 backdrop-blur-sm rounded-full pointer-events-none"
+  >
     <ProgressBar />
   </div>
   <div class="flex justify-center">
-  <canvas
-    class="bg-white border-2 justify-center rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
-    id="myCanvas"
-    on:mousemove={socketId == ssDrawer.id ? handleDraw : null}
-    on:mousedown={startPosition}
-    on:mouseup={finishedPosition}
-    on:mouseleave={finishedPosition}
-  />
-</div>
-  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute w-full">
-
-    {#if socketId == ssDrawer.id}
+    <canvas
+      class="bg-white border-2 justify-center rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
+      id="myCanvas"
+      on:mousemove={socketId == drawer.id ? handleDraw : null}
+      on:mousedown={startPosition}
+      on:mouseup={finishedPosition}
+      on:mouseleave={finishedPosition}
+    />
+  </div>
+  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute ">
+    {#if socketId == drawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <div class="btn-group">
         <input
