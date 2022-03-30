@@ -60,12 +60,10 @@
 </script>
 
 <div
-  class="flex flex-col justify-start xl:h-xl lg:h-rr lg:mt-4 sm:h-48 sm:w-500 md:w-df md:h-48 sm:w-96 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
+  class="flex flex-col justify-start w-box xl:h-xl lg:h-rr lg:mt-4 sm:h-48 sm:w-500 md:w-df md:h-48 sm:w-96 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
-  <div
-    class="max-w-xs md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary"
-    bind:this={scroll}
-  >
+
+  <div class="max-w-box md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
     <ul>
       {#each messages as text}
         {#if text.message === $secretWords.at(-1)}

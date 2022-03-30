@@ -7,7 +7,7 @@
 </script>
 
 <Router {url}>
-  <div>
+  <div class="w-full h-full">
     <Route path="/game" let:params>
       <GamePage />
     </Route>
