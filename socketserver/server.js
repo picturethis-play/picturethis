@@ -13,7 +13,6 @@ const userArray = [];
 let connectionsCounter = 0;
 
 io.on('connection', (socket) => {
-  // socket.emit('new', socket.id);
   socket.on('chat message', ({ message, data }) => {
     let user = players.find((user) => user.id === data);
     io.emit('chat message', { message: message, user: user, guessed: false });
@@ -30,18 +29,11 @@ io.on('connection', (socket) => {
   socket.on('start', (word) => {
     io.emit('start', word);
   });
-  // socket.on('nextRound', (word) => {
-  //   io.emit('nextRound', word);
-  // });
   socket.on('updateStores', (data) => {
     console.log('a user ' + data + ' connected');
     connectionsCounter++;
     // players[socket.id] = data;
     players = [...players, data];
-    // console.log('user object', players);
-    // let user = Object.values(players);
-    // console.log('user array', user);
-    // userArray.push(data);
     console.log('uzers', players);
     io.emit('updateStores', players);
     console.log(connectionsCounter);
@@ -49,14 +41,6 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     connectionsCounter === 0 ? (connectionsCounter = 0) : connectionsCounter--;
-    // console.log(
-    //   `user ${players.length > 0 ? players.find((o) => o.id === socket.id).name : null} disconnected`,
-    // );
-    // players.filter((x) => {
-    //   console.log('filter', x);
-    //   // console.log(socket.id);
-    //   return x.id != socket.id;
-    // })
     console.log('ysysysysysys', players);
     let takenOutUser = players.filter((x) => {
       console.log('filter', x);
@@ -98,10 +82,11 @@ io.on('connection', (socket) => {
   socket.on('timer', (timer) => {
     io.emit('timer', timer);
   });
-  socket.on('points', ({ data, pointCount }) => {
+  socket.on('points', ({ data, pointCount, pointsAdded }) => {
     let pointAdd = players.find((player) => player.id === data);
     pointAdd.points = pointAdd.points + pointCount;
     io.emit('updateStores', players);
+    io.emit('addPoints', { pointsAdded, data });
   });
 });
 

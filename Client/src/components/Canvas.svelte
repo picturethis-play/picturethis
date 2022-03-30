@@ -164,6 +164,7 @@
   />
 </div>
   <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute ">
+
     {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <div class="btn-group">
@@ -173,7 +174,7 @@
           bind:group={penColor}
           value={'black'}
           data-title="🖤"
-          class="btn btn-outline border-4 border-black"
+          class="btn btn-outline border-4 border-black hover:bg-gray-700 hover:border-gray-700"
           checked
         />
         <input
@@ -182,7 +183,7 @@
           bind:group={penColor}
           value={'red'}
           data-title="🍓"
-          class="btn btn-outline border-4 border-red-600"
+          class="btn btn-outline border-4 border-red-600 hover:bg-red-500 hover:border-red-500"
         />
         <input
           type="radio"
@@ -190,7 +191,7 @@
           bind:group={penColor}
           value={'blue'}
           data-title="🫐"
-          class="btn btn-outline border-4 border-blue-500 "
+          class="btn btn-outline border-4 border-blue-500 hover:bg-blue-400 hover:border-blue-400"
         />
         <input
           type="radio"
@@ -198,7 +199,7 @@
           bind:group={penColor}
           value={'green'}
           data-title="🥒"
-          class="btn btn-outline border-4 border-green-700"
+          class="btn btn-outline border-4 border-green-700 hover:bg-green-400 hover:border-green-400"
         />
         <input
           type="radio"
@@ -206,7 +207,7 @@
           bind:group={penColor}
           value={'yellow'}
           data-title="🍋"
-          class="btn btn-outline border-4 border-yellow-400"
+          class="btn btn-outline border-4 border-yellow-400 hover:bg-yellow-200 hover:border-yellow-200"
         />
         <input
           type="radio"
@@ -214,7 +215,7 @@
           bind:group={penColor}
           value={'orange'}
           data-title="🍊"
-          class="btn btn-outlineborder-orange-600 border-4 border-orange-500"
+          class="btn btn-outline border-4 border-orange-500 hover:bg-orange-500 hover:border-orange-500"
         />
         <input
           type="radio"
@@ -222,7 +223,7 @@
           bind:group={penColor}
           value={'brown'}
           data-title="📦"
-          class="btn btn-outline border-4"
+          class="btn btn-outline border-4 border-amber-700 hover:border-amber-700 hover:bg-amber-700"
         />
         <input
           type="radio"
@@ -230,7 +231,7 @@
           bind:group={penColor}
           value={'purple'}
           data-title="♏️"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-purple-400 hover:border-purple-400 hover:bg-purple-400"
         />
         <input
           type="radio"
@@ -238,7 +239,7 @@
           bind:group={penColor}
           value={'pink'}
           data-title="🌸"
-          class="btn btn-outline"
+          class="btn btn-outline border-4 border-pink-300 hover:border-pink-300 hover:bg-pink-300"
         />
         <input
           type="radio"
@@ -246,14 +247,14 @@
           bind:group={penColor}
           value={'white'}
           data-title="🧼"
-          class="btn btn-outline"
+          class="btn btn-outline border-4"
         />
         <input
           type="color"
           name="options"
           bind:value={penColor}
           data-title="🎨"
-          class="btn btn-outline"
+          class="btn btn-outline border-4"
         />
       </div>
       <input
