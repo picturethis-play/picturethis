@@ -3,41 +3,33 @@
   import { counter, secretWords } from '../stores/chat-stores';
 
   import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  const socket = io('http://localhost:3000');
 
   // enabling chat to autoscroll
   let scroll;
   let autoscroll;
   let message = '';
 
-  let guesses = sessionStorage.setItem('name', {});
-
   let messages = [];
   socket.on('chat message', (data) => {
     console.log(data);
-    messages = [...messages, { user: data.user.name, message: data.message }];
+    messages = [...messages, { user: data.user.name, message: data.message, guessed: false }];
   });
 
   let data = sessionStorage.getItem('socketid');
-  // socket.on('new', (d) => {
-  //   socket.emit('getUsers');
-  //   console.log('socket', d);
-  //   playerId = d;
-  // });
 
+  let pointCount = 5;
   function sendMessage() {
     if (message === '') {
       return;
     }
 
     socket.emit('chat message', { message, data });
+    if (message === $secretWords.at(-1)) {
+      socket.emit('points', { data, pointCount });
+    }
     message = '';
   }
-
-  // let sentFrom;
-  // socket.on('usersending', (id) => {
-  //   sentFrom = id;
-  // });
 
   beforeUpdate(() => {
     autoscroll = scroll && scroll.offsetHeight + scroll.scrollTop > scroll.scrollHeight - 20;
@@ -63,13 +55,15 @@
 <div
   class="flex flex-col xl:h-xl lg:h-rr lg:mt-4 sm:h-48 md:h-36 md:w-df w-72 max-w-xs border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
-  <div class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
+  <div
+    class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary"
+    bind:this={scroll}
+  >
     <ul>
       {#each messages as text}
         {#if text.message === $secretWords.at(-1)}
           <li class="break-all text-green-500">
             {text.user} guessed the word
-            {guesses+=1}
           </li>
         {:else}
           <li class="break-all">{text.user}: <span class="text-white">{text.message}</span></li>

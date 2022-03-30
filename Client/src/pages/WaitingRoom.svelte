@@ -1,6 +1,6 @@
 <script>
   import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  const socket = io('http://localhost:3000');
   import { navigate } from 'svelte-routing';
   import { players } from '../stores/chat-stores';
   import { fade, fly } from 'svelte/transition';
@@ -47,6 +47,12 @@
   function navigateToGamePage() {
     socket.emit('navigate');
     // socket.emit('drawer');
+  }
+
+  function handleKeydown(event) {
+    if (event.key === 'Enter') {
+      addPlayer();
+    }
   }
 
   socket.on('navigate', (drawer) => {
@@ -99,6 +105,7 @@
         class="input input-bordered input-primary text-primary text-2xl sm:w-64"
         type="text"
         placeholder=""
+        on:keydown={handleKeydown}
         bind:value={name}
       />
     {/if}
