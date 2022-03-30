@@ -7,8 +7,8 @@
   export const location = null;
   import { timer, roundTime, gameRound, numberOfRounds } from '../stores/gameStates';
   import io from 'socket.io-client';
-import GameEndModal from '../components/GameEndModal.svelte';
-  const socket = io('http://192.168.1.201:3000');
+  import GameEndModal from '../components/GameEndModal.svelte';
+  const socket = io('http://localhost:3000');
   let displayModal = true;
   socket.on('start', () => {
     displayModal = !displayModal;
@@ -23,19 +23,19 @@ import GameEndModal from '../components/GameEndModal.svelte';
 <div
   class="flex flex-row sm:flex-col sm:gap-0 sm:mt-0 sm:mb-4 sm:w-full md:flex-col md:gap-0 md:mt-0 md:w-full justify-center items-center gap-4"
 >
-{#if $gameRound === $numberOfRounds}
-<GameEndModal/>
-{:else}
-  {#if $timer > $roundTime}
-    <RoundEnd />
-  {/if}
-  {#if displayModal}
-    {#if roundOver}
-      <StartModal />
+  {#if $gameRound === $numberOfRounds}
+    <GameEndModal />
+  {:else}
+    {#if $timer > $roundTime}
+      <RoundEnd />
     {/if}
-  {/if}
-  <Players />
-  <Canvas />
-  <Chat />
+    {#if displayModal}
+      {#if roundOver}
+        <StartModal />
+      {/if}
+    {/if}
+    <Players />
+    <Canvas />
+    <Chat />
   {/if}
 </div>
