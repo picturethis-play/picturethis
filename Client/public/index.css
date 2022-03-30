@@ -562,40 +562,6 @@ html {
     max-width: 1401px;
   }
 }
-.alert {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
-  padding: 1rem;
-  border-radius: var(--rounded-box, 1rem);
-}
-.alert > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
-}
-@media (min-width: 768px) {
-
-  .alert {
-    flex-direction: row;
-  }
-
-  .alert > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(0px * var(--tw-space-y-reverse));
-  }
-}
-.alert > :where(*) {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 .avatar {
   position: relative;
   display: inline-flex;
@@ -1829,6 +1795,9 @@ body[dir="rtl"] .checkbox:checked,
 .w-70 {
   width: 17rem;
 }
+.w-11\/12 {
+  width: 91.666667%;
+}
 .w-48 {
   width: 12rem;
 }
@@ -1837,6 +1806,9 @@ body[dir="rtl"] .checkbox:checked,
 }
 .max-w-xs {
   max-width: 20rem;
+}
+.max-w-5xl {
+  max-width: 64rem;
 }
 .flex-auto {
   flex: 1 1 auto;
@@ -2027,9 +1999,6 @@ body[dir="rtl"] .checkbox:checked,
 .font-bold {
   font-weight: 700;
 }
-.tracking-widest {
-  letter-spacing: 0.1em;
-}
 .tracking-wider {
   letter-spacing: 0.05em;
 }
@@ -2072,17 +2041,14 @@ body[dir="rtl"] .checkbox:checked,
 .w-500px {
     width: 500px;
   }
-
 .hover\:bg-red-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
-
 .active\:bg-green-400:active {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
-
 @media (min-width: 1401px) {
 
   .xl\:h-xl {
@@ -2097,7 +2063,6 @@ body[dir="rtl"] .checkbox:checked,
     width: 1100px;
   }
 }
-
 @media (max-width: 1400px) {
 
   .lg\:mt-4 {
@@ -2120,7 +2085,6 @@ body[dir="rtl"] .checkbox:checked,
     width: 10rem;
   }
 }
-
 @media (max-width: 1200px) {
 
   .md\:mt-0 {
@@ -2159,7 +2123,6 @@ body[dir="rtl"] .checkbox:checked,
     font-size: 10rem;
   }
 }
-
 @media (max-width: 700px) {
 
   .sm\:mt-0 {
