@@ -163,7 +163,7 @@
     on:mouseleave={finishedPosition}
   />
 </div>
-  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute ">
+  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute w-full">
 
     {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
@@ -221,14 +221,6 @@
           type="radio"
           name="options"
           bind:group={penColor}
-          value={'brown'}
-          data-title="📦"
-          class="btn btn-outline border-4 border-amber-700 hover:border-amber-700 hover:bg-amber-700"
-        />
-        <input
-          type="radio"
-          name="options"
-          bind:group={penColor}
           value={'purple'}
           data-title="♏️"
           class="btn btn-outline border-4 border-purple-400 hover:border-purple-400 hover:bg-purple-400"
@@ -247,7 +239,7 @@
           bind:group={penColor}
           value={'white'}
           data-title="🧼"
-          class="btn btn-outline border-4"
+          class="btn btn-outline border-4 border-blue-200 hover:bg-blue-200"
         />
         <input
           type="color"

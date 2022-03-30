@@ -6,6 +6,7 @@
   import { fade, fly } from 'svelte/transition';
   import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
+  import Settings from '../components/Settings.svelte';
   let carousel;
   let round = true;
   console.log('thesocket', socket);
@@ -118,11 +119,14 @@
       <button on:click={navigateToGamePage} class="btn btn-secondary mt-2">Start Game</button>
     {/if}
     <button class="btn btn-primary mt-2">Invite Friends</button>
-    <input
-      type="checkbox"
-      class="toggle mt-1"
-      data-toggle-theme="dracula,emerald"
-      data-act-class="ACTIVECLASS"
-    />🌚/🌞
   </div>
+  <div class="m-2">
+    <Settings />
+  </div>
+  <input
+    type="checkbox"
+    class="toggle mt-1"
+    data-toggle-theme="emerald,dracula"
+    data-act-class="ACTIVECLASS"
+  />🌚/🌞
 </div>

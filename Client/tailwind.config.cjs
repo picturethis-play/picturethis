@@ -81,7 +81,8 @@ module.exports = {
   },
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ["dracula", "emerald"]
+    themes: ["dracula", "emerald"],
+    darkTheme: "dracula"
   },
   content: ['./src/App.svelte', './src/pages/*', './src/components/*'],
   enabled: production, // disable purge in dev
