@@ -10,7 +10,7 @@
   let autoscroll;
   let message = '';
 
-  let guesses = sessionStorage.setItem('name', {});
+  // let guesses = sessionStorage.setItem('name', {});
 
   let messages = [];
   socket.on('chat message', (data) => {
@@ -61,15 +61,15 @@
 </script>
 
 <div
-  class="flex flex-col xl:h-xl lg:h-rr lg:mt-4 sm:h-48 md:h-36 md:w-df w-72 max-w-xs border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
+  class="flex flex-col justify-start xl:h-xl lg:h-rr lg:mt-4 sm:h-48 sm:w-500 md:w-df md:h-48 sm:w-96 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
-  <div class="max-w-xs text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
+  <div class="max-w-xs md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
     <ul>
       {#each messages as text}
         {#if text.message === $secretWords.at(-1)}
           <li class="break-all text-green-500">
             {text.user} guessed the word
-            {guesses+=1}
+            <!-- {guesses+=1} -->
           </li>
         {:else}
           <li class="break-all">{text.user}: <span class="text-white">{text.message}</span></li>

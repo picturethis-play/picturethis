@@ -119,10 +119,10 @@
 </script>
 
 <div>
-  <div class="flex justify-between">
-    <div class="h-16 flex">
+  <div class="flex justify-start">
+    <div class="h-16">
       {#if socketId == ssDrawer.id}
-        <p class="text-2xl text-secondary w-12">{$secretWords.at(-1)}</p>
+        <p class="text-2xl text-secondary">{$secretWords.at(-1)}</p>
       {:else}
         <p class="text-2xl text-secondary h-1 tracking-wider">
           {$lengthOfSecretWord}
@@ -133,14 +133,16 @@
       <ProgressBar />
     </div>
   </div>
+  <div class="flex justify-center">
   <canvas
-    class="bg-white border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
+    class="bg-white border-2 justify-center rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
     id="myCanvas"
     on:mousemove={socketId == ssDrawer.id ? handleDraw : null}
     on:mousedown={startPosition}
     on:mouseup={finishedPosition}
     on:mouseleave={finishedPosition}
   />
+</div>
   <div class="flex justify-between gap-4 mt-8">
     {#if socketId == ssDrawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
