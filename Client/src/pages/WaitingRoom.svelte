@@ -121,7 +121,7 @@
     <input
       type="checkbox"
       class="toggle mt-1"
-      data-toggle-theme="dracula,pastel"
+      data-toggle-theme="dracula,emerald"
       data-act-class="ACTIVECLASS"
     />🌚/🌞
   </div>
