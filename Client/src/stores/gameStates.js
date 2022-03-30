@@ -9,3 +9,4 @@ export const waitingTime = writable(10);
 export const roundTime = writable(50);
 export const numberOfRounds = writable(2);
 export const lengthOfSecretWord = writable([]);
+export const hangManMode = writable(false);
