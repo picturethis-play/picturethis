@@ -3,6 +3,8 @@
   import { secretWords } from '../stores/chat-stores';
   import { timer } from '../stores/gameStates';
   import { fade, fly } from 'svelte/transition';
+  import wordDb from '../assets/db';
+  const randomWords = wordDb;
 
   import io from 'socket.io-client';
   const socket = io('http://localhost:3000');
@@ -19,11 +21,27 @@
   });
 
   let data = sessionStorage.getItem('socketid');
-  let drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  socket.on('drawer', (drawerw) => {
+    drawer = drawerw;
+  });
   console.log('drawrere', drawer);
   console.log('soxxy', data);
 
   $: pointsAdded = 0;
+  $: guesserz = [];
+  $: playerz = [1, 2, 4, 5, 6];
+
+  socket.on('addPoints', ({ guessers }) => {
+    guesserz = guessers;
+    playerz = JSON.parse(sessionStorage.getItem('players'));
+    console.log('pp', playerz.length);
+    console.log('gg', guesserz.length);
+
+    if (data == drawer.id && playerz.length - 1 === guessers.length) {
+      socket.emit('allGuessed', randomWords[Math.floor(Math.random() * randomWords.length)].word);
+    }
+  });
 
   function sendMessage() {
     if (message === '') {
@@ -57,13 +75,18 @@
     console.log($timer);
     return points;
   }
+  socket.on('allGuessed', () => {
+    guesserz = [];
+  });
 </script>
 
 <div
   class="flex flex-col justify-start w-box xl:h-xl lg:h-rr lg:mt-4 sm:h-48 sm:w-500 md:w-df md:h-48 sm:w-96 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
-
-  <div class="max-w-box md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
+  <div
+    class="max-w-box md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary"
+    bind:this={scroll}
+  >
     <ul>
       {#each messages as text}
         {#if text.message === $secretWords.at(-1)}
@@ -78,16 +101,18 @@
   </div>
 
   <div>
-    {#if drawer.id !== data}
-      <input
-        class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"
-        type="text"
-        name=""
-        id=""
-        bind:value={message}
-        placeholder="Enter your guess here...."
-        on:keydown={handleKeydown}
-      />
+    {#if drawer.id != data}
+      {#if !guesserz.includes(data)}
+        <input
+          class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"
+          type="text"
+          name=""
+          id=""
+          bind:value={message}
+          placeholder="Enter your guess here...."
+          on:keydown={handleKeydown}
+        />
+      {/if}
     {/if}
     <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
   </div>
