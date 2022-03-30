@@ -21,7 +21,10 @@
   });
 
   let data = sessionStorage.getItem('socketid');
-  let drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  socket.on('drawer', (drawerw) => {
+    drawer = drawerw;
+  });
   console.log('drawrere', drawer);
   console.log('soxxy', data);
 
@@ -34,8 +37,9 @@
     playerz = JSON.parse(sessionStorage.getItem('players'));
     console.log('pp', playerz.length);
     console.log('gg', guesserz.length);
-    if (playerz.length - 1 === guessers.length) {
-      socket.emit('roundOver', randomWords[Math.floor(Math.random() * randomWords.length)].word);
+
+    if (data == drawer.id && playerz.length - 1 === guessers.length) {
+      socket.emit('allGuessed', randomWords[Math.floor(Math.random() * randomWords.length)].word);
     }
   });
 
@@ -71,6 +75,9 @@
     console.log($timer);
     return points;
   }
+  socket.on('allGuessed', () => {
+    guesserz = [];
+  });
 </script>
 
 <div
@@ -94,7 +101,7 @@
   </div>
 
   <div>
-    {#if drawer.id == data}
+    {#if drawer.id != data}
       {#if !guesserz.includes(data)}
         <input
           class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"

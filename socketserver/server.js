@@ -91,6 +91,11 @@ io.on('connection', (socket) => {
     io.emit('updateStores', players);
     io.emit('addPoints', { pointsAdded, data, guessers });
   });
+  socket.on('allGuessed', (word) => {
+    io.emit('roundOver', word);
+    io.emit('allGuessed');
+    guessers = [];
+  });
 });
 
 io.listen(3000);
