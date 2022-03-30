@@ -11,6 +11,7 @@ let user = Object.values(players);
 console.log('user', user);
 const userArray = [];
 let connectionsCounter = 0;
+let guessers = [];
 
 io.on('connection', (socket) => {
   socket.on('chat message', ({ message, data }) => {
@@ -57,6 +58,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('roundOver', (word) => {
+    players.forEach((player) => (player.hasGuessed = false));
     io.emit('roundOver', word);
   });
 
@@ -85,8 +87,9 @@ io.on('connection', (socket) => {
   socket.on('points', ({ data, pointCount, pointsAdded }) => {
     let pointAdd = players.find((player) => player.id === data);
     pointAdd.points = pointAdd.points + pointCount;
+    guessers.push(pointAdd.id);
     io.emit('updateStores', players);
-    io.emit('addPoints', { pointsAdded, data });
+    io.emit('addPoints', { pointsAdded, data, guessers });
   });
 });
 
