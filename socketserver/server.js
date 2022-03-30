@@ -9,7 +9,6 @@ const io = new Server({
 let players = [];
 let user = Object.values(players);
 console.log('user', user);
-const userArray = [];
 let connectionsCounter = 0;
 let guessers = [];
 
@@ -94,6 +93,11 @@ io.on('connection', (socket) => {
   socket.on('allGuessed', (word) => {
     io.emit('roundOver', word);
     io.emit('allGuessed');
+    guessers = [];
+  });
+  socket.on('gameOver', () => {
+    io.emit('gameOver');
+    players = [];
     guessers = [];
   });
 });

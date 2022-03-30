@@ -7,37 +7,41 @@
   import wordDb from '../assets/db';
   const randomWords = wordDb;
   let socketId = sessionStorage.getItem('socketid');
-  let drawer = sessionStorage.getItem('drawer');
+  let drawer = JSON.parse(sessionStorage.getItem('drawer'));
   let time;
+
+  if ($gameRound === $numberOfRounds) {
+    gameRound.set(0);
+    socket.emit('clear');
+    console.log('gaudi is my daddy');
+    clearInterval(time);
+    socket.emit('gameOver');
+  }
+
+  if ($timer === 0) {
+    gameRound.set($gameRound + 1);
+
+    timer.set($roundTime + $waitingTime);
+    if (socketId === drawer.id) {
+      socket.emit('roundOver', randomWords[Math.floor(Math.random() * randomWords.length)].word);
+      socket.emit('drawer');
+    }
+    socket.emit('clear');
+  }
 
   socket.on('start', () => {
     time = setInterval(() => {
-      if ($timer === 0) {
-        gameRound.set($gameRound + 1);
-        if ($gameRound === $numberOfRounds) {
-          socket.emit('clear');
-          console.log('gaudi is my daddy');
-          clearInterval(time);
-        } else {
-          timer.set($roundTime + $waitingTime);
-          if (socketId === JSON.parse(drawer).id) {
-            socket.emit(
-              'roundOver',
-              randomWords[Math.floor(Math.random() * randomWords.length)].word,
-            );
-            socket.emit('drawer');
-          }
-          socket.emit('clear');
-        }
+      if (socketId === drawer.id) {
+        socket.emit('timer', $timer);
       }
-      socket.emit('timer', $timer);
       timer.set($timer - 1);
     }, 1000);
   });
 
   socket.on('allGuessed', () => {
     timer.set($roundTime + $waitingTime);
-    if (socketId === JSON.parse(drawer).id) {
+    gameRound.set($gameRound + 1);
+    if (socketId === drawer.id) {
       socket.emit('drawer');
     }
     socket.emit('clear');
