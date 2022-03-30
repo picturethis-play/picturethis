@@ -23,7 +23,7 @@
 </script>
 
 <div
-  class="flex flex-row justify-center items-end h-full sm:items-center md:items-center sm:justify-center md:justify-center sm:flex-col sm:gap-0 sm:mt-0 sm:mb-4 sm:w-full md:flex-col md:gap-0 md:w-full gap-4"
+  class="flex flex-row justify-center items-center h-full sm:items-center md:items-center sm:justify-center md:justify-center sm:flex-col sm:gap-0 sm:mt-0 sm:mb-4 sm:w-full md:flex-col md:gap-0 md:w-full gap-4"
 >
   {#if $gameRound === $numberOfRounds}
     <GameEndModal />

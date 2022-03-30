@@ -51,6 +51,6 @@
     class="radial-progress text-primary"
     style="--value:{(realTime * 100) / setTime}; --size:4rem;"
   >
-    {(realTime * 100) / setTime / 100}
+    {(realTime * 100) / setTime / 2 }
   </div>
 </div>

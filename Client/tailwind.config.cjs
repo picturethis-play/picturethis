@@ -16,7 +16,7 @@ module.exports = {
       'xl': { 'min': '1401px' },
       // => @media (max-width: 1279px)
 
-      'lg': { 'max': '1400px' },
+      'lg': { 'min':'1200px', 'max': '1400px' },
       // => @media (max-width: 1023px)
 
       'md': { 'max': '1200px' },
@@ -58,10 +58,15 @@ module.exports = {
         'xl': '1100px',
         'rr': '800px',
         'df': '600px',
-        '70': '17rem'
+        '70': '17rem',
+        'box': '250px'
       },
      cursor: {
        'emoji': 'url(../public/pencil.png), pencil'
+     },
+     margin: {
+       'picturethis': '360px',
+       'picturethistwo': '230px'
      }
     },
   },
