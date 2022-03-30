@@ -1,19 +1,29 @@
 <script>
-  import { Socket } from 'socket.io-client';
-
   import { onMount } from 'svelte';
-  import { randomUser } from '../stores/chat-stores';
   const drawer = sessionStorage.getItem('drawer');
   import io from 'socket.io-client';
   const socket = io('http://localhost:3000');
+  import { fade, fly } from 'svelte/transition';
 
-  $: playerz = [];
   onMount(() => {
     playerz = JSON.parse(sessionStorage.getItem('players'));
   });
-  socket.on('updateStores', () => {
+
+  const resetPoints = () => {
+    setTimeout(() => {
+      newPoints = 0;
+    }, 2500);
+  };
+
+  $: playerz = [];
+  $: newPoints = 0;
+  $: pointsAddedTo = [];
+  socket.on('addPoints', ({ pointsAdded, data }) => {
     let playerx = JSON.parse(sessionStorage.getItem('players'));
     playerz = playerx.sort((a, b) => b.points - a.points);
+    newPoints = pointsAdded;
+    pointsAddedTo = data;
+    resetPoints();
   });
 </script>
 
@@ -22,7 +32,14 @@
 >
   {#if playerz.length > 0}
     {#each playerz as user}
-      <h2 class="text-primary">{user.points}</h2>
+      <h2 class="text-primary">
+        {user.points}
+        {#if pointsAddedTo === user.id}
+          {#if newPoints !== 0}
+            <span class="text-green-600" transition:fade={{ duration: 1000 }}>+{newPoints}</span>
+          {/if}
+        {/if}
+      </h2>
       {#if user.id === JSON.parse(drawer).id}
         <p class="text-2x text-primary">{user.name} ✍️</p>
       {:else}

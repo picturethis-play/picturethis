@@ -1,6 +1,8 @@
 <script>
   import { beforeUpdate, afterUpdate } from 'svelte';
   import { counter, secretWords } from '../stores/chat-stores';
+  import { timer } from '../stores/gameStates';
+  import { fade, fly } from 'svelte/transition';
 
   import io from 'socket.io-client';
   const socket = io('http://localhost:3000');
@@ -18,15 +20,18 @@
 
   let data = sessionStorage.getItem('socketid');
 
-  let pointCount = 5;
+  $: pointsAdded = 0;
+
   function sendMessage() {
     if (message === '') {
       return;
     }
 
+    let pointCount = setPoints();
     socket.emit('chat message', { message, data });
     if (message === $secretWords.at(-1)) {
-      socket.emit('points', { data, pointCount });
+      pointsAdded = pointCount;
+      socket.emit('points', { data, pointCount, pointsAdded });
     }
     message = '';
   }
@@ -44,19 +49,20 @@
       sendMessage();
     }
   }
-
   function setPoints() {
-    const points = $counter;
+    const points = $timer;
+    console.log($timer);
     return points;
   }
-  console.log(counter);
 </script>
 
 <div
   class="flex flex-col justify-start xl:h-xl lg:h-rr lg:mt-4 sm:h-48 sm:w-500 md:w-df md:h-48 sm:w-96 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
-  <div class="max-w-xs md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary" bind:this={scroll}>
-
+  <div
+    class="max-w-xs md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary"
+    bind:this={scroll}
+  >
     <ul>
       {#each messages as text}
         {#if text.message === $secretWords.at(-1)}
