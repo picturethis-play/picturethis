@@ -20,12 +20,19 @@
   socket.on('roundOver', () => {
     roundOver = false;
   });
+
+  // let overModal = false;
+
+  // socket.on('gameOver', () => {
+  //   overModal = !overModal;
+  // });
 </script>
 
 <div
   class="flex flex-row justify-center items-center h-full sm:items-center md:items-center sm:justify-center md:justify-center sm:flex-col sm:gap-0 sm:mt-0 sm:mb-4 sm:w-full md:flex-col md:gap-0 md:w-full gap-4"
 >
   {#if $gameRound === $numberOfRounds}
+    <!-- {#if overModal} -->
     <GameEndModal />
   {:else}
     {#if $timer > $roundTime}

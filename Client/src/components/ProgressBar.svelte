@@ -20,7 +20,6 @@
 
   if ($timer === 0) {
     gameRound.set($gameRound + 1);
-
     timer.set($roundTime + $waitingTime);
     if (socketId === drawer.id) {
       socket.emit('roundOver', randomWords[Math.floor(Math.random() * randomWords.length)].word);

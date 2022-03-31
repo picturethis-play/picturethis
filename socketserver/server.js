@@ -96,9 +96,9 @@ io.on('connection', (socket) => {
     guessers = [];
   });
   socket.on('gameOver', () => {
-    io.emit('gameOver');
-    players = [];
-    guessers = [];
+    io.emit('gameOver', players);
+    // players = [];
+    // guessers = [];
   });
 });
 
