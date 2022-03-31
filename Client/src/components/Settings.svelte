@@ -6,34 +6,35 @@
   let hangManModeValue = $hangManMode;
 
   function consoleLogs(state) {
-    console.log('State: ', state, ':')
+    console.log('State: ', state, ':');
     console.log('numberOfRounds: ', $numberOfRounds);
     console.log('roundTime: ', $roundTime);
     console.log('hangManMode: ', $hangManMode);
   }
 
   function handleSubmit() {
-
     consoleLogs('Old');
     numberOfRounds.set(numberOfRoundsValue);
     roundTime.set(roundTimeValue);
-    hangManMode.set(hangManModeValue)
+    hangManMode.set(hangManModeValue);
+    timer.set(roundTimeValue);
     consoleLogs('Current');
   }
 </script>
 
-<label for="my-modal-3" class="btn modal-button"><ion-icon name="cog-outline" class="stroke-white h-5 w-5"></ion-icon></label>
+<label for="my-modal-3" class="btn modal-button"
+  ><ion-icon name="cog-outline" class="stroke-white h-5 w-5" /></label
+>
 
-
-<input type="checkbox" id="my-modal-3" class="modal-toggle">
+<input type="checkbox" id="my-modal-3" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box relative">
     <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-   
+
     <div class="flex flex-col justify-center items-center m-2 p-4">
-       <h2 class="text-accent">
-      <label for="numberOfRounds">Number of rounds: {numberOfRoundsValue}</label>
-    </h2>
+      <h2 class="text-accent">
+        <label for="numberOfRounds">Number of rounds: {numberOfRoundsValue}</label>
+      </h2>
       <input
         type="range"
         class="range range-sm range-secondary"
@@ -50,10 +51,10 @@
         <span>4</span>
         <span>5</span>
       </div>
-      <br/>
+      <br />
       <h2 class="text-accent">
-      <label for="roundTime">Round time (seconds): {roundTimeValue}</label>
-    </h2>
+        <label for="roundTime">Round time (seconds): {roundTimeValue}</label>
+      </h2>
       <input
         type="range"
         class="range range-sm range-secondary"
@@ -73,17 +74,24 @@
         <span>|</span>
         <span>|</span>
       </div>
-      <br/>
-       <div class="flex gap-2">
-      <label for="hangManMode" class="text-accent">HangmanMode:</label>
-      <input name="hangmanMode" id="hangmanMode" type="checkbox" class="toggle toggle-accent" bind:checked={hangManModeValue} />
-     </div>
-     <br/>
-      <button type="button" value="Confirm" class="btn btn-outline btn-success" on:click={handleSubmit}>Save</button>
+      <br />
+      <div class="flex gap-2">
+        <label for="hangManMode" class="text-accent">HangmanMode:</label>
+        <input
+          name="hangmanMode"
+          id="hangmanMode"
+          type="checkbox"
+          class="toggle toggle-accent"
+          bind:checked={hangManModeValue}
+        />
+      </div>
+      <br />
+      <button
+        type="button"
+        value="Confirm"
+        class="btn btn-outline btn-success"
+        on:click={handleSubmit}>Save</button
+      >
     </div>
-
-
   </div>
 </div>
-
-

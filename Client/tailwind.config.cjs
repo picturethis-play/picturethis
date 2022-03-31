@@ -16,7 +16,7 @@ module.exports = {
       'xl': { 'min': '1401px' },
       // => @media (max-width: 1279px)
 
-      'lg': { 'min':'1200px', 'max': '1400px' },
+      'lg': { 'min': '1200px', 'max': '1400px' },
       // => @media (max-width: 1023px)
 
       'md': { 'max': '1200px' },
@@ -31,8 +31,8 @@ module.exports = {
     },
     extend: {
       animation: {
-        'bouncey': 'bounce 3s ease infinite',
-        'bouncer': 'bounce 2s ease infinite',
+        'bouncey': 'bouncebounce 3s ease infinite',
+        'bouncer': 'bouncebounce 2s ease infinite',
         'scrolling': 'scrolling 5s linear infinite'
       },
       boxShadow: {
@@ -45,6 +45,16 @@ module.exports = {
           },
           '100%': {
             transform: 'translate3d(-1000px, 0, 0)'
+          }
+        },
+        bouncebounce: {
+          '0%, 100%': {
+            transform: 'translateY(-15%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+          },
+          '50%': {
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
           }
         }
       },
@@ -61,13 +71,13 @@ module.exports = {
         '70': '17rem',
         'box': '250px'
       },
-     cursor: {
-       'emoji': 'url(../public/pencil.png), pencil'
-     },
-     margin: {
-       'picturethis': '360px',
-       'picturethistwo': '230px'
-     }
+      cursor: {
+        'emoji': 'url(../public/pencil.png), pencil'
+      },
+      margin: {
+        'picturethis': '360px',
+        'picturethistwo': '230px'
+      }
     },
   },
   variants: {

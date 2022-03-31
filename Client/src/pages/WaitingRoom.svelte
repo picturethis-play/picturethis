@@ -22,16 +22,15 @@
     sessionStorage.setItem('socketid', socket.id);
   });
   const icons = [
-    'logo-react',
-    'logo-react',
-    'logo-npm',
-    'logo-github',
-    'logo-css3',
-    'logo-chrome',
-    'logo-figma',
-    'logo-html5',
-    'logo-sass',
-    'logo-vercel',
+    { icon: 'logo-react', color: 'text-blue-500' },
+    { icon: 'logo-npm', color: 'text-red-500' },
+    { icon: 'logo-github', color: 'text-black-500' },
+    { icon: 'logo-css3', color: 'text-blue-500' },
+    { icon: 'logo-chrome', color: 'text-green-500' },
+    { icon: 'logo-figma', color: 'text-purple-500' },
+    { icon: 'logo-html5', color: 'text-orange-500' },
+    { icon: 'logo-sass', color: 'text-pink-500' },
+    { icon: 'logo-vercel', color: 'text-black-500' },
   ];
 
   // NEW PLAYER
@@ -137,7 +136,9 @@
     {#if $players.length > 1}
       <button on:click={navigateToGamePage} class="btn btn-secondary mt-2">Start Game</button>
     {/if}
-    <button class="btn btn-primary mt-2">Invite Friends</button>
+    <div class="tooltip tooltip-accent" data-tip="click to copy link to clipboard!">
+      <button class="btn btn-primary mt-2">Invite Friends</button>
+    </div>
   </div>
   <div class="m-2">
     <Settings />

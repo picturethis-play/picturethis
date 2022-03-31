@@ -18,18 +18,20 @@
     socket.emit('gameOver');
   }
 
-  if ($timer === 0) {
-    gameRound.set($gameRound + 1);
-    timer.set($roundTime + $waitingTime);
-    if (socketId === drawer.id) {
-      socket.emit('roundOver', randomWords[Math.floor(Math.random() * randomWords.length)].word);
-      socket.emit('drawer');
-    }
-    socket.emit('clear');
-  }
-
   socket.on('start', () => {
     time = setInterval(() => {
+      if ($timer <= 0) {
+        gameRound.set($gameRound + 1);
+        timer.set($roundTime + $waitingTime);
+        if (socketId === drawer.id) {
+          socket.emit(
+            'roundOver',
+            randomWords[Math.floor(Math.random() * randomWords.length)].word,
+          );
+          socket.emit('drawer');
+        }
+        socket.emit('clear');
+      }
       if (socketId === drawer.id) {
         socket.emit('timer', $timer);
       }
@@ -45,7 +47,7 @@
     }
     socket.emit('clear');
   });
-
+  
   $: realTime = $roundTime;
 
   socket.on('timer', (timer) => {
