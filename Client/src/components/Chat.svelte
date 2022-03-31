@@ -104,7 +104,7 @@
     {#if drawer.id != data}
       {#if !guesserz.includes(data)}
         <input
-          class="input input-ghost input-sm text-secondary w-70 ml-1.5 mb-1"
+          class="input input-ghost input-sm text-secondary w-[97%] ml-1.5 mb-1"
           type="text"
           name=""
           id=""

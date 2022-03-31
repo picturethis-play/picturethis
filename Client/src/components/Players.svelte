@@ -37,19 +37,38 @@
 >
   {#if playerz.length > 0}
     {#each playerz as user}
-      <h2 class="text-primary">
-        {user.points}
-        {#if pointsAddedTo === user.id}
-          {#if newPoints !== 0}
-            <span class="text-green-600" transition:fade={{ duration: 1000 }}>+{newPoints}</span>
-          {/if}
-        {/if}
-      </h2>
-      {#if user.id === drawer.id}
-        <p class="text-2x text-primary">{user.name} ✍️</p>
-      {:else}
-        <p class="text-2x text-accent">{user.name}</p>
-      {/if}
+      <div class="stats w-full mt-2">
+        <div class="stat flex">
+          <div class="flex items-center justify-center">
+            <div>
+              <div class="w-16">
+                <ion-icon size="large" name={user.icon.icon} class={user.icon.color} />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="stat-title">
+              {#if user.id === drawer.id}
+                <p class="text-2x text-primary">{user.name} ✍️</p>
+              {:else}
+                <p class="text-2x text-accent">{user.name}</p>
+              {/if}
+            </div>
+            <div class="flex">
+              <div class="stat-value">{user.points}</div>
+              <div class="stat-value">
+                {#if pointsAddedTo === user.id}
+                  {#if newPoints !== 0}
+                    <span class="text-green-600" transition:fade={{ duration: 1000 }}
+                      >+{newPoints}</span
+                    >
+                  {/if}
+                {/if}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     {/each}
   {/if}
 </div>

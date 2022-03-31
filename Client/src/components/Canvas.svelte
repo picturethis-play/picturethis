@@ -9,7 +9,7 @@
   let lineWidth = 5;
   import io from 'socket.io-client';
   import ProgressBar from './ProgressBar.svelte';
-  import { lengthOfSecretWord } from '../stores/gameStates';
+  import { lengthOfSecretWord, timer, hangManMode } from '../stores/gameStates';
   // import { navigate } from 'svelte-routing';
 
   const socket = io('http://localhost:3000');
@@ -67,16 +67,28 @@
 
   socket.on('start', (word) => {
     console.log(word, 'STARTSTARTSTARTSTARTSTART');
-    let hangmanString = word.replace(/[a-zA-Z]/g, '_');
+    // let hangmanString = word.replace(/[a-zA-Z]/g, '_');
     secretWords.set([...$secretWords, word]);
-    lengthOfSecretWord.set(hangmanString);
+    let wordArr = [
+      word.replace(/[a-zA-Z]/g, '_'),
+      word.replace(/[c-xC-X]/g, '_'),
+      word.replace(/[f-sF-S]/g, '_'),
+      word.replace(/[h-mH-M]/g, '_'),
+    ];
+    lengthOfSecretWord.set(wordArr);
   });
 
   socket.on('roundOver', (word) => {
     console.log(word, 'ROUNDOVEROROUNDOVERROUNDOVER');
-    let hangmanString = word.replace(/[a-zA-Z]/g, '_');
+    // let hangmanString = word.replace(/[a-zA-Z]/g, '_');
     secretWords.set([...$secretWords, word]);
-    lengthOfSecretWord.set(hangmanString);
+    let wordArr = [
+      word.replace(/[a-zA-Z]/g, '_'),
+      word.replace(/[c-xC-X]/g, '_'),
+      word.replace(/[f-sF-S]/g, '_'),
+      word.replace(/[h-mH-M]/g, '_'),
+    ];
+    lengthOfSecretWord.set(wordArr);
   });
 
   function startPosition(start) {
@@ -144,7 +156,7 @@
   >
     {#each 'picture' as char, i}
       <p
-        class="animate-bouncer text-primary"
+        class="text-primary hover:animate-ping"
         in:fade={{ delay: 1000 + i * 150, duration: 1800 }}
         out:fly={{ y: -20, duration: 1000 }}
       >
@@ -153,7 +165,7 @@
     {/each}
     {#each 'this' as char, i}
       <p
-        class="animate-bouncer text-secondary"
+        class="text-secondary hover:animate-ping"
         in:fade={{ delay: 1000 + i * 150, duration: 1800 }}
         out:fly={{ y: -20, duration: 1000 }}
       >
@@ -166,10 +178,20 @@
   >
     {#if $secretWords.length}
       {#if socketId == drawer.id}
-        <p class="text-2xl text-secondary">{$secretWords.at(-1)}</p>
+      <p class="text-2xl text-secondary w-12">{$secretWords.at(-1)}</p>
       {:else}
         <p class="text-2xl text-secondary h-1 tracking-wider">
-          {$lengthOfSecretWord}
+          {#if !$hangManMode}
+            {$lengthOfSecretWord[0]}
+          {:else if $timer > 40}
+            {$lengthOfSecretWord[0]}
+          {:else if $timer > 30}
+            {$lengthOfSecretWord[1]}
+          {:else if $timer > 20}
+            {$lengthOfSecretWord[2]}
+          {:else}
+            {$lengthOfSecretWord[3]}
+          {/if}
         </p>
       {/if}
     {/if}
@@ -190,7 +212,7 @@
       on:mouseleave={finishedPosition}
     />
   </div>
-  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute ">
+  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute w-full">
     {#if socketId == drawer.id}
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <div class="btn-group">
@@ -247,14 +269,6 @@
           type="radio"
           name="options"
           bind:group={penColor}
-          value={'brown'}
-          data-title="📦"
-          class="btn btn-outline border-4 border-amber-700 hover:border-amber-700 hover:bg-amber-700"
-        />
-        <input
-          type="radio"
-          name="options"
-          bind:group={penColor}
           value={'purple'}
           data-title="♏️"
           class="btn btn-outline border-4 border-purple-400 hover:border-purple-400 hover:bg-purple-400"
@@ -273,7 +287,7 @@
           bind:group={penColor}
           value={'white'}
           data-title="🧼"
-          class="btn btn-outline border-4"
+          class="btn btn-outline border-4 border-blue-200 hover:bg-blue-200"
         />
         <input
           type="color"
