@@ -13,10 +13,11 @@
       newPoints = 0;
     }, 2500);
   };
-  $: drawer = sessionStorage.getItem('drawer');
+  $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
 
-  socket.on('drawer', () => {
-    drawer = sessionStorage.getItem('drawer');
+  socket.on('drawer', (drawerz) => {
+    // drawer = JSON.parse(sessionStorage.getItem('drawer'));
+    drawer = drawerz;
   });
 
   $: playerz = [];
@@ -46,7 +47,7 @@
             </div>
           </div>
           <div class="stat-title">
-            {#if user.id === JSON.parse(drawer).id}
+            {#if user.id === drawer.id}
               <p class="text-2x text-primary">{user.name} ✍️</p>
             {:else}
               <p class="text-2x text-accent">{user.name}</p>

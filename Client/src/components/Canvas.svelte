@@ -131,6 +131,10 @@
   //   socket.emit('drawer');
   // }
 
+  // socket.on('gameOver', () => {
+  //   sessionStorage.clear();
+  // });
+
   let socketId = sessionStorage.getItem('socketid');
 </script>
 

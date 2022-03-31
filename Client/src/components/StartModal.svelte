@@ -4,7 +4,7 @@
   import wordDb from '../assets/db';
   const randomWords = wordDb;
 
-  const drawer = sessionStorage.getItem('drawer');
+  const drawer = JSON.parse(sessionStorage.getItem('drawer'));
   const socketId = sessionStorage.getItem('socketid');
 
   function startGame() {
@@ -23,9 +23,9 @@
       chat to gain points, be quick, the earlier you guess a word the more points you get!
     </h4>
     <p class="py-4 text-2x text-error">
-      <span class="text-secondary"> {JSON.parse(drawer).name} </span> is the first drawer
+      <span class="text-secondary"> {drawer.name} </span> is the first drawer
     </p>
-    {#if socketId === JSON.parse(drawer).id}
+    {#if socketId === drawer.id}
       <div class="modal-action">
         <label for="my-modal" class="btn btn-accent" on:click={startGame}>Lets goooo!</label>
       </div>
