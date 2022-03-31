@@ -21,13 +21,32 @@
     console.log('sox', socket.id);
     sessionStorage.setItem('socketid', socket.id);
   });
+  const icons = [
+    'logo-react',
+    'logo-react',
+    'logo-npm',
+    'logo-github',
+    'logo-css3',
+    'logo-chrome',
+    'logo-figma',
+    'logo-html5',
+    'logo-sass',
+    'logo-vercel',
+  ];
 
   // NEW PLAYER
   let name = '';
   let enteredName = false;
   function addPlayer() {
     enteredName = !enteredName;
-    const player = { id: socket.id, name: name, points: 0, hasGuessed: false, isDrawer: false };
+    const player = {
+      id: socket.id,
+      name: name,
+      points: 0,
+      hasGuessed: false,
+      isDrawer: false,
+      icon: icons[Math.floor(Math.random() * icons.length)],
+    };
     console.log('players😀', $players);
     socket.emit('updateStores', player);
     name = '';

@@ -41,7 +41,7 @@
           <div class="stat-figure text-secondary">
             <div class="avatar ">
               <div class="w-16">
-                <h1 class="text-2xl">🥸</h1> 
+                <ion-icon size="large" name={user.icon} />
               </div>
             </div>
           </div>
