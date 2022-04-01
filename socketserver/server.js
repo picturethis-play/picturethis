@@ -100,9 +100,9 @@ io.on('connection', (socket) => {
   });
   socket.on('gameOver', () => {
     io.emit('gameOver', players);
-    // players = [];
-    // guessers = [];
+
   });
 });
+
 
 io.listen(process.env.PORT);
