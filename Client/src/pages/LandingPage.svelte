@@ -43,10 +43,10 @@
   <div id="overlay">
     <div class=" flex items-center justify-center">
       <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
-      <div class="flex items-center font-logo text-69xl">
+      <div class="flex items-center font-logo text-69xl text-accent">
         {#each 'picture' as char, i}
           <p
-            class="animate-bouncer"
+            class="animate-bouncer hover:animate-ping"
             in:fade={{ delay: 1000 + i * 150, duration: 1500 }}
             out:fly={{ y: -20, duration: 1000 }}
           >
@@ -54,10 +54,10 @@
           </p>
         {/each}
       </div>
-      <div class="flex items-center font-logo text-69xl">
+      <div class="flex items-center font-logo text-69xl text-secondary">
         {#each 'this' as char, i}
           <p
-            class="animate-bouncey"
+            class="animate-bouncey hover:animate-ping"
             in:fade={{ delay: 2000 + i * 150, duration: 1800 }}
             out:fly={{ y: -20, duration: 2000 }}
           >
@@ -66,9 +66,9 @@
         {/each}
       </div>
     </div>
-    <div class="flex items-center justify-center font-logo text-10xl gap-8" id="start">
+    <!-- <div class="flex items-center justify-center font-logo text-10xl gap-8" id="start">
       <button class="border-none">Create Game</button>
       <button class="border-none">Join Game</button>
-    </div>
+    </div> -->
   </div>
 </div>

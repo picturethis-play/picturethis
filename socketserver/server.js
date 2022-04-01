@@ -2,7 +2,7 @@ const { Server } = require('socket.io');
 
 const io = new Server({
   cors: {
-    origin: 'http://localhost:8080',
+    origin: 'http://192.168.1.201:8080',
   },
 });
 
@@ -11,6 +11,7 @@ let user = Object.values(players);
 console.log('user', user);
 let connectionsCounter = 0;
 let guessers = [];
+let count = 0;
 
 io.on('connection', (socket) => {
   socket.on('chat message', ({ message, data }) => {
@@ -24,7 +25,8 @@ io.on('connection', (socket) => {
     io.emit('clear');
   });
   socket.on('navigate', () => {
-    io.emit('navigate', players[Math.floor(Math.random() * players.length)]);
+    io.emit('navigate', players[count]);
+    count++
   });
   socket.on('start', (word) => {
     io.emit('start', word);
@@ -64,7 +66,8 @@ io.on('connection', (socket) => {
   socket.on('drawer', () => {
     console.log('random user requested');
     console.log('randomuserreq', players);
-    io.emit('drawer', players[Math.floor(Math.random() * players.length)]);
+    io.emit('drawer', players[count]);
+    count++
   });
 
   socket.on('getUsers', () => {
