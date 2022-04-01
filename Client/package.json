@@ -17,6 +17,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/user-event": "^13.5.0",
