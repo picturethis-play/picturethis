@@ -10,6 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "17.2.0"
+  },
   "dependencies": {
     "socket.io": "^4.4.1"
   }
