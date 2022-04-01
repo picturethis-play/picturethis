@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { getContext } from 'svelte';
-  const { Socket } = getContext(connect);
+  const { Socket } = getContext('connect');
   const socket = Socket();
   import { fade, fly } from 'svelte/transition';
 

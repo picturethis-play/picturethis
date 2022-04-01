@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { timer, waitingTime, roundTime, gameRound, numberOfRounds } from '../stores/gameStates';
   import { getContext } from 'svelte';
-  const { Socket } = getContext(connect);
+  const { Socket } = getContext('connect');
   const socket = Socket();
   import wordDb from '../assets/db';
   const randomWords = wordDb;
