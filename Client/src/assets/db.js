@@ -60,17 +60,17 @@ const wordDb = [
     language: 'english',
   },
   {
-    word: 'burrikos',
+    word: 'banana',
     difficulty: 3,
     language: 'english',
   },
   {
-    word: 'nick crowley',
+    word: 'pineapple',
     difficulty: 1,
     language: 'english',
   },
   {
-    word: 'mr.luten',
+    word: 'apple',
     difficulty: 2,
     language: 'english',
   },
@@ -100,7 +100,7 @@ const wordDb = [
     language: 'english',
   },
   {
-    word: 'penith',
+    word: 'piano',
     difficulty: 4,
     language: 'english',
   },
@@ -110,22 +110,22 @@ const wordDb = [
     language: 'english',
   },
   {
-    word: 'gaute',
+    word: 'shoe',
     difficulty: 1,
     language: 'english',
   },
   {
-    word: 'jesus christ',
+    word: 'flower',
     difficulty: 2,
     language: 'english',
   },
   {
-    word: 'butt',
+    word: 'umbrella',
     difficulty: 5,
     language: 'english',
   },
   {
-    word: 'afro',
+    word: 'laptop',
     difficulty: 1,
     language: 'english',
   },
@@ -135,22 +135,22 @@ const wordDb = [
     language: 'english',
   },
   {
-    word: 'yacht',
+    word: 'lamp',
     difficulty: 5,
     language: 'english',
   },
   {
-    word: 'putin',
+    word: 'wifi',
     difficulty: 1,
     language: 'english',
   },
   {
-    word: 'racecar',
+    word: 'car',
     difficulty: 2,
     language: 'english',
   },
   {
-    word: 'golden gate bridge',
+    word: 'paella',
     difficulty: 2,
     language: 'english',
   },
