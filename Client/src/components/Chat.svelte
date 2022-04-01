@@ -1,13 +1,14 @@
 <script>
-  import { beforeUpdate, afterUpdate } from 'svelte';
+  import { beforeUpdate, afterUpdate, getContext } from 'svelte';
   import { secretWords } from '../stores/chat-stores';
   import { timer } from '../stores/gameStates';
-  import { fade, fly } from 'svelte/transition';
   import wordDb from '../assets/db';
+
+  const { Socket } = getContext('connect');
+  const socket = Socket();
+
   const randomWords = wordDb;
 
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
 
   // enabling chat to autoscroll
   let scroll;

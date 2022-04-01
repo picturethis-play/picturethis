@@ -1,11 +1,11 @@
 <script>
   import { navigate } from 'svelte-routing';
+  import { getContext } from 'svelte';
   function navigation() {
     navigate(`/`, { replace: true });
   }
-
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  const { Socket } = getContext('connect');
+  const socket = Socket();
   // $: players = [];
 
   $: players = JSON.parse(sessionStorage.getItem('players'));

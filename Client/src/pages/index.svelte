@@ -1,7 +1,6 @@
 <script>
   import { Router, Route } from 'svelte-routing';
   import GamePage from './GamePage.svelte';
-  import LandingPage from './LandingPage.svelte';
   import WaitingRoom from './WaitingRoom.svelte';
   export const url = '';
 </script>

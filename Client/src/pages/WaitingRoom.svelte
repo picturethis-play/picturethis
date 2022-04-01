@@ -1,6 +1,5 @@
 <script>
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  import { getContext } from 'svelte';
   import { navigate } from 'svelte-routing';
   import { players } from '../stores/chat-stores';
   import { fade, fly } from 'svelte/transition';
@@ -9,6 +8,8 @@
   import Settings from '../components/Settings.svelte';
   let carousel;
   let round = true;
+  const { Socket } = getContext('connect');
+  const socket = Socket();
   console.log('thesocket', socket);
 
   onMount(() => {

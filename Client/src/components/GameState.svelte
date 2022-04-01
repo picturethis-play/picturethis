@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from 'svelte/internal';
-  // import { wordDb } from '../assets/db';
   import {
     timer,
     drawerIndex,

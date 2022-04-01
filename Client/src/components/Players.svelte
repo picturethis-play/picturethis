@@ -1,7 +1,8 @@
 <script>
   import { onMount } from 'svelte';
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  import { getContext } from 'svelte';
+  const { Socket } = getContext(connect);
+  const socket = Socket();
   import { fade, fly } from 'svelte/transition';
 
   onMount(() => {

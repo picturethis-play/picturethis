@@ -2,17 +2,17 @@
   import { onMount } from 'svelte';
   import { fade, fly } from 'svelte/transition';
   import { randomUser, secretWords } from '../stores/chat-stores';
+  import { getContext } from 'svelte';
   let penColor;
   let painting;
   let canvas;
   let ctx;
   let lineWidth = 5;
-  import io from 'socket.io-client';
   import ProgressBar from './ProgressBar.svelte';
   import { lengthOfSecretWord, timer, hangManMode } from '../stores/gameStates';
-  // import { navigate } from 'svelte-routing';
 
-  const socket = io('http://192.168.1.201:3000');
+  const { Socket } = getContext('connect');
+  const socket = Socket();
 
   $: time = 60;
 
@@ -178,7 +178,7 @@
   >
     {#if $secretWords.length}
       {#if socketId == drawer.id}
-      <p class="text-2xl text-secondary w-12">{$secretWords.at(-1)}</p>
+        <p class="text-2xl text-secondary w-12">{$secretWords.at(-1)}</p>
       {:else}
         <p class="text-2xl text-secondary h-1 tracking-wider">
           {#if !$hangManMode}

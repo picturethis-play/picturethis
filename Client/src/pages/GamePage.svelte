@@ -4,12 +4,13 @@
   import Players from '../components/Players.svelte';
   import StartModal from '../components/StartModal.svelte';
   import RoundEnd from '../components/RoundEnd.svelte';
+  import { getContext } from 'svelte';
   export const location = null;
   import { timer, roundTime, gameRound, numberOfRounds } from '../stores/gameStates';
-  import io from 'socket.io-client';
   import GameEndModal from '../components/GameEndModal.svelte';
 
-  const socket = io('http://192.168.1.201:3000');
+  const { Socket } = getContext('connect');
+  const socket = Socket();
 
   let displayModal = true;
   socket.on('start', () => {

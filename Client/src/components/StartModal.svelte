@@ -1,6 +1,7 @@
 <script>
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  import { getContext } from 'svelte';
+  const { Socket } = getContext('connect');
+  const socket = Socket();
   import wordDb from '../assets/db';
   const randomWords = wordDb;
 
