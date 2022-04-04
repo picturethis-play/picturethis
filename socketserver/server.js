@@ -66,6 +66,9 @@ io.on('connection', (socket) => {
   socket.on('drawer', () => {
     console.log('random user requested');
     console.log('randomuserreq', players);
+    if (count > players.length) {
+      count = 0;
+    }
     io.emit('drawer', players[count]);
     count++
   });
