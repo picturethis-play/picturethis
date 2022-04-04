@@ -8,7 +8,11 @@ The basis of the game revolves around a drawable area on the screen built on an 
 
 ## Getting Started
 
-To run this project on your machine simply npm or yarn install the dependencies in the client folder, as well as in the socketserver folder. From the client folder type 'npm run dev' in the command line to start the svelte server and from the socketserver folder type 'npm start'.
+To get up and running follow these steps
+
+Install the dependencies by npm install in the client and socket server files of the project.
+Start the web client with npm run dev
+Start the server with npm start
 
 ## Here are some screenshots of the app:
 
