@@ -1,5 +1,5 @@
 # Picture This
-a multiplayer, real-time, game inspired by the classic game Pictionary
+A multiplayer, real-time game inspired by the timeless classic, Pictionary.
 
 ## Development
 
