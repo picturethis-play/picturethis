@@ -3,7 +3,7 @@ A multiplayer, real-time game inspired by the timeless classic, Pictionary.
 
 ## Development
 
-Picture This was created by Daniel Fry, Ricardo Rivera-Chavez, and Gaute Rongve using Svelte and Socket.IO.
+PictureThis was created by Daniel Fry, Ricardo Rivera-Chavez, and Gaute Rongve using Svelte and Socket.IO.
 The basis of the game revolves around a drawable area on the screen built on an HTML canvas.
 
 ## Getting Started
