@@ -10,9 +10,9 @@ The basis of the game revolves around a drawable area on the screen built on an 
 
 To get up and running follow these steps
 
-Install the dependencies by npm install in the client and socket server files of the project.
-Start the web client with npm run dev
-Start the server with npm start
+Install the dependencies by npm install in the client and socket server files of the project. </br>
+Start the web client with npm run dev </br>
+Start the server with npm start </br>
 
 ## Here are some screenshots of the app:
 
