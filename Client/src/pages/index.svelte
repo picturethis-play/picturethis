@@ -11,6 +11,6 @@
     <Route path="/game" let:params>
       <GamePage />
     </Route>
-    <Route path="/"><WaitingRoom/></Route>
+    <Route path="/"><LandingPage/></Route>
   </div>
 </Router>
