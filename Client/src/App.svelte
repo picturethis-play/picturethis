@@ -3,7 +3,7 @@
   import { setContext } from 'svelte/internal';
 
   import Router from './pages/index.svelte';
-  const socket = io(process.env.SOCKET_URL);
+  const socket = io('http://localhost:3000');                          //<--------------------process.env.SOCKET_URL
 
   setContext('connect', {
     Socket: () => {

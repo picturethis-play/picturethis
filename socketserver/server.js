@@ -2,7 +2,7 @@ const { Server } = require('socket.io');
 
 const io = new Server({
   cors: {
-    origin: process.env.FRONT_END_URL,
+    origin: 'http://localhost:8080',                                       //<-------------- process.env.FRONT_END_URL
   },
 });
 
@@ -12,32 +12,37 @@ console.log('user', user);
 let connectionsCounter = 0;
 let guessers = [];
 let count = 0;
-
-io.on('connection', (socket) => {
+io.sockets.on('connection', (socket) => {
+  let game;
+  socket.on('room', (gameId) => {
+    console.log(gameId, 'DIS IS THE ROOM NAME ')
+    socket.join(gameId)
+    game = gameId;
+    console.log(socket.rooms);
+  })
   socket.on('chat message', ({ message, data }) => {
     let user = players.find((user) => user.id === data);
-    io.emit('chat message', { message: message, user: user, guessed: false });
+    io.to(game).emit('chat message', { message: message, user: user, guessed: false });
   });
   socket.on('draw', (data) => {
-    io.emit('draw', data);
+    io.to(game).emit('draw', data);
   });
   socket.on('clear', () => {
-    io.emit('clear');
+    io.to(game).emit('clear');
   });
   socket.on('navigate', () => {
-    io.emit('navigate', players[count]);
+    io.to(game).emit('navigate', players[count]);
     count++
   });
   socket.on('start', (word) => {
-    io.emit('start', word);
+    io.to(game).emit('start', word);
   });
   socket.on('updateStores', (data) => {
     console.log('a user ' + data + ' connected');
     connectionsCounter++;
-    // players[socket.id] = data;
     players = [...players, data];
     console.log('uzers', players);
-    io.emit('updateStores', players);
+    io.to(game).emit('updateStores', players);
     console.log(connectionsCounter);
   });
 
@@ -53,14 +58,13 @@ io.on('connection', (socket) => {
     });
     players = takenOutUser;
     console.log('newnenwew', takenOutUser);
-    io.emit('updateStores', takenOutUser);
+    io.to(game).emit('updateStores', takenOutUser);
     console.log(connectionsCounter);
-    // delete players[socket.id];
   });
 
   socket.on('roundOver', (word) => {
     players.forEach((player) => (player.hasGuessed = false));
-    io.emit('roundOver', word);
+    io.to(game).emit('roundOver', word);
   });
 
   socket.on('drawer', () => {
@@ -69,43 +73,43 @@ io.on('connection', (socket) => {
     if (count > players.length) {
       count = 0;
     }
-    io.emit('drawer', players[count]);
+    io.to(game).emit('drawer', players[count]);
     count++
   });
 
   socket.on('getUsers', () => {
     let user = Object.entries(players);
     console.log(user);
-    io.emit('joined players', user);
+    io.to(game).emit('joined players', user);
   });
 
   socket.on('finishedPosition', () => {
-    io.emit('finishedPosition');
+    io.to(game).emit('finishedPosition');
   });
 
   socket.on('startPosition', () => {
-    io.emit('startPosition');
+    io.to(game).emit('startPosition');
   });
   socket.on('timer', (timer) => {
-    io.emit('timer', timer);
+    io.to(game).emit('timer', timer);
   });
   socket.on('points', ({ data, pointCount, pointsAdded }) => {
     let pointAdd = players.find((player) => player.id === data);
     pointAdd.points = pointAdd.points + pointCount;
     guessers.push(pointAdd.id);
-    io.emit('updateStores', players);
-    io.emit('addPoints', { pointsAdded, data, guessers });
+    io.to(game).emit('updateStores', players);
+    io.to(game).emit('addPoints', { pointsAdded, data, guessers });
   });
   socket.on('allGuessed', (word) => {
-    io.emit('roundOver', word);
-    io.emit('allGuessed');
+    io.to(game).emit('roundOver', word);
+    io.to(game).emit('allGuessed');
     guessers = [];
   });
   socket.on('gameOver', () => {
-    io.emit('gameOver', players);
+    io.to(game).emit('gameOver', players);
 
   });
 });
 
 
-io.listen(process.env.PORT);
+io.listen(3000);             // <-------------------- process.env.PORT

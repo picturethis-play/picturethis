@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { navigate } from 'svelte-routing';
   import { fade, fly } from 'svelte/transition';
   import { onMount } from 'svelte';
   let penColor; 
@@ -6,6 +7,11 @@
   let ctx;
   let stroke;
   let lineWidth = 20;
+  export let gameId;
+
+  function enterIfYouDare() {
+    return navigate(`/${gameId}`, {replace: true})
+  }
   onMount(() => {
     canvas = document.getElementById('theCanvas');
     ctx = canvas.getContext('2d');
@@ -66,9 +72,9 @@
         {/each}
       </div>
     </div>
-    <!-- <div class="flex items-center justify-center font-logo text-10xl gap-8" id="start">
-      <button class="border-none">Create Game</button>
-      <button class="border-none">Join Game</button>
-    </div> -->
+    <div class="flex items-center justify-center font-logo gap-8" id="start">
+      <button class="btn btn-secondary text-2xl" on:click={enterIfYouDare}>Create Game</button>
+      <button class="btn btn-secondary text-2xl">Join Game</button>
+    </div>
   </div>
 </div>

@@ -6,6 +6,7 @@
   import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
   import Settings from '../components/Settings.svelte';
+  export let gameId;
   let carousel;
   let round = true;
   const { Socket } = getContext('connect');
@@ -16,10 +17,10 @@
     themeChange(false);
     // 👆 false parameter is required for svelte
   });
-  // $: players = [];
-
+  // $: players = []; 
   socket.on('connect', () => {
     console.log('sox', socket.id);
+    socket.emit('room', gameId)
     sessionStorage.setItem('socketid', socket.id);
   });
   const icons = [
