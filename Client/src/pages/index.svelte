@@ -5,15 +5,15 @@
   import WaitingRoom from './WaitingRoom.svelte';
   export const url = '';
 
-  const gameId = Math.floor(Math.random() * 1000000000);
+  
 </script>
 
 <Router {url}>
   <div class="w-full h-full">
-    <Route path="/{gameId}/game" let:params>
-      <GamePage gameId={gameId}/>
+    <Route path="/game" let:params>
+      <GamePage />
     </Route>
-    <Route path="/{gameId}"><WaitingRoom gameId={gameId}/></Route>
-    <Route path="/"><LandingPage gameId={gameId}/></Route>
+    <Route path="/waitingRoom"><WaitingRoom /></Route>
+    <Route path="/"><LandingPage/></Route>
   </div>
 </Router>

@@ -1,16 +1,22 @@
 <script lang="ts">
   import { navigate } from 'svelte-routing';
   import { fade, fly } from 'svelte/transition';
-  import { onMount } from 'svelte';
+  import { onMount, getContext } from 'svelte';
   let penColor; 
   let canvas;
   let ctx;
   let stroke;
   let lineWidth = 20;
-  export let gameId;
+  let message = '';
+
+  const { Socket } = getContext('connect');
+  const socket = Socket();
 
   function enterIfYouDare() {
-    return navigate(`/${gameId}`, {replace: true})
+    console.log(message);
+    sessionStorage.setItem('socketid', socket.id);
+    socket.emit('room', message);
+    return navigate(`/waitingRoom`, {replace: true})
   }
   onMount(() => {
     canvas = document.getElementById('theCanvas');
@@ -43,6 +49,7 @@
     ctx.beginPath();
     ctx.moveTo(mousePosition.x, mousePosition.y);
   }
+
 </script>
 
 <div id="container">
@@ -72,9 +79,16 @@
         {/each}
       </div>
     </div>
-    <div class="flex items-center justify-center font-logo gap-8" id="start">
-      <button class="btn btn-secondary text-2xl" on:click={enterIfYouDare}>Create Game</button>
-      <button class="btn btn-secondary text-2xl">Join Game</button>
+    <div class="flex flex-col items-center justify-center font-logo gap-8" id="start">
+      <input
+          class="input input-ghost input-lg text-2xl "
+          type="text"
+          name=""
+          id=""
+          bind:value={message}
+          placeholder="enter room name here..."
+        />
+      <button class="btn btn-outline text-2xl" on:click={enterIfYouDare}>Join or create game</button>
     </div>
   </div>
 </div>

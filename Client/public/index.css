@@ -1894,6 +1894,14 @@ body[dir="rtl"] .checkbox:checked,
   border-radius: 9999px;
   padding: 0px;
 }
+.input-lg {
+  height: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  line-height: 2;
+}
 .input-sm {
   height: 2rem;
   padding-left: 0.75rem;

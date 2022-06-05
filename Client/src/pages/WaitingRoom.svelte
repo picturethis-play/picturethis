@@ -6,23 +6,25 @@
   import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
   import Settings from '../components/Settings.svelte';
-  export let gameId;
   let carousel;
   let round = true;
+
+
+
   const { Socket } = getContext('connect');
   const socket = Socket();
-  console.log('thesocket', socket);
-
+  console.log(socket.id);
+  console.log(socket);
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
   });
-  // $: players = []; 
-  socket.on('connect', () => {
-    console.log('sox', socket.id);
-    socket.emit('room', gameId)
-    sessionStorage.setItem('socketid', socket.id);
-  });
+  // $: players = [];
+  // socket.on('connect', () => {
+  //   console.log('sox', socket.id);
+  //   socket.emit('room', );
+  //   sessionStorage.setItem('socketid', socket.id);
+  // });
   const icons = [
     { icon: 'logo-react', color: 'text-blue-500' },
     { icon: 'logo-npm', color: 'text-red-500' },

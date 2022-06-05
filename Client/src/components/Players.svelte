@@ -18,6 +18,7 @@
 
   socket.on('drawer', (drawerz) => {
     // drawer = JSON.parse(sessionStorage.getItem('drawer'));
+    console.log(drawerz);
     drawer = drawerz;
   });
 

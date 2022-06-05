@@ -7,7 +7,7 @@
 
   setContext('connect', {
     Socket: () => {
-      console.log('socket connected', socket, process.env.SOCKET_URL);
+      console.log('socket connected');
       return socket;
     },
   });
