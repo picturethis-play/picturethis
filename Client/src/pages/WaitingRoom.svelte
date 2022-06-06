@@ -9,8 +9,6 @@
   let carousel;
   let round = true;
 
-
-
   const { Socket } = getContext('connect');
   const socket = Socket();
   console.log(socket.id);
@@ -77,6 +75,11 @@
       addPlayer();
     }
   }
+  let room = '';
+  socket.on('room', (data) => {
+    console.log(data);
+    room = data;
+  });
 
   socket.on('navigate', (drawer) => {
     navigate(`/game`, { replace: true });
@@ -109,10 +112,8 @@
       {/each}
     </div>
   </div>
-  <p class=" text-5xl sm:text-2x text-primary font-logo">
-    {$players.length}
-    {$players.length === 1 ? `person` : `people`} waiting to play {#each '...' as char, i}
-      <span in:fade={{ delay: 1000 + i * 150, duration: 1000 }}>{char}</span>{/each}
+  <p class=" text-5xl sm:text-2x text-neutral-content font-logo">
+    <span class="text-info">room name:</span> {room}
   </p>
   <div class="carousel rounded-box w-40 gap-5 " id="carousel">
     {#each $players as player, i}
