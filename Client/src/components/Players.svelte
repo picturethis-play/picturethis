@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import { getContext } from 'svelte';
   import { fade } from 'svelte/transition';
   const { Socket } = getContext('connect');
