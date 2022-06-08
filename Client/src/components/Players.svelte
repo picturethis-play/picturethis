@@ -1,13 +1,19 @@
 <script>
   import { onMount } from 'svelte';
   import { getContext } from 'svelte';
+  import { fade } from 'svelte/transition';
   const { Socket } = getContext('connect');
   const socket = Socket();
-  import { fade, fly } from 'svelte/transition';
-
-  onMount(() => {
-    playerz = JSON.parse(sessionStorage.getItem('players'));
-  });
+  import { game } from '../stores/chat-stores'
+  console.log(game)
+  game.subscribe(roomName => {
+    console.log(roomName, 'yezzzz')
+    room = roomName;
+  })
+  console.log(room, 'room thing works champ')
+  ///////////////////////////////HERE IS WHERE U LEFT OFF IDIOT ????????????????????
+  playerz = JSON.parse(sessionStorage.getItem('players')).filter(player => player.room == room)
+  console.log(playerz, 'normal style')
 
   const resetPoints = () => {
     setTimeout(() => {
@@ -15,18 +21,18 @@
     }, 2500);
   };
   $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
-
+  
   socket.on('drawer', (drawerz) => {
     // drawer = JSON.parse(sessionStorage.getItem('drawer'));
-    console.log(drawerz);
+    console.log(drawerz, 'drawer');
     drawer = drawerz;
   });
-
+  $: room = '';
   $: playerz = [];
   $: newPoints = 0;
   $: pointsAddedTo = [];
   socket.on('addPoints', ({ pointsAdded, data }) => {
-    let playerx = JSON.parse(sessionStorage.getItem('players'));
+    let playerx = JSON.parse(sessionStorage.getItem('players'))
     playerz = playerx.sort((a, b) => b.points - a.points);
     newPoints = pointsAdded;
     pointsAddedTo = data;

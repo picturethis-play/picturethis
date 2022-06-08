@@ -10,7 +10,6 @@
 
   function startGame() {
     socket.emit('start', randomWords[Math.floor(Math.random() * randomWords.length)].word);
-    // socket.emit('drawer');
   }
 </script>
 

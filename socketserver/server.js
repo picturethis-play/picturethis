@@ -28,38 +28,69 @@ io.sockets.on('connection', (socket) => {
   socket.on('room', (room) => {
     socket.join(room)
     game = room;
+    //
+    rooms.push(room)
+    //
     console.log(game);
     console.log(socket.rooms);
     io.to(game).emit('room', game);
   })
   socket.on('chat message', ({ message, data }) => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
     let user = players.find((user) => user.id === data);
-    io.to(game).emit('chat message', { message: message, user: user, guessed: false });
+    io.to(roomMatch[0]).emit('chat message', { message: message, user: user, guessed: false });
   });
   socket.on('draw', (data) => {
-    io.to(game).emit('draw', data);
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('draw', data);
   });
   socket.on('clear', () => {
-    io.to(game).emit('clear');
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('clear');
   });
   socket.on('navigate', () => {
-    io.to(game).emit('navigate', players[count]);
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('navigate', players[count]);
     count++
   });
   socket.on('start', (word) => {
-    console.log(game);
-    io.to(game).emit('start', word);
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    console.log(roomMatch[0]);
+    io.to(roomMatch[0]).emit('start', word);
   });
   socket.on('updateStores', (data) => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
     console.log('a user ' + data.name + ' connected');
     connectionsCounter++;
     players = [...players, data];
     console.log('uzers', players);
-    io.to(game).emit('updateStores', players);
+    io.to(roomMatch[0]).emit('updateStores', players);
     console.log(connectionsCounter);
   });
 
   socket.on('disconnect', () => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
     connectionsCounter === 0 ? (connectionsCounter = 0) : connectionsCounter--;
     console.log('ysysysysysys', players);
     let takenOutUser = players.filter((x) => {
@@ -67,56 +98,93 @@ io.sockets.on('connection', (socket) => {
     });
     players = takenOutUser;
     console.log('newnenwew', takenOutUser);
-    io.to(game).emit('updateStores', takenOutUser);
+    io.to(roomMatch[0]).emit('updateStores', takenOutUser);
     console.log(connectionsCounter);
   });
 
   socket.on('roundOver', (word) => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
     players.forEach((player) => (player.hasGuessed = false));
-    io.to(game).emit('roundOver', word);
+    io.to(roomMatch[0]).emit('roundOver', word);
   });
 
   socket.on('drawer', () => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    console.log(socket.rooms, 'dese are da rooms');
     console.log('random user requested');
     console.log('randomuserreq', players);
     console.log(count);
     if (count > players.length) {
       count = 0;
     }
-    io.to(game).emit('drawer', players[count]);
+    io.to(roomMatch[0]).emit('drawer', players[count]);
     count++
   });
 
   socket.on('getUsers', () => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
     let user = Object.entries(players);
     console.log(user, 'USER');
-    io.to(game).emit('joined players', user);
+    io.to(roomMatch[0]).emit('joined players', user);
   });
 
   socket.on('finishedPosition', () => {
-    io.to(game).emit('finishedPosition');
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('finishedPosition');
   });
 
   socket.on('startPosition', () => {
-    io.to(game).emit('startPosition');
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('startPosition');
   });
   socket.on('timer', (timer) => {
-    io.to(game).emit('timer', timer);
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('timer', timer);
   });
   socket.on('points', ({ data, pointCount, pointsAdded }) => {
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
     let pointAdd = players.find((player) => player.id === data);
     pointAdd.points = pointAdd.points + pointCount;
     guessers.push(pointAdd.id);
-    io.to(game).emit('updateStores', players);
-    io.to(game).emit('addPoints', { pointsAdded, data, guessers });
+    io.to(roomMatch[0]).emit('updateStores', players);
+    io.to(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessers });
   });
   socket.on('allGuessed', (word) => {
-    io.to(game).emit('roundOver', word);
-    io.to(game).emit('allGuessed');
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('roundOver', word);
+    io.to(roomMatch[0]).emit('allGuessed');
     guessers = [];
   });
   socket.on('gameOver', () => {
-    io.to(game).emit('gameOver', players);
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomArray, 'does this work?');
+    console.log(roomMatch[0], 'lets see if dis works');
+    io.to(roomMatch[0]).emit('gameOver', players);
   });
 });
 

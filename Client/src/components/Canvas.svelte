@@ -41,8 +41,7 @@
     canvas.addEventListener('touchend', finishedPosition);
     canvas.addEventListener('touchmove', handleDraw);
   });
-
-  // $: ssDrawer = {};
+ 
   $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
   socket.on('drawer', (user) => {
     console.log('↪️', user);
@@ -50,20 +49,7 @@
     sessionStorage.setItem('drawer', JSON.stringify(user));
     drawer = JSON.parse(sessionStorage.getItem('drawer'));
     console.log(drawer);
-    // ssDrawer = user;
-    // console.log('ppo', ssDrawer);
   });
-
-  // socket.on('navigate', () => {
-  //   console.log('jhidhishdsdsdf');
-  //   ssDrawer = sessionStorage.getItem('drawer');
-  // });
-
-  // socket.on('navigate', (drawer) => {
-  //   navigate(`/game`, { replace: true });
-  //   sessionStorage.setItem('drawer', JSON.stringify(drawer));
-  //   ssDrawer = drawer;
-  // });
 
   socket.on('start', (word) => {
     console.log(word, 'STARTSTARTSTARTSTARTSTART');
@@ -139,13 +125,6 @@
     m.y = event.clientY;
   }
 
-  // function getRandomUser() {
-  //   socket.emit('drawer');
-  // }
-
-  // socket.on('gameOver', () => {
-  //   sessionStorage.clear();
-  // });
 
   let socketId = sessionStorage.getItem('socketid');
 </script>
