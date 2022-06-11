@@ -13,9 +13,9 @@
   if ($gameRound === $numberOfRounds) {
     gameRound.set(0);
     socket.emit('clear');
-    console.log('gaudi is my daddy');
+ 
     clearInterval(time);
-    socket.emit('gameOver');
+
   }
 
   socket.on('start', () => {

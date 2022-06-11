@@ -15,3 +15,4 @@ export let drawer = writable(true);
 export let secretWord = writable('');
 export let secretWords = writable([]);
 export let randomUser = writable('');
+export let game = writable('');

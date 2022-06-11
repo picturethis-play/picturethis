@@ -1,14 +1,25 @@
 <script>
-  import { beforeUpdate, afterUpdate, getContext } from 'svelte';
+  import { beforeUpdate, afterUpdate, getContext, onMount } from 'svelte';
   import { secretWords } from '../stores/chat-stores';
   import { timer } from '../stores/gameStates';
   import wordDb from '../assets/db';
 
   const { Socket } = getContext('connect');
   const socket = Socket();
+  //////////may not need this////////////////
+  import { game } from '../stores/chat-stores';
+  $: room = '';
+
+
+  onMount(() => {
+    game.subscribe((roomName) => {
+      room = roomName;
+    });
+    playerz = JSON.parse(sessionStorage.getItem('players')).filter((player) => player.room == room);
+  });
+  ///////////////////////////////////////////////
 
   const randomWords = wordDb;
-
 
   // enabling chat to autoscroll
   let scroll;
@@ -17,29 +28,25 @@
 
   let messages = [];
   socket.on('chat message', (data) => {
-    console.log(data);
+
     messages = [...messages, { user: data.user.name, message: data.message, guessed: false }];
   });
 
   let data = sessionStorage.getItem('socketid');
-  $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  drawer = JSON.parse(sessionStorage.getItem('drawer'));
   socket.on('drawer', (drawerw) => {
     drawer = drawerw;
   });
-  console.log('drawrere', drawer);
-  console.log('soxxy', data);
 
   $: pointsAdded = 0;
   $: guesserz = [];
-  $: playerz = [1, 2, 4, 5, 6];
+  $: playerz = [];
+  $: drawer = [];
+  socket.on('addPoints', ({ guessersInTheRoom }) => {
 
-  socket.on('addPoints', ({ guessers }) => {
-    guesserz = guessers;
-    playerz = JSON.parse(sessionStorage.getItem('players'));
-    console.log('pp', playerz.length);
-    console.log('gg', guesserz.length);
+    guesserz = guessersInTheRoom;
 
-    if (data == drawer.id && playerz.length - 1 === guessers.length) {
+    if (playerz.length - 1 === guesserz.length) {
       socket.emit('allGuessed', randomWords[Math.floor(Math.random() * randomWords.length)].word);
     }
   });
@@ -73,7 +80,7 @@
   }
   function setPoints() {
     const points = $timer;
-    console.log($timer);
+
     return points;
   }
   socket.on('allGuessed', () => {
@@ -102,19 +109,15 @@
   </div>
 
   <div>
-    {#if drawer.id != data}
-      {#if !guesserz.includes(data)}
-        <input
-          class="input input-ghost input-sm text-secondary w-[97%] ml-1.5 mb-1"
-          type="text"
-          name=""
-          id=""
-          bind:value={message}
-          placeholder="Enter your guess here...."
-          on:keydown={handleKeydown}
-        />
-      {/if}
-    {/if}
+    <input
+      class="input input-ghost input-sm text-secondary w-[97%] ml-1.5 mb-1"
+      type="text"
+      name=""
+      id=""
+      bind:value={message}
+      placeholder="Enter your guess here...."
+      on:keydown={handleKeydown}
+    />
     <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
   </div>
 </div>

@@ -3,11 +3,11 @@
   import { setContext } from 'svelte/internal';
 
   import Router from './pages/index.svelte';
-  const socket = io(process.env.SOCKET_URL);
+  const socket = io(process.env.SOCKET_URL);                          //<--------------------process.env.SOCKET_URL
 
   setContext('connect', {
     Socket: () => {
-      console.log('socket connected', socket, process.env.SOCKET_URL);
+      console.log('socket connected');
       return socket;
     },
   });
