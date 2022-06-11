@@ -23,9 +23,6 @@ let count = 0;
 let rooms = [];
 
 io.sockets.on('connection', (socket) => {
-
-  //Using different way of validating room here for faster connection(?) and then for the rest its based on array from Set of rooms
-  let game;
   //////////////////////////////////////////////
   socket.on('room', (room) => {
     socket.join(room)
@@ -33,7 +30,10 @@ io.sockets.on('connection', (socket) => {
     //
     rooms.push(room)
     //
-    io.to(game).emit('room', game);
+    let roomArray = Array.from(socket.rooms);
+    let roomMatch = rooms.filter(room => roomArray.includes(room));
+    console.log(roomMatch, 'roommatchhhhhhhh');
+    io.to(roomMatch[0]).emit('room', roomMatch[0]);
   });
   ////////////////////////////////////////////////////
   socket.on('chat message', ({ message, data }) => {
