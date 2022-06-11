@@ -13,13 +13,13 @@
 
   onMount(() => {
     game.subscribe((roomName) => {
-      console.log(roomName, 'yezzzz');
+
       room = roomName;
     });
-    console.log(room, 'room thing works champ');
+
 
     playerz = JSON.parse(sessionStorage.getItem('players')).filter((player) => player.room == room);
-    console.log(playerz, 'PLAYERZZZZZZZZZZZZZZZZZZZZZZZ FROM GAMEENDMODALBITCH');
+
   });
 
   const resetPoints = () => {

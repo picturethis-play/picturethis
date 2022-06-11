@@ -9,8 +9,6 @@
 
   const { Socket } = getContext('connect');
   const socket = Socket();
-  console.log(socket.id);
-  console.log(socket);
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
@@ -43,18 +41,16 @@
       isDrawer: false,
       icon: icons[Math.floor(Math.random() * icons.length)],
     };
-    console.log('players😀', $players);
     socket.emit('updateStores', player);
     name = '';
   }
 
   function setPlayers(player) {
     players.set(player);
-    console.log(player);
+ 
   }
 
   socket.on('updateStores', (player) => {
-    console.log(player);
     setPlayers(player);
     sessionStorage.setItem('players', JSON.stringify(player));
   });
@@ -71,7 +67,6 @@
     }
   }
   socket.on('room', (data) => {
-    console.log(data);
     room = data;
   });
 
