@@ -3,6 +3,7 @@
   import { fade, fly } from 'svelte/transition';
   import { onMount, getContext } from 'svelte';
   import { game } from '../stores/chat-stores'
+  import { themeChange } from 'theme-change';
   let penColor;
   let canvas;
   let ctx;
@@ -21,6 +22,8 @@
     return navigate(`/waitingRoom`, { replace: true });
   }
   onMount(() => {
+     themeChange(false);
+    // 👆 false parameter is required for svelte
     canvas = document.getElementById('theCanvas');
     ctx = canvas.getContext('2d');
     canvas.height = 500;
@@ -53,11 +56,11 @@
   }
 </script>
 
-<div id="container">
+<div id="container" class="cursor-pointer">
   <div id="overlay">
     <div class=" flex items-center justify-center">
       <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
-      <div class="flex items-center font-logo text-69xl text-accent">
+      <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-accent">
         {#each 'picture' as char, i}
           <p
             class="animate-bouncer hover:animate-ping"
@@ -68,7 +71,7 @@
           </p>
         {/each}
       </div>
-      <div class="flex items-center font-logo text-69xl text-secondary">
+      <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-secondary">
         {#each 'this' as char, i}
           <p
             class="animate-bouncey hover:animate-ping"
@@ -91,6 +94,12 @@
       />
       <button class="btn btn-outline text-2xl" on:click={enterIfYouDare}>Join or create game</button
       >
+      <input
+      type="checkbox"
+      class="toggle mt-1"
+      data-toggle-theme="emerald,dracula"
+      data-act-class="ACTIVECLASS"
+    />🌚/🌞
     </div>
   </div>
 </div>

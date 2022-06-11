@@ -6,6 +6,16 @@
 
   const { Socket } = getContext('connect');
   const socket = Socket();
+//////////may not need this////////////////
+  import { game } from '../stores/chat-stores'
+  $: room = '';
+  console.log(game)
+  game.subscribe(roomName => {
+    console.log(roomName, 'chat component has room id :-)')
+    room = roomName;
+  })
+  console.log(room, 'room thing works from the chat component')
+///////////////////////////////////////////////
 
   const randomWords = wordDb;
 
@@ -22,23 +32,20 @@
   });
 
   let data = sessionStorage.getItem('socketid');
-  $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
+  drawer = JSON.parse(sessionStorage.getItem('drawer'))
   socket.on('drawer', (drawerw) => {
     drawer = drawerw;
   });
-  console.log('drawrere', drawer);
+  console.log('drawrerewdfgbetrhsdhsrtdhgwrstgwgw', drawer);
   console.log('soxxy', data);
 
   $: pointsAdded = 0;
   $: guesserz = [];
-  $: playerz = [1, 2, 4, 5, 6];
-
+  $: playerz = [];
+  $: drawer = [];
   socket.on('addPoints', ({ guessers }) => {
     guesserz = guessers;
-    playerz = JSON.parse(sessionStorage.getItem('players'));
-    console.log('pp', playerz.length);
-    console.log('gg', guesserz.length);
-
+    playerz = JSON.parse(sessionStorage.getItem('players')).filter(player => player.room == room);
     if (data == drawer.id && playerz.length - 1 === guessers.length) {
       socket.emit('allGuessed', randomWords[Math.floor(Math.random() * randomWords.length)].word);
     }
@@ -102,8 +109,6 @@
   </div>
 
   <div>
-    {#if drawer.id != data}
-      {#if !guesserz.includes(data)}
         <input
           class="input input-ghost input-sm text-secondary w-[97%] ml-1.5 mb-1"
           type="text"
@@ -113,8 +118,6 @@
           placeholder="Enter your guess here...."
           on:keydown={handleKeydown}
         />
-      {/if}
-    {/if}
     <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
   </div>
 </div>

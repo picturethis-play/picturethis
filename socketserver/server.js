@@ -41,7 +41,8 @@ io.sockets.on('connection', (socket) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    let user = players.find((user) => user.id === data);
+    let user = players.find((user) => user.id === data && user.room == roomMatch[0]);
+    console.log(user, 'user from correct room????')
     io.to(roomMatch[0]).emit('chat message', { message: message, user: user, guessed: false });
   });
   ///////////////////////////////////////////////////
@@ -62,8 +63,10 @@ io.sockets.on('connection', (socket) => {
   socket.on('navigate', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
-     console.log(count, 'count');
-    io.to(roomMatch[0]).emit('navigate', players[count]);
+    let actualPlayers = players.filter(player => player.room == roomMatch[0]);
+    console.log(count, 'count');
+    console.log(actualPlayers, 'lets see if the players are being filtered by room or what')
+    io.to(roomMatch[0]).emit('navigate', actualPlayers[count]);
     count++
   });
   /////////////////////////////////////////////////////
@@ -80,63 +83,92 @@ io.sockets.on('connection', (socket) => {
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
     console.log('a user ' + data.name + ' connected');
+    console.log(roomMatch[0], 'ROOMMATRCHERRRRR');
     connectionsCounter++;
     players = [...players, data];
-    console.log('players array betch', players);
-    io.to(roomMatch[0]).emit('updateStores', players);
+
+    console.log(players, 'array of all players betch');
+
+    let playersInRoom = players.filter(player => {
+      console.log(player, '<----player', roomMatch[0], 'does this work in scope??')
+      return player.room == roomMatch[0]
+    });
+
+    console.log(playersInRoom, 'array of players in this room');
+
+    io.to(roomMatch[0]).emit('updateStores', playersInRoom);
     console.log(connectionsCounter, 'connections counter, may need to change or remove');
   });
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
   socket.on('disconnect', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
+    // let playersInRoom = players.filter(player => {
+    //   console.log(player, '<----player', roomMatch[0], 'does this work in scope??') 
+    //   return player.room == roomMatch[0]
+    // }); MIGHT NOT NEED THIS!!!!!!!!!!!!!!!!!!!!
+
     connectionsCounter === 0 ? (connectionsCounter = 0) : connectionsCounter--;
-    let takenOutUser = players.filter((x) => {
-      return x.id != socket.id;
+    let takenOutUser = players.filter((player) => {
+      return player.id != socket.id;
     });
     players = takenOutUser;
     io.to(roomMatch[0]).emit('updateStores', takenOutUser);
-
   });
-//////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////
   socket.on('roundOver', (word) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    players.forEach((player) => (player.hasGuessed = false));
+    players.forEach((player) => {
+      if (player.room == roomMatch[0]) {
+        player.hasGuessed = false
+      }
+    });
     io.to(roomMatch[0]).emit('roundOver', word);
   });
-/////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
   socket.on('drawer', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
 
+    let playersInRoom = players.filter(player => {
+      console.log(player, '<----player', roomMatch[0], 'does this work in scope??')
+      return player.room == roomMatch[0]
+    });
+
     console.log(count, 'count for choosing random player i think');
-    if (count >= players.length) {
+    if (count >= playersInRoom.length) {
       count = 0;
     }
-    io.to(roomMatch[0]).emit('drawer', players[count]);
+    io.to(roomMatch[0]).emit('drawer', playersInRoom[count]);
     count++
   });
-/////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
   socket.on('getUsers', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    let user = Object.entries(players);
-    console.log(user, 'USERssssssssss');
-    io.to(roomMatch[0]).emit('joined players', user);
+
+    let playersInRoom = players.filter(player => {
+      console.log(player, '<----player', roomMatch[0], 'does this work in scope??')
+      return player.room == roomMatch[0]
+    });
+
+    let users = Object.entries(playersInRoom);
+    console.log(users, 'USERssssssssss');
+    io.to(roomMatch[0]).emit('joined players', users);
   });
-//////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////
   socket.on('finishedPosition', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
     io.to(roomMatch[0]).emit('finishedPosition');
   });
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
   socket.on('startPosition', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
@@ -157,9 +189,15 @@ io.sockets.on('connection', (socket) => {
 
     let pointAdd = players.find((player) => player.id === data);
     pointAdd.points = pointAdd.points + pointCount;
-    guessers.push(pointAdd.id);
+    guessers.push(pointAdd);
+
+    let guessersIntheRoom = guessers.filter(guesser => {
+      console.log(guesser.room, 'guesser.room is working or no?')
+      return guesser.room == roomMatch[0];
+    })
+
     io.to(roomMatch[0]).emit('updateStores', players);
-    io.to(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessers });
+    io.to(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessersIntheRoom });
   });
   //////////////////////////////////////
   socket.on('allGuessed', (word) => {
@@ -168,7 +206,9 @@ io.sockets.on('connection', (socket) => {
 
     io.to(roomMatch[0]).emit('roundOver', word);
     io.to(roomMatch[0]).emit('allGuessed');
-    guessers = [];
+    guessers = guessers.filter(guesser => {
+      return guesser.room != roomMatch[0];
+    })
   });
   ////////////////////////////////////
   socket.on('gameOver', () => {
