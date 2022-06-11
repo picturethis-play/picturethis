@@ -12,6 +12,7 @@
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
+    console.log(room, 'room');
   });
 
   const icons = [
