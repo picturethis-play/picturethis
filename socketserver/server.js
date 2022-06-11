@@ -191,13 +191,13 @@ io.sockets.on('connection', (socket) => {
     pointAdd.points = pointAdd.points + pointCount;
     guessers.push(pointAdd);
 
-    let guessersIntheRoom = guessers.filter(guesser => {
+    let guessersInTheRoom = guessers.filter(guesser => {
       console.log(guesser.room, 'guesser.room is working or no?')
       return guesser.room == roomMatch[0];
     })
-
+    console.log(guessersInTheRoom, 'guessas in da room');
     io.to(roomMatch[0]).emit('updateStores', players);
-    io.to(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessersIntheRoom });
+    io.to(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessersInTheRoom });
   });
   //////////////////////////////////////
   socket.on('allGuessed', (word) => {
@@ -208,7 +208,8 @@ io.sockets.on('connection', (socket) => {
     io.to(roomMatch[0]).emit('allGuessed');
     guessers = guessers.filter(guesser => {
       return guesser.room != roomMatch[0];
-    })
+    });
+    console.log(guessers, 'guessers??????')
   });
   ////////////////////////////////////
   socket.on('gameOver', () => {

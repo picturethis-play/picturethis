@@ -1,24 +1,28 @@
 <script>
-  import { beforeUpdate, afterUpdate, getContext } from 'svelte';
+  import { beforeUpdate, afterUpdate, getContext, onMount } from 'svelte';
   import { secretWords } from '../stores/chat-stores';
   import { timer } from '../stores/gameStates';
   import wordDb from '../assets/db';
 
   const { Socket } = getContext('connect');
   const socket = Socket();
-//////////may not need this////////////////
-  import { game } from '../stores/chat-stores'
+  //////////may not need this////////////////
+  import { game } from '../stores/chat-stores';
   $: room = '';
-  console.log(game)
-  game.subscribe(roomName => {
-    console.log(roomName, 'chat component has room id :-)')
-    room = roomName;
-  })
-  console.log(room, 'room thing works from the chat component')
-///////////////////////////////////////////////
+  console.log(game);
+
+  onMount(() => {
+    game.subscribe((roomName) => {
+      console.log(roomName, 'chat component has room id :-)');
+      room = roomName;
+    });
+    console.log(room, 'room thing works from the chat component');
+
+    playerz = JSON.parse(sessionStorage.getItem('players')).filter((player) => player.room == room);
+  });
+  ///////////////////////////////////////////////
 
   const randomWords = wordDb;
-
 
   // enabling chat to autoscroll
   let scroll;
@@ -32,21 +36,20 @@
   });
 
   let data = sessionStorage.getItem('socketid');
-  drawer = JSON.parse(sessionStorage.getItem('drawer'))
+  drawer = JSON.parse(sessionStorage.getItem('drawer'));
   socket.on('drawer', (drawerw) => {
     drawer = drawerw;
   });
-  console.log('drawrerewdfgbetrhsdhsrtdhgwrstgwgw', drawer);
-  console.log('soxxy', data);
 
   $: pointsAdded = 0;
   $: guesserz = [];
   $: playerz = [];
   $: drawer = [];
-  socket.on('addPoints', ({ guessers }) => {
-    guesserz = guessers;
-    playerz = JSON.parse(sessionStorage.getItem('players')).filter(player => player.room == room);
-    if (data == drawer.id && playerz.length - 1 === guessers.length) {
+  socket.on('addPoints', ({ guessersInTheRoom }) => {
+    console.log(guessersInTheRoom, 'guesserz hello???');
+    guesserz = guessersInTheRoom;
+    console.log(playerz, 'playerz', guesserz, 'gueseers dot length');
+    if (playerz.length - 1 === guesserz.length) {
       socket.emit('allGuessed', randomWords[Math.floor(Math.random() * randomWords.length)].word);
     }
   });
@@ -80,7 +83,7 @@
   }
   function setPoints() {
     const points = $timer;
-    console.log($timer);
+    console.log($timer, 'TIMEEEEEEERRRRRRRRR');
     return points;
   }
   socket.on('allGuessed', () => {
@@ -109,15 +112,15 @@
   </div>
 
   <div>
-        <input
-          class="input input-ghost input-sm text-secondary w-[97%] ml-1.5 mb-1"
-          type="text"
-          name=""
-          id=""
-          bind:value={message}
-          placeholder="Enter your guess here...."
-          on:keydown={handleKeydown}
-        />
+    <input
+      class="input input-ghost input-sm text-secondary w-[97%] ml-1.5 mb-1"
+      type="text"
+      name=""
+      id=""
+      bind:value={message}
+      placeholder="Enter your guess here...."
+      on:keydown={handleKeydown}
+    />
     <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
   </div>
 </div>
