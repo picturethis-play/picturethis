@@ -5,6 +5,7 @@
   import { fade, fly } from 'svelte/transition';
   import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
+  import { game } from '../stores/chat-stores'
   import Settings from '../components/Settings.svelte';
 
   const { Socket } = getContext('connect');
@@ -12,6 +13,9 @@
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
+      game.subscribe((roomName) => {
+      room = roomName;
+    });
     console.log(room, 'room');
   });
 
