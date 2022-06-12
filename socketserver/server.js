@@ -54,7 +54,7 @@ io.sockets.on('connection', (socket) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.find(room => roomArray.includes(room));
 
-    io.to(roomMatch).emit('draw', data);
+    socket.to(roomMatch).emit('draw', data);
   });
   //////////////////////////////////////////////////////
   socket.on('clear', () => {
@@ -222,6 +222,7 @@ io.sockets.on('connection', (socket) => {
     let roomMatch = rooms.find(room => roomArray.includes(room));
 
     io.to(roomMatch).emit('gameOver', players);
+
   });
 });
 
