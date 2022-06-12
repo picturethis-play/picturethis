@@ -10,6 +10,9 @@
 
   const { Socket } = getContext('connect');
   const socket = Socket();
+
+  console.log(socket.id, '<-----socket ID');
+
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
@@ -73,6 +76,7 @@
   }
   socket.on('room', (data) => {
     room = data;
+    console.log(socket);
   });
 
   socket.on('navigate', (drawer) => {
