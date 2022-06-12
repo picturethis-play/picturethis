@@ -44,16 +44,12 @@
  
   $: drawer = JSON.parse(sessionStorage.getItem('drawer'));
   socket.on('drawer', (user) => {
-    console.log('↪️', user);
     randomUser.set(user);
     sessionStorage.setItem('drawer', JSON.stringify(user));
     drawer = JSON.parse(sessionStorage.getItem('drawer'));
-    console.log(drawer);
   });
 
   socket.on('start', (word) => {
-    console.log(word, 'STARTSTARTSTARTSTARTSTART');
-    // let hangmanString = word.replace(/[a-zA-Z]/g, '_');
     secretWords.set([...$secretWords, word]);
     let wordArr = [
       word.replace(/[a-zA-Z]/g, '_'),
@@ -65,8 +61,6 @@
   });
 
   socket.on('roundOver', (word) => {
-    console.log(word, 'ROUNDOVEROROUNDOVERROUNDOVER');
-    // let hangmanString = word.replace(/[a-zA-Z]/g, '_');
     secretWords.set([...$secretWords, word]);
     let wordArr = [
       word.replace(/[a-zA-Z]/g, '_'),

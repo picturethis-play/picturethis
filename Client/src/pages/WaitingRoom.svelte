@@ -5,14 +5,21 @@
   import { fade, fly } from 'svelte/transition';
   import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
+  import { game } from '../stores/chat-stores'
   import Settings from '../components/Settings.svelte';
 
   const { Socket } = getContext('connect');
   const socket = Socket();
+
   console.log(socket.id, '<-----socket ID');
+
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
+      game.subscribe((roomName) => {
+      room = roomName;
+    });
+    console.log(room, 'room');
   });
 
   const icons = [
@@ -42,18 +49,16 @@
       isDrawer: false,
       icon: icons[Math.floor(Math.random() * icons.length)],
     };
-    console.log('players😀', $players);
     socket.emit('updateStores', player);
     name = '';
   }
 
   function setPlayers(player) {
     players.set(player);
-    console.log(player);
+ 
   }
 
   socket.on('updateStores', (player) => {
-    console.log(player);
     setPlayers(player);
     sessionStorage.setItem('players', JSON.stringify(player));
   });
@@ -70,7 +75,6 @@
     }
   }
   socket.on('room', (data) => {
-    console.log(data);
     room = data;
     console.log(socket);
   });
