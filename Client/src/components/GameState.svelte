@@ -11,8 +11,6 @@
 
   let roundTime = $timer + $waitingTime;
 
-  console.log(roundTime);
-
   let totalRounds = $numberOfRounds * $players.length;
 
 </script>
