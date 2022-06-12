@@ -1,12 +1,28 @@
 <script lang="ts">
+  import { navigate } from 'svelte-routing';
   import { fade, fly } from 'svelte/transition';
-  import { onMount } from 'svelte';
-  let penColor; 
+  import { onMount, getContext } from 'svelte';
+  import { game } from '../stores/chat-stores'
+  import { themeChange } from 'theme-change';
+  let penColor;
   let canvas;
   let ctx;
   let stroke;
-  let lineWidth = 20;
+  let lineWidth = 2;
+  const { Socket } = getContext('connect');
+  const socket = Socket();
+  let room = '';
+
+  function enterIfYouDare() {
+    if (room === '') return;
+    sessionStorage.setItem('socketid', socket.id);
+    socket.emit('room', room);
+    game.set(room);
+    return navigate(`/waitingRoom`, { replace: true });
+  }
   onMount(() => {
+     themeChange(false);
+    // 👆 false parameter is required for svelte
     canvas = document.getElementById('theCanvas');
     ctx = canvas.getContext('2d');
     canvas.height = 500;
@@ -39,11 +55,11 @@
   }
 </script>
 
-<div id="container">
+<div id="container" class="cursor-pointer overflow-hidden">
   <div id="overlay">
     <div class=" flex items-center justify-center">
-      <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
-      <div class="flex items-center font-logo text-69xl text-accent">
+      <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor}  on:touchmove={handleDraw} on:touchstart={randomColor}/>
+      <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-accent">
         {#each 'picture' as char, i}
           <p
             class="animate-bouncer hover:animate-ping"
@@ -54,7 +70,7 @@
           </p>
         {/each}
       </div>
-      <div class="flex items-center font-logo text-69xl text-secondary">
+      <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-secondary">
         {#each 'this' as char, i}
           <p
             class="animate-bouncey hover:animate-ping"
@@ -66,9 +82,23 @@
         {/each}
       </div>
     </div>
-    <!-- <div class="flex items-center justify-center font-logo text-10xl gap-8" id="start">
-      <button class="border-none">Create Game</button>
-      <button class="border-none">Join Game</button>
-    </div> -->
+    <div class="flex flex-col items-center justify-center font-logo gap-8" id="start">
+      <input
+        class="input input-ghost input-lg text-2xl "
+        type="text"
+        name=""
+        id=""
+        bind:value={room}
+        placeholder="enter room name here..."
+      />
+      <button class="btn btn-outline text-2xl" on:click={enterIfYouDare}>Join or create game</button
+      >
+      <input
+      type="checkbox"
+      class="toggle mt-1"
+      data-toggle-theme="emerald,dracula"
+      data-act-class="ACTIVECLASS"
+    />🌚/🌞
+    </div>
   </div>
 </div>

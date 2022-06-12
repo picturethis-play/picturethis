@@ -1,26 +1,27 @@
 <script>
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  import { getContext } from 'svelte';
   import { navigate } from 'svelte-routing';
   import { players } from '../stores/chat-stores';
   import { fade, fly } from 'svelte/transition';
   import { themeChange } from 'theme-change';
   import { onMount } from 'svelte';
+  import { game } from '../stores/chat-stores'
   import Settings from '../components/Settings.svelte';
-  let carousel;
-  let round = true;
-  console.log('thesocket', socket);
+
+  const { Socket } = getContext('connect');
+  const socket = Socket();
+
+  console.log(socket.id, '<-----socket ID');
 
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte
+      game.subscribe((roomName) => {
+      room = roomName;
+    });
+    console.log(room, 'room');
   });
-  // $: players = [];
 
-  socket.on('connect', () => {
-    console.log('sox', socket.id);
-    sessionStorage.setItem('socketid', socket.id);
-  });
   const icons = [
     { icon: 'logo-react', color: 'text-blue-500' },
     { icon: 'logo-npm', color: 'text-red-500' },
@@ -33,6 +34,7 @@
     { icon: 'logo-vercel', color: 'text-black-500' },
   ];
 
+  let room = '';
   // NEW PLAYER
   let name = '';
   let enteredName = false;
@@ -40,24 +42,23 @@
     enteredName = !enteredName;
     const player = {
       id: socket.id,
+      room: room,
       name: name,
       points: 0,
       hasGuessed: false,
       isDrawer: false,
       icon: icons[Math.floor(Math.random() * icons.length)],
     };
-    console.log('players😀', $players);
     socket.emit('updateStores', player);
     name = '';
   }
 
   function setPlayers(player) {
     players.set(player);
-    console.log(player);
+ 
   }
 
   socket.on('updateStores', (player) => {
-    console.log(player);
     setPlayers(player);
     sessionStorage.setItem('players', JSON.stringify(player));
   });
@@ -65,7 +66,7 @@
   //NAVIGATE TO GAME PAGE
   function navigateToGamePage() {
     socket.emit('navigate');
-    // socket.emit('drawer');
+
   }
 
   function handleKeydown(event) {
@@ -73,6 +74,10 @@
       addPlayer();
     }
   }
+  socket.on('room', (data) => {
+    room = data;
+    console.log(socket);
+  });
 
   socket.on('navigate', (drawer) => {
     navigate(`/game`, { replace: true });
@@ -105,15 +110,14 @@
       {/each}
     </div>
   </div>
-  <p class=" text-5xl sm:text-2x text-primary font-logo">
-    {$players.length}
-    {$players.length === 1 ? `person` : `people`} waiting to play {#each '...' as char, i}
-      <span in:fade={{ delay: 1000 + i * 150, duration: 1000 }}>{char}</span>{/each}
+  <p class=" text-5xl sm:text-2x text-neutral-content font-logo">
+    <span class="text-info">room name:</span>
+    {room}
   </p>
   <div class="carousel rounded-box w-40 gap-5 " id="carousel">
     {#each $players as player, i}
       <div class="carousel-item animate-scrolling">
-        <p class="text-5xl text-accent font-logo ">{player.name}</p>
+        <p class="text-5xl text-accent font-logo ">{player.room === room ? player.name : ''}</p>
       </div>
     {/each}
   </div>
@@ -136,9 +140,6 @@
     {#if $players.length > 1}
       <button on:click={navigateToGamePage} class="btn btn-secondary mt-2">Start Game</button>
     {/if}
-    <div class="tooltip tooltip-accent" data-tip="click to copy link to clipboard!">
-      <button class="btn btn-primary mt-2">Invite Friends</button>
-    </div>
   </div>
   <div class="m-2">
     <Settings />

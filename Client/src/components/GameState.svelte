@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from 'svelte/internal';
-  // import { wordDb } from '../assets/db';
   import {
     timer,
     drawerIndex,
@@ -12,8 +10,6 @@
   // import Word from './Chat/Word.svelte';
 
   let roundTime = $timer + $waitingTime;
-
-  console.log(roundTime);
 
   let totalRounds = $numberOfRounds * $players.length;
 

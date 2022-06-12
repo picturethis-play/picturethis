@@ -1,9 +1,9 @@
 <script>
   import { onMount } from 'svelte';
   import { timer, waitingTime, roundTime, gameRound, numberOfRounds } from '../stores/gameStates';
-  import { randomUser } from '../stores/chat-stores';
-  import io from 'socket.io-client';
-  const socket = io('http://192.168.1.201:3000');
+  import { getContext } from 'svelte';
+  const { Socket } = getContext('connect');
+  const socket = Socket();
   import wordDb from '../assets/db';
   const randomWords = wordDb;
   let socketId = sessionStorage.getItem('socketid');
@@ -13,9 +13,9 @@
   if ($gameRound === $numberOfRounds) {
     gameRound.set(0);
     socket.emit('clear');
-    console.log('gaudi is my daddy');
+ 
     clearInterval(time);
-    socket.emit('gameOver');
+
   }
 
   socket.on('start', () => {
