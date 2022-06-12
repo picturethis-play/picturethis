@@ -1,10 +1,6 @@
 <script>
-  import { secretWords } from '../stores/chat-stores';
-
-  console.log($secretWords, 'SSSSSSSSSECRETTTTTTTTTT');
-  const playerz = JSON.parse(sessionStorage.getItem('players'));
-  console.log(typeof playerz);
-
+  // import { secretWords } from '../stores/chat-stores';
+  // const playerz = JSON.parse(sessionStorage.getItem('players'));
 </script>
 
 <input type="checkbox" id="my-modal" class="modal-toggle" checked />

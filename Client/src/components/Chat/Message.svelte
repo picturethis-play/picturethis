@@ -61,11 +61,6 @@
     userInput = '';
   }
 
-  // gameSocket.on('guessmessage', (mzg) => {
-  //   console.log('mzggg', mzg);
-  //   messages.set([...msgsArr, msg]);
-  //   // msgs = [...msgs, { user: 'dan', text: mzg.userInput }];
-  // });
 </script>
 
 <div class="Message__Container">

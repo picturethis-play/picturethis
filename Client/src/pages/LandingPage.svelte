@@ -15,7 +15,6 @@
 
   function enterIfYouDare() {
     if (room === '') return;
-    console.log(room);
     sessionStorage.setItem('socketid', socket.id);
     socket.emit('room', room);
     game.set(room);
