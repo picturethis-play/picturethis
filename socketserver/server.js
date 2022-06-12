@@ -147,6 +147,7 @@ io.sockets.on('connection', (socket) => {
     if (count >= playersInRoom.length) {
       count = 0;
     }
+    console.log(playersInRoom[count]);
     io.to(roomMatch).emit('drawer', playersInRoom[count]);
     count++
   });
