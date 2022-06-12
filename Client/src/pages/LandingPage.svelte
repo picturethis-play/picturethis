@@ -8,7 +8,7 @@
   let canvas;
   let ctx;
   let stroke;
-  let lineWidth = 80;
+  let lineWidth = 2;
   const { Socket } = getContext('connect');
   const socket = Socket();
   let room = '';

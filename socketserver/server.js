@@ -37,7 +37,7 @@ io.sockets.on('connection', (socket) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
     console.log(roomMatch, 'roommatchhhhhhhh');
-    io.to(roomMatch[0]).emit('room', roomMatch[0]);
+    io.in(roomMatch[0]).emit('room', roomMatch[0]);
   });
   ////////////////////////////////////////////////////
   socket.on('chat message', ({ message, data }) => {
@@ -46,21 +46,21 @@ io.sockets.on('connection', (socket) => {
 
     let user = players.find((user) => user.id === data && user.room == roomMatch[0]);
     console.log(user, 'user from correct room????')
-    io.to(roomMatch[0]).emit('chat message', { message: message, user: user, guessed: false });
+    io.in(roomMatch[0]).emit('chat message', { message: message, user: user, guessed: false });
   });
   ///////////////////////////////////////////////////
   socket.on('draw', (data) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('draw', data);
+    io.in(roomMatch[0]).emit('draw', data);
   });
   //////////////////////////////////////////////////////
   socket.on('clear', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('clear');
+    io.in(roomMatch[0]).emit('clear');
   });
   ///////////////////////////////////////////////////
   socket.on('navigate', () => {
@@ -69,7 +69,7 @@ io.sockets.on('connection', (socket) => {
     let actualPlayers = players.filter(player => player.room == roomMatch[0]);
     console.log(count, 'count');
     console.log(actualPlayers, 'lets see if the players are being filtered by room or what')
-    io.to(roomMatch[0]).emit('navigate', actualPlayers[count]);
+    io.in(roomMatch[0]).emit('navigate', actualPlayers[count]);
     count++
   });
   /////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ io.sockets.on('connection', (socket) => {
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
     console.log(roomMatch[0], 'making sure this is the correct room');
-    io.to(roomMatch[0]).emit('start', word);
+    io.in(roomMatch[0]).emit('start', word);
   });
   //////////////////////////////////////////////////////////
   socket.on('updateStores', (data) => {
@@ -99,8 +99,8 @@ io.sockets.on('connection', (socket) => {
 
     console.log(playersInRoom, 'array of players in this room');
 
-    io.to(roomMatch[0]).emit('updateStores', playersInRoom);
-    console.log(connectionsCounter, 'connections counter, may need to change or remove');
+    io.in(roomMatch[0]).emit('updateStores', playersInRoom);
+    console.log(connectionsCounter, 'connections counter, may need in change or remove');
   });
   ////////////////////////////////////////////////////
   socket.on('disconnect', () => {
@@ -117,7 +117,7 @@ io.sockets.on('connection', (socket) => {
       return player.id != socket.id;
     });
     players = takenOutUser;
-    io.to(roomMatch[0]).emit('updateStores', takenOutUser);
+    io.in(roomMatch[0]).emit('updateStores', takenOutUser);
   });
   //////////////////////////////////////////////////////
   socket.on('roundOver', (word) => {
@@ -129,7 +129,7 @@ io.sockets.on('connection', (socket) => {
         player.hasGuessed = false
       }
     });
-    io.to(roomMatch[0]).emit('roundOver', word);
+    io.in(roomMatch[0]).emit('roundOver', word);
   });
   /////////////////////////////////////////////////////
   socket.on('drawer', () => {
@@ -146,7 +146,7 @@ io.sockets.on('connection', (socket) => {
     if (count >= playersInRoom.length) {
       count = 0;
     }
-    io.to(roomMatch[0]).emit('drawer', playersInRoom[count]);
+    io.in(roomMatch[0]).emit('drawer', playersInRoom[count]);
     count++
   });
   /////////////////////////////////////////////////////
@@ -162,28 +162,28 @@ io.sockets.on('connection', (socket) => {
 
     let users = Object.entries(playersInRoom);
     console.log(users, 'USERssssssssss');
-    io.to(roomMatch[0]).emit('joined players', users);
+    io.in(roomMatch[0]).emit('joined players', users);
   });
   //////////////////////////////////////////////////////
   socket.on('finishedPosition', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('finishedPosition');
+    io.in(roomMatch[0]).emit('finishedPosition');
   });
   ////////////////////////////////////////////////////
   socket.on('startPosition', () => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('startPosition');
+    io.in(roomMatch[0]).emit('startPosition');
   });
   //////////////////////////////////////
   socket.on('timer', (timer) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('timer', timer);
+    io.in(roomMatch[0]).emit('timer', timer);
   });
   /////////////////////////////////////
   socket.on('points', ({ data, pointCount, pointsAdded }) => {
@@ -199,16 +199,16 @@ io.sockets.on('connection', (socket) => {
       return guesser.room == roomMatch[0];
     })
     console.log(guessersInTheRoom, 'guessas in da room');
-    io.to(roomMatch[0]).emit('updateStores', players);
-    io.to(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessersInTheRoom });
+    io.in(roomMatch[0]).emit('updateStores', players);
+    io.in(roomMatch[0]).emit('addPoints', { pointsAdded, data, guessersInTheRoom });
   });
   //////////////////////////////////////
   socket.on('allGuessed', (word) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('roundOver', word);
-    io.to(roomMatch[0]).emit('allGuessed');
+    io.in(roomMatch[0]).emit('roundOver', word);
+    io.in(roomMatch[0]).emit('allGuessed');
     guessers = guessers.filter(guesser => {
       return guesser.room != roomMatch[0];
     });
@@ -219,7 +219,7 @@ io.sockets.on('connection', (socket) => {
     let roomArray = Array.from(socket.rooms);
     let roomMatch = rooms.filter(room => roomArray.includes(room));
 
-    io.to(roomMatch[0]).emit('gameOver', players);
+    io.in(roomMatch[0]).emit('gameOver', players);
   });
 });
 
