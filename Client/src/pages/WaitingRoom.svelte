@@ -9,8 +9,7 @@
 
   const { Socket } = getContext('connect');
   const socket = Socket();
-  console.log(socket.id);
-  console.log(socket);
+  console.log(socket.id, '<-----socket ID');
   onMount(() => {
     themeChange(false);
     // 👆 false parameter is required for svelte

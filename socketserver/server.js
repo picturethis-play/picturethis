@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:8080',
+    origin: process.env.FRONT_END_URL,
     methods: ["GET", "POST"]                                       //<-------------- process.env.FRONT_END_URL
   }
 });
@@ -225,4 +225,4 @@ io.sockets.on('connection', (socket) => {
 });
 
 
-server.listen(3000, () => console.log("server running on port 3000 🚀"));             // <-------------------- process.env.PORT
+server.listen(process.env.PORT, () => console.log("server running on port 3000 🚀"));             // <-------------------- process.env.PORT
