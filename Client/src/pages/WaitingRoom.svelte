@@ -73,6 +73,7 @@
   socket.on('room', (data) => {
     console.log(data);
     room = data;
+    console.log(socket);
   });
 
   socket.on('navigate', (drawer) => {
