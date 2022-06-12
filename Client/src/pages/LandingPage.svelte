@@ -55,10 +55,10 @@
   }
 </script>
 
-<div id="container" class="cursor-pointer">
+<div id="container" class="cursor-pointer overflow-hidden">
   <div id="overlay">
     <div class=" flex items-center justify-center">
-      <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor} />
+      <canvas class="" id="theCanvas" on:mousemove={handleDraw} on:mousedown={randomColor}  on:touchmove={handleDraw} on:touchstart={randomColor}/>
       <div class="flex items-center font-logo text-69xl sm:text-5xl md:text-10xl text-accent">
         {#each 'picture' as char, i}
           <p
