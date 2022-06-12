@@ -9,15 +9,12 @@
   //////////may not need this////////////////
   import { game } from '../stores/chat-stores';
   $: room = '';
-  console.log(game);
+
 
   onMount(() => {
     game.subscribe((roomName) => {
-      console.log(roomName, 'chat component has room id :-)');
       room = roomName;
     });
-    console.log(room, 'room thing works from the chat component');
-
     playerz = JSON.parse(sessionStorage.getItem('players')).filter((player) => player.room == room);
   });
   ///////////////////////////////////////////////
@@ -31,7 +28,7 @@
 
   let messages = [];
   socket.on('chat message', (data) => {
-    console.log(data);
+
     messages = [...messages, { user: data.user.name, message: data.message, guessed: false }];
   });
 
@@ -46,9 +43,9 @@
   $: playerz = [];
   $: drawer = [];
   socket.on('addPoints', ({ guessersInTheRoom }) => {
-    console.log(guessersInTheRoom, 'guesserz hello???');
+
     guesserz = guessersInTheRoom;
-    console.log(playerz, 'playerz', guesserz, 'gueseers dot length');
+
     if (playerz.length - 1 === guesserz.length) {
       socket.emit('allGuessed', randomWords[Math.floor(Math.random() * randomWords.length)].word);
     }
@@ -83,7 +80,7 @@
   }
   function setPoints() {
     const points = $timer;
-    console.log($timer, 'TIMEEEEEEERRRRRRRRR');
+
     return points;
   }
   socket.on('allGuessed', () => {

@@ -5,20 +5,13 @@
   let roundTimeValue = $roundTime;
   let hangManModeValue = $hangManMode;
 
-  function consoleLogs(state) {
-    console.log('State: ', state, ':');
-    console.log('numberOfRounds: ', $numberOfRounds);
-    console.log('roundTime: ', $roundTime);
-    console.log('hangManMode: ', $hangManMode);
-  }
+
 
   function handleSubmit() {
-    consoleLogs('Old');
     numberOfRounds.set(numberOfRoundsValue);
     roundTime.set(roundTimeValue);
     hangManMode.set(hangManModeValue);
     timer.set(roundTimeValue);
-    consoleLogs('Current');
   }
 </script>
 

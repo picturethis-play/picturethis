@@ -20,8 +20,6 @@
   let roundOver = true;
   socket.on('roundOver', () => {
     roundOver = false;
-    console.log($numberOfRounds, 'number of rounds dummy');
-    console.log($gameRound, 'gameRounds bitch');
   });
 
   // let overModal = false;

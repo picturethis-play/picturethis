@@ -18,7 +18,6 @@
     });
   } else {
     secretWord.subscribe((n) => {
-      console.log(n.word)
       let words = [];
       for (let i = 0; i < n.word.length; i++) {
         if (n.word.charAt(i) !== ' ') {
