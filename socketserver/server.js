@@ -148,7 +148,7 @@ io.sockets.on('connection', (socket) => {
       count = 0;
     }
     console.log(playersInRoom[count]);
-    io.to(roomMatch).emit('drawer', playersInRoom[count]);
+    io.to(roomMatch).emit('drawer', playersInRoom[Math.floor(Math.random() * playersInRoom.length)]);
     count++
   });
   /////////////////////////////////////////////////////
