@@ -186,7 +186,7 @@
     />
   </div>
   <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute w-full">
-    {#if socketId == drawer.id}
+    <!--{#if socketId == drawer.id}-->
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <div class="btn-group">
         <input
@@ -277,7 +277,7 @@
         bind:value={lineWidth}
         class="range range-xs range-accent w-52 lg:w-40"
       />
-    {/if}
+   <!-- {/if} -->
   </div>
 </div>
 
