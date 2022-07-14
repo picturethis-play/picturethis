@@ -22,6 +22,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/user-event": "^13.5.0",
     "@tsconfig/svelte": "^2.0.0",
+    "@types/three": "^0.141.0",
     "autoprefixer": "^10.4.4",
     "babel-jest": "^27.5.1",
     "concurrently": "^7.0.0",
@@ -48,12 +49,15 @@
   "dependencies": {
     "@testing-library/svelte": "^3.1.0",
     "daisyui": "^2.13.4",
+    "lil-gui": "^0.17.0",
     "phoenix": "^1.6.6",
     "sirv-cli": "^2.0.0",
     "socket.io-client": "^4.4.1",
     "svelte-canvas": "^0.7.1",
     "svelte-routing": "^1.6.0",
-    "theme-change": "^2.0.2"
+    "theme-change": "^2.0.2",
+    "three": "^0.142.0",
+    "threlte": "^3.13.1"
   },
   "jest": {
     "transform": {

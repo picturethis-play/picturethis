@@ -92,7 +92,7 @@ io.sockets.on('connection', (socket) => {
     console.log(roomMatch, 'ROOMMATRCHERRRRR');
 
     connectionsCounter++;
-    players = [...players, data];
+    players.push(data);
 
     let playersInRoom = players.filter(player => {
       console.log(player, '<----player', roomMatch, 'does this work in scope??')

@@ -13,5 +13,5 @@
 </script>
 
 <main class="w-full h-full">
-  <Router />
+ <Router/>
 </main>
