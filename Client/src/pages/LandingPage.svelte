@@ -72,17 +72,17 @@ import { TextGeometry } from '../../public/TextGeometry';
   
   const fontLoader = new FontLoader();
   const material = new THREE.MeshStandardMaterial({color: 0xffffff});
-  fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
+  fontLoader.load('/fonts/Courier_New_Bold_Italic.json', (font) => {
       const textGeometry = new TextGeometry('PictureThis!', {
           font,
           size: 0.3,
           height: 0.2,
           curveSegments: 5,
           bevelEnabled: true,
-          bevelThickness: 0.03,
+          bevelThickness: 0.01,
           bevelSize: 0.02,
           bevelOffset: 0,
-          bevelSegments: 4
+          bevelSegments: 2
       })
     
   

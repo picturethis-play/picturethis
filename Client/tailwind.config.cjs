@@ -16,13 +16,13 @@ module.exports = {
       'xl': { 'min': '1401px' },
       // => @media (max-width: 1279px)
 
-      'lg': { 'min': '1200px', 'max': '1400px' },
+      'lg': { 'max': '1400px' },
       // => @media (max-width: 1023px)
 
-      'md': { 'max': '1200px' },
+      'md': { 'max': '1280px' },
       // => @media (max-width: 767px)
 
-      'sm': { 'max': '700px' },
+      'sm': { 'max': '900px' }
       // => @media (max-width: 639px)
 
     },

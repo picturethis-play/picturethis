@@ -89,7 +89,7 @@
 </script>
 
 <div
-  class="flex flex-col justify-start w-box xl:h-xl lg:h-rr lg:mt-4 sm:h-48 sm:w-500 md:w-df md:h-48 sm:w-96 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
+  class="flex flex-col justify-start h-[60%] w-[20%] sm:h-[20%] sm:w-[80%] sm:mb-10 border-2 rounded-md border-solid border-secondary shadow-69xl shadow-secondary bg-neutral"
 >
   <div
     class="max-w-box md:w-df text-left flex-auto overflow-y-auto flex flex-col p-4 text-secondary"
@@ -118,6 +118,5 @@
       placeholder="Enter your guess here...."
       on:keydown={handleKeydown}
     />
-    <!-- <input type="submit" value="Submit" on:click={sendMessage} /> -->
   </div>
 </div>

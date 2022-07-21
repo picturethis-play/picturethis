@@ -125,7 +125,10 @@
 
 <div class="xl:relative lg:relative ">
   <div
-    class="flex items-center font-logo text-5xl xl:absolute lg:absolute md:relative sm:relative xl:-mt-32 lg:-mt-36 xl:ml-picturethis lg:ml-picturethistwo"
+    class="flex items-center font-logo
+    text-5xl xl:absolute lg:absolute 
+    md:relative sm:hidden xl:-mt-32 
+    lg:-mt-36 xl:ml-picturethis lg:ml-picturethistwo"
   >
     {#each 'picture' as char, i}
       <p
@@ -147,7 +150,9 @@
     {/each}
   </div>
   <div
-    class="flex h-16 pointer-events-none xl:absolute lg:absolute xl:-mt-14 lg:-mt-14 xl:justify-center lg:justify-center"
+    class="flex h-16 pointer-events-none 
+    xl:absolute lg:absolute xl:-mt-14 
+    lg:-mt-14 xl:justify-center lg:justify-center"
   >
     {#if $secretWords.length}
       {#if socketId == drawer.id}
@@ -177,16 +182,21 @@
   </div>
   <div class="flex justify-center">
     <canvas
-      class="bg-white border-2 justify-center rounded-md border-solid border-secondary shadow-69xl shadow-secondary cursor-emoji xl:h-xl xl:w-xl md:w-df sm:w-96"
+      class="bg-white border-2 justify-center 
+      rounded-md border-solid border-secondary 
+      shadow-69xl shadow-secondary  w-[100%]"
       id="myCanvas"
       on:mousemove={socketId == drawer.id ? handleDraw : null}
       on:mousedown={startPosition}
       on:mouseup={finishedPosition}
       on:mouseleave={finishedPosition}
+      on:touchmove={socketId == drawer.id ? handleDraw : null}
+      on:touchstart={startPosition}
+      on:touchend={finishedPosition}
     />
   </div>
-  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute w-full">
-    {#if socketId == drawer.id}
+  <div class="flex justify-between gap-4 mt-8 xl:absolute lg:absolute sm:relative w-full sm:justify-start">
+    <!--{#if socketId == drawer.id}-->
       <button on:click={clear} class="btn btn-success"> Clear </button>
       <div class="btn-group">
         <input
@@ -199,12 +209,19 @@
           checked
         />
         <input
+          type="color"
+          name="options"
+          bind:value={penColor}
+          data-title="🎨"
+          class="btn btn-outline border-4 hidden sm:flex"
+        />
+        <input
           type="radio"
           name="options"
           bind:group={penColor}
           value={'red'}
           data-title="🍓"
-          class="btn btn-outline border-4 border-red-600 hover:bg-red-500 hover:border-red-500"
+          class="btn btn-outline border-4 border-red-600 hover:bg-red-500 hover:border-red-500 sm:hidden"
         />
         <input
           type="radio"
@@ -212,7 +229,7 @@
           bind:group={penColor}
           value={'blue'}
           data-title="🫐"
-          class="btn btn-outline border-4 border-blue-500 hover:bg-blue-400 hover:border-blue-400"
+          class="btn btn-outline border-4 border-blue-500 hover:bg-blue-400 hover:border-blue-400 sm:hidden"
         />
         <input
           type="radio"
@@ -220,7 +237,7 @@
           bind:group={penColor}
           value={'green'}
           data-title="🥒"
-          class="btn btn-outline border-4 border-green-700 hover:bg-green-400 hover:border-green-400"
+          class="btn btn-outline border-4 border-green-700 hover:bg-green-400 hover:border-green-400 sm:hidden"
         />
         <input
           type="radio"
@@ -228,7 +245,7 @@
           bind:group={penColor}
           value={'yellow'}
           data-title="🍋"
-          class="btn btn-outline border-4 border-yellow-400 hover:bg-yellow-200 hover:border-yellow-200"
+          class="btn btn-outline border-4 border-yellow-400 hover:bg-yellow-200 hover:border-yellow-200 sm:hidden"
         />
         <input
           type="radio"
@@ -236,7 +253,7 @@
           bind:group={penColor}
           value={'orange'}
           data-title="🍊"
-          class="btn btn-outline border-4 border-orange-500 hover:bg-orange-500 hover:border-orange-500"
+          class="btn btn-outline border-4 border-orange-500 hover:bg-orange-500 hover:border-orange-500 sm:hidden"
         />
         <input
           type="radio"
@@ -244,7 +261,7 @@
           bind:group={penColor}
           value={'purple'}
           data-title="♏️"
-          class="btn btn-outline border-4 border-purple-400 hover:border-purple-400 hover:bg-purple-400"
+          class="btn btn-outline border-4 border-purple-400 hover:border-purple-400 hover:bg-purple-400 sm:hidden"
         />
         <input
           type="radio"
@@ -252,7 +269,7 @@
           bind:group={penColor}
           value={'pink'}
           data-title="🌸"
-          class="btn btn-outline border-4 border-pink-300 hover:border-pink-300 hover:bg-pink-300"
+          class="btn btn-outline border-4 border-pink-300 hover:border-pink-300 hover:bg-pink-300 sm:hidden"
         />
         <input
           type="radio"
@@ -260,24 +277,18 @@
           bind:group={penColor}
           value={'white'}
           data-title="🧼"
-          class="btn btn-outline border-4 border-blue-200 hover:bg-blue-200"
+          class="btn btn-outline border-4 border-blue-200 hover:bg-blue-200 sm:hidden"
         />
-        <input
-          type="color"
-          name="options"
-          bind:value={penColor}
-          data-title="🎨"
-          class="btn btn-outline border-4"
-        />
+       
       </div>
       <input
         type="range"
         min="1"
         max="30"
         bind:value={lineWidth}
-        class="range range-xs range-accent w-52 lg:w-40"
+        class="range range-xs range-accent sm:w-24 lg:w-40"
       />
-    {/if}
+   <!-- {/if} -->
   </div>
 </div>
 
