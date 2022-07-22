@@ -47,8 +47,8 @@ import { TextGeometry } from '../../public/TextGeometry';
   pointLight.shadow.camera.near = 1;
   scene.add( pointLight );
 
-  const pointLightHelper = new THREE.CameraHelper(pointLight.shadow.camera);
-  scene.add(pointLightHelper)
+ // const pointLightHelper = new THREE.CameraHelper(pointLight.shadow.camera);
+  //scene.add(pointLightHelper)
 
 
   const light = new THREE.AmbientLight( 0x0000ff, 0.2 ); // soft white light
