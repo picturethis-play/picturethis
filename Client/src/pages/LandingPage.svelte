@@ -5,7 +5,7 @@ import { game } from '../stores/chat-stores';
 import { themeChange } from 'theme-change';
 import * as THREE from 'three';
 //import * as lil from 'lil-gui';
-//import { OrbitControls } from '../../public/OrbitControls';
+import { OrbitControls } from '../../public/OrbitControls';
 import { FontLoader } from '../../public/FontLoader';
 import { TextGeometry } from '../../public/TextGeometry';
 
@@ -37,9 +37,18 @@ import { TextGeometry } from '../../public/TextGeometry';
 /**
  * Lights
  */
-  const pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
-  pointLight.position.set( 50, 50, 50 );
+  const pointLight = new THREE.PointLight( 0xff0000, 10, 1000 );
+  pointLight.position.set( 0.5, 2.2, 1 );
+  pointLight.decay = 2;
+  pointLight.distance = 1.5;
+  pointLight.castShadow = true;
+  pointLight.shadow.mapSize.width = 1024;
+  pointLight.shadow.mapSize.height = 1024;
+  pointLight.shadow.camera.near = 1;
   scene.add( pointLight );
+
+ // const pointLightHelper = new THREE.CameraHelper(pointLight.shadow.camera);
+  //scene.add(pointLightHelper)
 
 
   const light = new THREE.AmbientLight( 0x0000ff, 0.2 ); // soft white light
@@ -63,10 +72,11 @@ import { TextGeometry } from '../../public/TextGeometry';
   scene.add(spotLight);
   scene.add(spotLight.target);
   
-
+  const fog = new THREE.Fog('#262837', 0.001, 6);
+  scene.fog = fog
   
   /**
-   * Textures
+   * Texture
    */
   
   
@@ -120,8 +130,7 @@ import { TextGeometry } from '../../public/TextGeometry';
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
-    
-    // Update camera
+   
     camera.aspect = sizes.width / sizes.height
     camera.updateProjectionMatrix()
     
@@ -136,6 +145,7 @@ import { TextGeometry } from '../../public/TextGeometry';
   const renderer = new THREE.WebGLRenderer({
       canvas: canvas
   })
+  renderer.setClearColor('#262837')
   renderer.setSize(sizes.width, sizes.height)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   renderer.shadowMap.enabled = true;
@@ -155,14 +165,15 @@ import { TextGeometry } from '../../public/TextGeometry';
     mouse.x = e.clientX / sizes.width * 2 - 1;
     mouse.y = - (e.clientY / sizes.height) * 2 + 1;
   });
+  let sphere;
   window.addEventListener('mousedown', () => {
     const sphereGeometry = new THREE.SphereGeometry(0.05, 30, 30);
     const sphereMaterial = new THREE.MeshStandardMaterial({
-      color: 0xfFFEA00,
-      metalness: 0,
+      color: 0xff0000,
+      metalness: -0.5,
       roughness: 0
     })
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.castShadow = true;
     sphere.position.copy(intersects[0].point)
     sphere.position.y += 0.01;
@@ -179,9 +190,13 @@ import { TextGeometry } from '../../public/TextGeometry';
   scene.add(camera)
   
   // Controls
-  //const controls = new OrbitControls(camera, canvas)
-  //controls.enableDamping = true
-  
+
+  //const controls = new OrbitControls(camera, canvas);
+  //controls.enableDamping = true;
+ if(window.innerWidth < 500) {
+    scene.fog.far = 7;
+  } 
+   
   
   
   /**
@@ -189,25 +204,39 @@ import { TextGeometry } from '../../public/TextGeometry';
    */
   const clock = new THREE.Clock()
   let intersects;
+  let t = 0;
   const tick = () => {
-      //const elapsedTime = clock.getElapsedTime()
+      const elapsedTime = clock.getElapsedTime();
   
       // Update controls
-      //controls.update()
       // Render
       renderer.render(scene, camera)
-      //torusGeometry.rotateX(0.02)
-      //torusGeometry.rotateY(0.02)
-
+      if(window.innerWidth < 500){
+        //controls.update()
+      t += 0.01;
+      spotLight.position.x = Math.sin(t) * Math.PI;
+      spotLight.position.z = Math.sin(t) * Math.PI;
+     if(camera.position.z < 6 && camera.position.z > 4){
+        camera.position.z += 0.01;
+      } 
+      }
       if(camera.position.z < 4){
         camera.position.z += 0.01
       }
+    if(window.innerWidth > 500){
       spotLight.position.x = mouse.x;
       spotLight.position.z = mouse.y;
-
+    }
       raycaster.setFromCamera(mouse, camera);
       intersects = raycaster.intersectObjects(scene.children);
-     
+    if(sphere){
+      sphere.position.y += 0.003;
+    } 
+ //   const pointLightAngle = elapsedTime * 0.5
+    pointLight.position.x = Math.sin(elapsedTime * -0.5)
+    pointLight.position.z = Math.cos(elapsedTime * -0.5)
+    //pointLight.position.x = Math.cos(pointLightAngle) * 0.5;
+    //pointLight.position.y = Math.sin(elapsedTime) * 0.2
     // for (let index = 0; index < intersects.length; index++) {
     // intersects[index].object.material.color.set(0xf2255); 
    // } 
